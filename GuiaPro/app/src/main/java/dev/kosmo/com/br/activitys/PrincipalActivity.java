@@ -8,6 +8,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -41,6 +42,7 @@ public class PrincipalActivity extends FragmentActivity implements FragmentInter
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_principal);
 
@@ -55,18 +57,29 @@ public class PrincipalActivity extends FragmentActivity implements FragmentInter
     }
 
     private void carregaNav(){
+
         View nav_layout = getLayoutInflater().inflate(R.layout.nav_menu, llNavDraw);
         ListView lvNav = (ListView) nav_layout.findViewById(R.id.lvNav);
 
         List<ItemMenuNav> lista = new ArrayList<>();
-        lista.add(new ItemMenuNav("Perfil", BitmapFactory.decodeResource(this.getResources(), R.drawable.manuser)));
-        lista.add(new ItemMenuNav("Notificação", BitmapFactory.decodeResource(this.getResources(), R.drawable.notification)));
-        lista.add(new ItemMenuNav("Mensagem", BitmapFactory.decodeResource(this.getResources(), R.drawable.message)));
-        lista.add(new ItemMenuNav("Sair", BitmapFactory.decodeResource(this.getResources(), R.drawable.logout)));
+        lista.add(new ItemMenuNav("Informações Pessoais", BitmapFactory.decodeResource(this.getResources(), R.drawable.manuser)));
+        lista.add(new ItemMenuNav("Notificações", BitmapFactory.decodeResource(this.getResources(), R.drawable.notification)));
+        lista.add(new ItemMenuNav("Relate um Problema", BitmapFactory.decodeResource(this.getResources(), R.drawable.attention)));
+        lista.add(new ItemMenuNav("Ajuda", BitmapFactory.decodeResource(this.getResources(), R.drawable.help)));
+        lista.add(new ItemMenuNav("Sair", BitmapFactory.decodeResource(this.getResources(), R.drawable.sair)));
 
         MenuNavAdapter menuNavAdapter = new MenuNavAdapter(this, R.layout.adapter_menu_nav, lista);
 
         lvNav.setAdapter(menuNavAdapter);
+
+        lvNav.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                if(((ItemMenuNav)adapterView.getItemAtPosition(i)).getRotulo().equals("Informações Pessoais")){
+                    mudaTela("Perfil");
+                }
+            }
+        });
 
     }
 

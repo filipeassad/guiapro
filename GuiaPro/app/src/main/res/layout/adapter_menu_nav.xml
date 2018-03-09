@@ -15,7 +15,7 @@
         android:id="@+id/tvRotuloItem"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="#e9a11c"
+        android:textColor="#868686"
         android:layout_gravity="left|center"
         android:text="Olha a pamonha"
         android:paddingLeft="20dp"
