@@ -1,283 +1,584 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:src="@drawable/bg_header"
-            android:scaleType="center"/>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="700dp"
-        android:layout_height="match_parent"
-        android:layout_marginTop="70dp"
-        android:background="@drawable/shape_topo_redondo"
-        android:layout_gravity="top|center">
-    </LinearLayout>
+    android:layout_height="match_parent"
+    android:background="#f1f1f1">
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <LinearLayout
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="vertical">
+            android:layout_height="wrap_content">
 
-            <FrameLayout
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="400dp">
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/bg_header"
+                    android:scaleType="center"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="700dp"
+                android:layout_height="400dp"
+                android:layout_marginTop="70dp"
+                android:background="@drawable/shape_topo_redondo"
+                android:layout_gravity="top|center">
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp">
+                android:gravity="center"
+                android:orientation="vertical">
 
-                <de.hdodenhof.circleimageview.CircleImageView
-                    xmlns:app="http://schemas.android.com/apk/res-auto"
-                    android:id="@+id/ivImagem"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
-                    android:src="@drawable/compadre"
-                    app:civ_border_width="2dp"
-                    app:civ_border_color="#FFFFFF"
-                    android:layout_gravity="center"/>
-
-                <LinearLayout
+                <FrameLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_gravity="right|center"
-                    android:layout_marginLeft="85dp">
+                    android:layout_marginTop="20dp">
 
-                    <TextView
-                        android:layout_width="30dp"
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        xmlns:app="http://schemas.android.com/apk/res-auto"
+                        android:id="@+id/ivImagem"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:src="@drawable/compadre"
+                        app:civ_border_width="2dp"
+                        app:civ_border_color="#FFFFFF"
+                        android:layout_gravity="center"/>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_gravity="right|center"
+                        android:layout_marginLeft="85dp">
+
+                        <TextView
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:text="9,5"
+                            android:background="@drawable/shape_box_green"
+                            android:textColor="#FFFFFF"
+                            android:gravity="center"/>
+
+                        <TextView
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:text="24h"
+                            android:background="@drawable/shape_box_red"
+                            android:textColor="#FFFFFF"
+                            android:gravity="center"
+                            android:layout_marginTop="5dp"/>
+
+                    </LinearLayout>
+
+                </FrameLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Principais Especialidades:"
+                    android:layout_marginTop="20dp"
+                    android:textSize="20sp"
+                    android:textColor="#ecac1b"
+                    android:textStyle="bold"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="90dp"
                         android:layout_height="30dp"
-                        android:text="9,5"
-                        android:background="@drawable/shape_box_green"
+                        android:gravity="left|center"
+                        android:background="@drawable/shape_box_laranja">
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:src="@drawable/trophybranco"
+                            android:layout_marginLeft="5dp"/>
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="5dp"
+                            android:text="Encanador"
+                            android:textColor="#FFFFFF"
+                            android:gravity="left|center"
+                            android:textSize="10sp"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="90dp"
+                        android:layout_height="30dp"
+                        android:gravity="left|center"
+                        android:background="@drawable/shape_box_laranja"
+                        android:layout_marginLeft="10dp">
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:src="@drawable/trophybranco"
+                            android:layout_marginLeft="5dp"/>
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="5dp"
+                            android:text="Pedreiro"
+                            android:textColor="#FFFFFF"
+                            android:gravity="left|center"
+                            android:textSize="10sp"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="90dp"
+                        android:layout_height="30dp"
+                        android:gravity="left|center"
+                        android:background="@drawable/shape_box_laranja"
+                        android:layout_marginLeft="10dp">
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:src="@drawable/trophybranco"
+                            android:layout_marginLeft="5dp"/>
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="5dp"
+                            android:text="Pintor"
+                            android:textColor="#FFFFFF"
+                            android:gravity="left|center"
+                            android:textSize="10sp"/>
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+                    android:paddingRight="30dp"
+                    android:paddingLeft="30dp"
+                    android:layout_marginTop="10dp"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginRight="30dp"
+                    android:gravity="center"
+                    android:background="@drawable/shape_bg_redondo_laranja">
+
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@drawable/phone"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="LIGAR"
                         android:textColor="#FFFFFF"
-                        android:gravity="center"/>
+                        android:layout_marginLeft="10dp"
+                        android:textSize="15sp"
+                        android:textStyle="bold"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginRight="30dp"
+                    android:gravity="center"
+                    android:background="@drawable/shape_bg_redondo_verde">
+
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@drawable/whatsapp"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="WHATSAPP"
+                        android:textColor="#FFFFFF"
+                        android:layout_marginLeft="10dp"
+                        android:textSize="15sp"
+                        android:textStyle="bold"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginRight="30dp"
+                    android:gravity="center"
+                    android:background="@drawable/shape_bg_redondo_azul">
+
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@drawable/smartphone"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="ME LIGUE!"
+                        android:textColor="#FFFFFF"
+                        android:layout_marginLeft="10dp"
+                        android:textSize="15sp"
+                        android:textStyle="bold"/>
+                </LinearLayout>
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/publicidade"
+                    android:layout_marginTop="10dp"/>
+
+                <TextView
+                    android:id="@+id/tvNomeAtende"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="Compadre atende a partir desta localidade"
+                    android:gravity="center"
+                    android:paddingRight="30dp"
+                    android:paddingLeft="30dp"
+                    android:textSize="20sp"
+                    android:textColor="#9d6c10"/>
+
+                <com.google.android.gms.maps.MapView
+                    android:id="@+id/map"
+                    android:layout_width="match_parent"
+                    android:layout_height="300dp"
+                    android:layout_marginTop="10dp"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="70dp"
+                    android:background="#f15109"
+                    android:gravity="center"
+                    android:layout_marginBottom="10dp">
 
                     <TextView
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
                         android:text="24h"
-                        android:background="@drawable/shape_box_red"
-                        android:textColor="#FFFFFF"
+                        android:background="@drawable/shape_circulo_branco"
                         android:gravity="center"
-                        android:layout_marginTop="5dp"/>
+                        android:textColor="#f15109"
+                        android:textStyle="bold"
+                        android:textSize="18sp"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Este profissional atende a urgências"
+                        android:layout_marginLeft="10dp"
+                        android:textColor="#FFFFFF"
+                        android:textSize="15sp"
+                        android:textStyle="bold"/>
 
                 </LinearLayout>
 
-            </FrameLayout>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Principais Especialidades:"
-                android:layout_marginTop="20dp"
-                android:textSize="20sp"
-                android:textColor="#ecac1b"
-                android:textStyle="bold"/>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_marginTop="10dp"
-                android:gravity="center"
-                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Qualificações:"
+                    android:textColor="#9d6c10"
+                    android:textSize="20sp"
+                    android:paddingLeft="20dp"
+                    android:layout_marginTop="10dp"/>
 
                 <LinearLayout
-                    android:layout_width="90dp"
-                    android:layout_height="30dp"
-                    android:gravity="left|center"
-                    android:background="@drawable/shape_box_laranja">
-                    <ImageView
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:src="@drawable/trophybranco"
-                        android:layout_marginLeft="5dp"/>
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:layout_marginTop="10dp">
+
+                    <LinearLayout
+                        android:layout_width="90dp"
+                        android:layout_height="30dp"
+                        android:gravity="left|center"
+                        android:background="@drawable/shape_box_laranja">
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:src="@drawable/trophybranco"
+                            android:layout_marginLeft="5dp"/>
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="5dp"
+                            android:text="Encanador"
+                            android:textColor="#FFFFFF"
+                            android:gravity="left|center"
+                            android:textSize="10sp"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="90dp"
+                        android:layout_height="30dp"
+                        android:gravity="left|center"
+                        android:background="@drawable/shape_box_green"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp">
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:src="@drawable/trophybranco"
+                            android:layout_marginLeft="5dp"/>
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="5dp"
+                            android:text="Encanador"
+                            android:textColor="#FFFFFF"
+                            android:gravity="left|center"
+                            android:textSize="10sp"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="90dp"
+                        android:layout_height="30dp"
+                        android:gravity="left|center"
+                        android:background="@drawable/shape_box_red">
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:src="@drawable/trophybranco"
+                            android:layout_marginLeft="5dp"/>
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="5dp"
+                            android:text="Encanador"
+                            android:textColor="#FFFFFF"
+                            android:gravity="left|center"
+                            android:textSize="10sp"/>
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Positivas:"
+                    android:textColor="#46a703"
+                    android:textSize="20sp"
+                    android:paddingLeft="20dp"
+                    android:layout_marginTop="20dp"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        xmlns:app="http://schemas.android.com/apk/res-auto"
+                        android:id="@+id/ivImg1"
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
+                        android:src="@drawable/compadre"
+                        app:civ_border_width="2dp"
+                        app:civ_border_color="#FFFFFF"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="20dp"/>
+
                     <TextView
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginLeft="5dp"
-                        android:text="Encanador"
-                        android:textColor="#FFFFFF"
-                        android:gravity="left|center"
-                        android:textSize="10sp"/>
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="10dp"
+                        android:text="Lorem ipsum iaculis phasellus metus morbi mattis potenti ultricies litora odio eu pulvinar sodales ullamcorper class."/>
+
+                </LinearLayout>
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:src="@drawable/shape_linha_pontilhada"
+                    android:layerType="software"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginLeft="20dp"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        xmlns:app="http://schemas.android.com/apk/res-auto"
+                        android:id="@+id/ivImg2"
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
+                        android:src="@drawable/compadre"
+                        app:civ_border_width="2dp"
+                        app:civ_border_color="#FFFFFF"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="20dp"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="10dp"
+                        android:text="Lorem ipsum iaculis phasellus metus morbi mattis potenti ultricies litora odio eu pulvinar sodales ullamcorper class."/>
+
+                </LinearLayout>
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:src="@drawable/shape_linha_pontilhada"
+                    android:layerType="software"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginLeft="20dp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        xmlns:app="http://schemas.android.com/apk/res-auto"
+                        android:id="@+id/ivImg3"
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
+                        android:src="@drawable/compadre"
+                        app:civ_border_width="2dp"
+                        app:civ_border_color="#FFFFFF"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="20dp"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="10dp"
+                        android:text="Lorem ipsum iaculis phasellus metus morbi mattis potenti ultricies litora odio eu pulvinar sodales ullamcorper class."/>
+
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_width="90dp"
-                    android:layout_height="30dp"
-                    android:gravity="left|center"
-                    android:background="@drawable/shape_box_laranja"
-                    android:layout_marginLeft="10dp">
-                    <ImageView
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:src="@drawable/trophybranco"
-                        android:layout_marginLeft="5dp"/>
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="right"
+                    android:layout_marginTop="10dp">
+
+                    <LinearLayout
+                        android:layout_width="100dp"
+                        android:layout_height="30dp"
+                        android:gravity="center"
+                        android:background="@drawable/shape_box_green"
+                        android:layout_marginRight="20dp">
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="\\/ veja todos"
+                            android:gravity="center"
+                            android:textColor="#FFFFFF"/>
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Negativas:"
+                    android:textColor="#f05109"
+                    android:textSize="20sp"
+                    android:paddingLeft="20dp"
+                    android:layout_marginTop="20dp"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        xmlns:app="http://schemas.android.com/apk/res-auto"
+                        android:id="@+id/ivImg4"
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
+                        android:src="@drawable/compadre"
+                        app:civ_border_width="2dp"
+                        app:civ_border_color="#FFFFFF"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="20dp"/>
+
                     <TextView
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginLeft="5dp"
-                        android:text="Pedreiro"
-                        android:textColor="#FFFFFF"
-                        android:gravity="left|center"
-                        android:textSize="10sp"/>
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="10dp"
+                        android:text="Lorem ipsum iaculis phasellus metus morbi mattis potenti ultricies litora odio eu pulvinar sodales ullamcorper class."/>
+
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_width="90dp"
-                    android:layout_height="30dp"
-                    android:gravity="left|center"
-                    android:background="@drawable/shape_box_laranja"
-                    android:layout_marginLeft="10dp">
-                    <ImageView
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:src="@drawable/trophybranco"
-                        android:layout_marginLeft="5dp"/>
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginLeft="5dp"
-                        android:text="Pintor"
-                        android:textColor="#FFFFFF"
-                        android:gravity="left|center"
-                        android:textSize="10sp"/>
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="right"
+                    android:layout_marginTop="10dp">
+
+                    <LinearLayout
+                        android:layout_width="100dp"
+                        android:layout_height="30dp"
+                        android:gravity="center"
+                        android:background="@drawable/shape_box_red"
+                        android:layout_marginRight="20dp">
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="\\/ veja todos"
+                            android:gravity="center"
+                            android:textColor="#FFFFFF"/>
+                    </LinearLayout>
+
                 </LinearLayout>
 
-            </LinearLayout>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
-                android:paddingRight="30dp"
-                android:paddingLeft="30dp"
-                android:layout_marginTop="10dp"/>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginLeft="30dp"
-                android:layout_marginRight="30dp"
-                android:gravity="center"
-                android:background="@drawable/shape_bg_redondo_laranja">
-
-                <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:src="@drawable/trophybranco"/>
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="LIGAR"
-                    android:textColor="#FFFFFF"
-                    android:layout_marginLeft="10dp"
-                    android:textSize="15sp"
-                    android:textStyle="bold"/>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginLeft="30dp"
-                android:layout_marginRight="30dp"
-                android:gravity="center"
-                android:background="@drawable/shape_bg_redondo_verde">
-
-                <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:src="@drawable/trophybranco"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="WHATSAPP"
-                    android:textColor="#FFFFFF"
-                    android:layout_marginLeft="10dp"
-                    android:textSize="15sp"
-                    android:textStyle="bold"/>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginLeft="30dp"
-                android:layout_marginRight="30dp"
-                android:gravity="center"
-                android:background="@drawable/shape_bg_redondo_azul">
-
-                <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:src="@drawable/trophybranco"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="ME LIGUE!"
-                    android:textColor="#FFFFFF"
-                    android:layout_marginLeft="10dp"
-                    android:textSize="15sp"
-                    android:textStyle="bold"/>
-            </LinearLayout>
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/publicidade"
-                android:layout_marginTop="10dp"/>
-
-            <TextView
-                android:id="@+id/tvNomeAtende"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:text="Compadre atende a partir desta localidade"
-                android:gravity="center"
-                android:paddingRight="30dp"
-                android:paddingLeft="30dp"
-                android:textSize="20sp"
-                android:textColor="#9d6c10"/>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="70dp"
-                android:background="#f15109"
-                android:gravity="center"
-                android:layout_marginBottom="10dp">
+                    android:text="Qualificar:"
+                    android:gravity="center"
+                    android:textColor="#9d6c10"
+                    android:textSize="20sp"
+                    android:paddingLeft="20dp"
+                    android:layout_marginTop="10dp"/>
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="24h"
-                    android:background="@drawable/shape_circulo_branco"
-                    android:padding="10dp"
-                    android:textColor="#f15109"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Este profissional atende a urgências"
-                    android:layout_marginLeft="10dp"
-                    android:textColor="#FFFFFF"
-                    android:textSize="15sp"
-                    android:textStyle="bold"/>
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp"
+                    android:gravity="center"
+                    android:text="Ajude-nos a melhorar o ranking, é com a sua qualificação que indicamos os melhores profissionais."/>
 
             </LinearLayout>
 
-        </LinearLayout>
+        </FrameLayout>
 
     </ScrollView>
-
 
 </FrameLayout>
