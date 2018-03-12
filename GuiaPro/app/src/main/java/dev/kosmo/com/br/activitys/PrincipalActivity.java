@@ -23,6 +23,7 @@ import dev.kosmo.com.br.interfaces.FragmentInterface;
 import dev.kosmo.com.br.models.ItemMenuNav;
 import dev.kosmo.com.br.utils.Animacao;
 import dev.kosmo.com.br.utils.GerenciadorFragment;
+import dev.kosmo.com.br.utils.VariaveisEstaticas;
 
 /**
  * Created by 0118431 on 08/03/2018.
@@ -36,6 +37,7 @@ public class PrincipalActivity extends FragmentActivity implements FragmentInter
     private LinearLayout llNavDraw;
     private LinearLayout llBgCinza;
     private ImageView ivMenu;
+    private LinearLayout llFooterMenu;
 
     private GerenciadorFragment gerenciadorFragment  = new GerenciadorFragment();
     private Animacao animacao = new Animacao();
@@ -49,6 +51,9 @@ public class PrincipalActivity extends FragmentActivity implements FragmentInter
         llNavDraw = (LinearLayout) findViewById(R.id.llNavDraw);
         llBgCinza = (LinearLayout) findViewById(R.id.llBgCinza);
         ivMenu = (ImageView) findViewById(R.id.ivMenu);
+        llFooterMenu = (LinearLayout) findViewById(R.id.llFooterMenu);
+
+        VariaveisEstaticas.setFragmentInterface(this);
 
         insertFirstFragment();
         carregaNav();
@@ -77,6 +82,8 @@ public class PrincipalActivity extends FragmentActivity implements FragmentInter
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 if(((ItemMenuNav)adapterView.getItemAtPosition(i)).getRotulo().equals("Informações Pessoais")){
                     mudaTela("Perfil");
+                }else if (((ItemMenuNav)adapterView.getItemAtPosition(i)).getRotulo().equals("Notificações")){
+                    mudaTela("Notificacao");
                 }
             }
         });
@@ -147,5 +154,14 @@ public class PrincipalActivity extends FragmentActivity implements FragmentInter
     @Override
     public void voltar() {
         onBackPressed();
+    }
+
+    @Override
+    public void visibilidadeMenu(boolean visivel) {
+        if(visivel){
+            llFooterMenu.setVisibility(View.VISIBLE);
+        }else{
+            llFooterMenu.setVisibility(View.GONE);
+        }
     }
 }

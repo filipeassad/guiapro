@@ -17,6 +17,7 @@ import java.util.List;
 
 import dev.kosmo.com.br.guiapro.R;
 import dev.kosmo.com.br.models.ItemMenuNav;
+import dev.kosmo.com.br.utils.VariaveisEstaticas;
 
 /**
  * Created by 0118431 on 08/03/2018.
@@ -33,6 +34,8 @@ public class CategoriasFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_categoria, container, false);
 
         llCategoria = (LinearLayout) view.findViewById(R.id.llCategoria);
+
+        VariaveisEstaticas.getFragmentInterface().visibilidadeMenu(true);
 
         carregaCategorias();
 
@@ -91,6 +94,14 @@ public class CategoriasFragment extends Fragment {
 
                     img.setImageBitmap(lista.get(index).getImg());
                     texto.setText(lista.get(index).getRotulo());
+
+                    cat.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            VariaveisEstaticas.getFragmentInterface().mudaTela("ListagemProfissionais");
+                        }
+                    });
+
                     linearLayout.addView(cat);
                 }
                 index++;

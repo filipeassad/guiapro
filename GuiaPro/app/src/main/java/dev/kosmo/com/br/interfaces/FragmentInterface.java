@@ -7,4 +7,5 @@ package dev.kosmo.com.br.interfaces;
 public interface FragmentInterface {
     public void mudaTela(String nome);
     public void voltar();
+    public void visibilidadeMenu(boolean visivel);
 }
