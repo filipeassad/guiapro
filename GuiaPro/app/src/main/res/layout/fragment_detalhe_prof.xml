@@ -575,6 +575,329 @@
                     android:gravity="center"
                     android:text="Ajude-nos a melhorar o ranking, é com a sua qualificação que indicamos os melhores profissionais."/>
 
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp"
+                    android:layout_marginTop="20dp"
+                    android:gravity="left"
+                    android:text="Como foi seu atendimento?"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="left"
+                    android:paddingLeft="20dp">
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_margin="5dp"
+                        android:src="@drawable/starcinza"/>
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_margin="5dp"
+                        android:src="@drawable/starcinza"/>
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_margin="5dp"
+                        android:src="@drawable/starcinza"/>
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_margin="5dp"
+                        android:src="@drawable/starcinza"/>
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_margin="5dp"
+                        android:src="@drawable/starcinza"/>
+
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp"
+                    android:layout_marginTop="10dp"
+                    android:gravity="left"
+                    android:text="A prestação de serviço foi satisfatoria?"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="left"
+                    android:paddingLeft="20dp">
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_margin="5dp"
+                        android:src="@drawable/starcinza"/>
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_margin="5dp"
+                        android:src="@drawable/starcinza"/>
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_margin="5dp"
+                        android:src="@drawable/starcinza"/>
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_margin="5dp"
+                        android:src="@drawable/starcinza"/>
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_margin="5dp"
+                        android:src="@drawable/starcinza"/>
+
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp"
+                    android:layout_marginTop="20dp"
+                    android:gravity="left"
+                    android:text="Agilidade em atender seu chamado?"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="left"
+                    android:paddingLeft="20dp">
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_margin="5dp"
+                        android:src="@drawable/starcinza"/>
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_margin="5dp"
+                        android:src="@drawable/starcinza"/>
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_margin="5dp"
+                        android:src="@drawable/starcinza"/>
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_margin="5dp"
+                        android:src="@drawable/starcinza"/>
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_margin="5dp"
+                        android:src="@drawable/starcinza"/>
+
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp"
+                    android:layout_marginTop="20dp"
+                    android:gravity="left"
+                    android:text="Agilidade em executar o serviço?"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="left"
+                    android:paddingLeft="20dp">
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_margin="5dp"
+                        android:src="@drawable/starcinza"/>
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_margin="5dp"
+                        android:src="@drawable/starcinza"/>
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_margin="5dp"
+                        android:src="@drawable/starcinza"/>
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_margin="5dp"
+                        android:src="@drawable/starcinza"/>
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_margin="5dp"
+                        android:src="@drawable/starcinza"/>
+
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp"
+                    android:layout_marginTop="20dp"
+                    android:gravity="left"
+                    android:text="Ouve atraso na execução?"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="left"
+                    android:paddingLeft="20dp">
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_margin="5dp"
+                        android:src="@drawable/starcinza"/>
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_margin="5dp"
+                        android:src="@drawable/starcinza"/>
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_margin="5dp"
+                        android:src="@drawable/starcinza"/>
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_margin="5dp"
+                        android:src="@drawable/starcinza"/>
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_margin="5dp"
+                        android:src="@drawable/starcinza"/>
+
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp"
+                    android:layout_marginTop="20dp"
+                    android:gravity="left"
+                    android:text="Financeiramente o serviço valeu a pena?"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="left"
+                    android:paddingLeft="20dp">
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_margin="5dp"
+                        android:src="@drawable/starcinza"/>
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_margin="5dp"
+                        android:src="@drawable/starcinza"/>
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_margin="5dp"
+                        android:src="@drawable/starcinza"/>
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_margin="5dp"
+                        android:src="@drawable/starcinza"/>
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_margin="5dp"
+                        android:src="@drawable/starcinza"/>
+
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp"
+                    android:layout_marginTop="20dp"
+                    android:gravity="left"
+                    android:text="Deixe uma opnião sobre o profissional:"/>
+                
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:textSize="10sp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="right"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp">
+
+                    <LinearLayout
+                        android:layout_width="100dp"
+                        android:layout_height="30dp"
+                        android:gravity="center"
+                        android:background="@drawable/shape_box_green"
+                        android:layout_marginRight="20dp">
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="> enviar"
+                            android:gravity="center"
+                            android:textColor="#FFFFFF"/>
+                    </LinearLayout>
+
+                </LinearLayout>
+
+
             </LinearLayout>
 
         </FrameLayout>
