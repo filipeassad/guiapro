@@ -1,5 +1,6 @@
 package dev.kosmo.com.br.fragments;
 
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -8,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -19,7 +21,11 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import dev.kosmo.com.br.guiapro.R;
+import dev.kosmo.com.br.models.Especialidades;
 import dev.kosmo.com.br.utils.VariaveisEstaticas;
 
 /**
@@ -32,6 +38,9 @@ public class DetalheProfFragment extends Fragment implements OnMapReadyCallback{
     private ImageView ivImagem;
     private MapView map;
     private GoogleMap googleMap;
+    private LinearLayout llEspecialidades;
+    private LinearLayout llUrgencia;
+    private LinearLayout llQualificacoes;
 
     @Nullable
     @Override
@@ -42,6 +51,9 @@ public class DetalheProfFragment extends Fragment implements OnMapReadyCallback{
 
         tvNomeAtende = (TextView) view.findViewById(R.id.tvNomeAtende);
         ivImagem = (ImageView) view.findViewById(R.id.ivImagem);
+        llEspecialidades = (LinearLayout) view.findViewById(R.id.llEspecialidades);
+        llUrgencia = (LinearLayout) view.findViewById(R.id.llUrgencia);
+        llQualificacoes = (LinearLayout) view.findViewById(R.id.llQualificacoes);
         map = (MapView) view.findViewById(R.id.map);
         map.onCreate(savedInstanceState);
         map.onResume();
@@ -54,6 +66,11 @@ public class DetalheProfFragment extends Fragment implements OnMapReadyCallback{
 
         ivImagem.setImageBitmap(VariaveisEstaticas.getProfissional().getImg());
         tvNomeAtende.setText(VariaveisEstaticas.getProfissional().getNome() + " atende a partir desta localidade");
+        if(VariaveisEstaticas.getProfissional().getNome().contains("Kratos")){
+            llUrgencia.setVisibility(View.GONE);
+        }
+
+        carregaEspecialidades();
 
         return view;
     }
@@ -79,5 +96,27 @@ public class DetalheProfFragment extends Fragment implements OnMapReadyCallback{
                 .radius(100)
                 .strokeColor(Color.parseColor("#f15109"))
                 .fillColor(Color.parseColor("#32f15109")));
+    }
+
+    private void carregaEspecialidades(){
+
+        List<Especialidades> lista = new ArrayList<>();
+
+        lista.add(new Especialidades("Encanador", BitmapFactory.decodeResource(this.getResources(), R.drawable.trophybranco), "descricao"));
+        lista.add(new Especialidades("Pedreiro", BitmapFactory.decodeResource(this.getResources(), R.drawable.trophybranco), "descricao"));
+        lista.add(new Especialidades("Pintor", BitmapFactory.decodeResource(this.getResources(), R.drawable.trophybranco), "descricao"));
+
+        for(Especialidades aux :lista){
+
+            LinearLayout especialidade = (LinearLayout) getActivity().getLayoutInflater().inflate(R.layout.modelo_especialidades,null);
+            ImageView img = (ImageView) especialidade.findViewById(R.id.ivItem);
+            TextView texto = (TextView) especialidade.findViewById(R.id.tvLabelItem);
+            img.setImageBitmap(aux.getImagem());
+            texto.setText(aux.getNome());
+
+            llEspecialidades.addView(especialidade);
+
+        }
+
     }
 }
