@@ -1,6 +1,7 @@
 package dev.kosmo.com.br.activitys;
 
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
@@ -12,6 +13,7 @@ import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,6 +41,23 @@ public class PrincipalActivity extends FragmentActivity implements FragmentInter
     private ImageView ivMenu;
     private LinearLayout llFooterMenu;
 
+    private LinearLayout llPesquisar;
+    private ImageView ivPesquisar;
+    private TextView tvPesquisar;
+
+    private LinearLayout llTopRanked;
+    private ImageView ivTopRanked;
+    private TextView tvTopRanked;
+
+    private LinearLayout llOfertas;
+    private ImageView ivOfertas;
+    private TextView tvOfertas;
+
+    private LinearLayout llHistorico;
+    private ImageView ivHistorico;
+    private TextView tvHistorico;
+
+
     private GerenciadorFragment gerenciadorFragment  = new GerenciadorFragment();
     private Animacao animacao = new Animacao();
 
@@ -52,6 +71,32 @@ public class PrincipalActivity extends FragmentActivity implements FragmentInter
         llBgCinza = (LinearLayout) findViewById(R.id.llBgCinza);
         ivMenu = (ImageView) findViewById(R.id.ivMenu);
         llFooterMenu = (LinearLayout) findViewById(R.id.llFooterMenu);
+
+        llPesquisar = (LinearLayout) findViewById(R.id.llPesquisar);
+        ivPesquisar = (ImageView) findViewById(R.id.ivPesquisar);
+        tvPesquisar = (TextView) findViewById(R.id.tvPesquisar);
+
+        llTopRanked = (LinearLayout) findViewById(R.id.llTopRanked);
+        ivTopRanked = (ImageView) findViewById(R.id.ivTopRanked);
+        tvTopRanked = (TextView) findViewById(R.id.tvTopRanked);
+
+        llOfertas = (LinearLayout) findViewById(R.id.llOfertas);
+        ivOfertas = (ImageView) findViewById(R.id.ivOfertas);
+        tvOfertas = (TextView) findViewById(R.id.tvOfertas);
+
+        llHistorico = (LinearLayout) findViewById(R.id.llHistorico);
+        ivHistorico = (ImageView) findViewById(R.id.ivHistorico);
+        tvHistorico = (TextView) findViewById(R.id.tvHistorico);
+
+        llPesquisar.setTag("Pesquisar");
+        llTopRanked.setTag("TopRanked");
+        llOfertas.setTag("Ofertas");
+        llHistorico.setTag("Historico");
+
+        llPesquisar.setOnClickListener(menuClickListener);
+        llTopRanked.setOnClickListener(menuClickListener);
+        llOfertas.setOnClickListener(menuClickListener);
+        llHistorico.setOnClickListener(menuClickListener);
 
         VariaveisEstaticas.setFragmentInterface(this);
 
@@ -164,4 +209,49 @@ public class PrincipalActivity extends FragmentActivity implements FragmentInter
             llFooterMenu.setVisibility(View.GONE);
         }
     }
+
+    private View.OnClickListener menuClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+
+            limpaMenu();
+
+            if(view.getTag().equals("Pesquisar")){
+                ivPesquisar.setImageBitmap(BitmapFactory.decodeResource(view.getResources(), R.drawable.search));
+                tvPesquisar.setTextColor(Color.parseColor("#e9a11c"));
+                mudaTela("Categorias");
+            }else if(view.getTag().equals("TopRanked")){
+                ivTopRanked.setImageBitmap(BitmapFactory.decodeResource(view.getResources(), R.drawable.star));
+                tvTopRanked.setTextColor(Color.parseColor("#e9a11c"));
+                mudaTela("TopRanked");
+            }else if(view.getTag().equals("Ofertas")){
+                ivOfertas.setImageBitmap(BitmapFactory.decodeResource(view.getResources(), R.drawable.tags));
+                tvOfertas.setTextColor(Color.parseColor("#e9a11c"));
+                mudaTela("Ofertas");
+            }else if(view.getTag().equals("Historico")){
+                ivHistorico.setImageBitmap(BitmapFactory.decodeResource(view.getResources(), R.drawable.list));
+                tvHistorico.setTextColor(Color.parseColor("#e9a11c"));
+                mudaTela("Historico");
+            }
+
+        }
+    };
+
+    private void limpaMenu(){
+
+        ivPesquisar.setImageBitmap(BitmapFactory.decodeResource(this.getResources(), R.drawable.searchcinza));
+        tvPesquisar.setTextColor(Color.parseColor("#868686"));
+
+        ivTopRanked.setImageBitmap(BitmapFactory.decodeResource(this.getResources(), R.drawable.starcinza));
+        tvTopRanked.setTextColor(Color.parseColor("#868686"));
+
+        ivOfertas.setImageBitmap(BitmapFactory.decodeResource(this.getResources(), R.drawable.tagscinza));
+        tvOfertas.setTextColor(Color.parseColor("#868686"));
+
+        ivHistorico.setImageBitmap(BitmapFactory.decodeResource(this.getResources(), R.drawable.listcinza));
+        tvHistorico.setTextColor(Color.parseColor("#868686"));
+
+    }
+
+
 }

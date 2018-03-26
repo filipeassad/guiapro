@@ -51,6 +51,7 @@
                 android:orientation="horizontal">
 
                 <LinearLayout
+                    android:id="@+id/abaQualificacoes"
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="40dp"
@@ -59,11 +60,13 @@
                     android:paddingLeft="10dp">
 
                     <ImageView
+                        android:id="@+id/ivQualificacao"
                         android:layout_width="15dp"
                         android:layout_height="15dp"
                         android:src="@drawable/trophycinza"/>
 
                     <TextView
+                        android:id="@+id/tvQualificacao"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Qualificações"
@@ -73,6 +76,7 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/abaProximidade"
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="40dp"
@@ -81,11 +85,13 @@
                     android:paddingLeft="10dp">
 
                     <ImageView
+                        android:id="@+id/ivProximidade"
                         android:layout_width="15dp"
                         android:layout_height="15dp"
                         android:src="@drawable/locationlaranja"/>
 
                     <TextView
+                        android:id="@+id/tvProximidade"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Proximidade"
@@ -95,6 +101,7 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/abaUrgencia"
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="40dp"
@@ -103,6 +110,7 @@
                     android:paddingLeft="10dp">
 
                     <TextView
+                        android:id="@+id/tvUrgencia1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="24h"
@@ -110,6 +118,7 @@
                         android:textStyle="bold"/>
 
                     <TextView
+                        android:id="@+id/tvUrgencia2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Ugências"

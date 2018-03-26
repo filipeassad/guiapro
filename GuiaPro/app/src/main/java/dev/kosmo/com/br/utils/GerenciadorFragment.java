@@ -7,9 +7,12 @@ import android.widget.LinearLayout;
 
 import dev.kosmo.com.br.fragments.CategoriasFragment;
 import dev.kosmo.com.br.fragments.DetalheProfFragment;
+import dev.kosmo.com.br.fragments.HistoricoFragment;
 import dev.kosmo.com.br.fragments.ListagemProfissionaisFragment;
 import dev.kosmo.com.br.fragments.NotificacaoFragment;
+import dev.kosmo.com.br.fragments.OfertasFragment;
 import dev.kosmo.com.br.fragments.PerfilFragment;
+import dev.kosmo.com.br.fragments.TopRankedFragment;
 import dev.kosmo.com.br.guiapro.R;
 
 /**
@@ -39,6 +42,15 @@ public class GerenciadorFragment {
         }else if(nomeTela.equals("DetalheProfissional")){
             DetalheProfFragment detalheProfFragment = new DetalheProfFragment();
             ft.replace(R.id.contFragments, detalheProfFragment, nomeTela);
+        }else if(nomeTela.equals("TopRanked")){
+            TopRankedFragment topRankedFragment = new TopRankedFragment();
+            ft.replace(R.id.contFragments, topRankedFragment, nomeTela);
+        }else if(nomeTela.equals("Ofertas")){
+            OfertasFragment ofertasFragment = new OfertasFragment();
+            ft.replace(R.id.contFragments, ofertasFragment, nomeTela);
+        }else if(nomeTela.equals("Historico")){
+            HistoricoFragment historicoFragment = new HistoricoFragment();
+            ft.replace(R.id.contFragments, historicoFragment, nomeTela);
         }
 
         if(fm.findFragmentByTag(nomeTela) != null){

@@ -11,16 +11,18 @@ import dev.kosmo.com.br.guiapro.R;
 import dev.kosmo.com.br.utils.VariaveisEstaticas;
 
 /**
- * Created by 0118431 on 09/03/2018.
+ * Created by 0118431 on 26/03/2018.
  */
 
-public class PerfilFragment extends Fragment {
+public class OfertasFragment extends Fragment {
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_perfil, container, false);
-        VariaveisEstaticas.getFragmentInterface().visibilidadeMenu(false);
+
+        View view = inflater.inflate(R.layout.fragment_ofertas, container, false);
+        VariaveisEstaticas.getFragmentInterface().visibilidadeMenu(true);
         return view;
+
     }
 }
