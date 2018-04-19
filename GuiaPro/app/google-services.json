@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "1055309555868",
+    "firebase_url": "https://guiapro-1de0c.firebaseio.com",
+    "project_id": "guiapro-1de0c",
+    "storage_bucket": "guiapro-1de0c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1055309555868:android:15f4c6936666f776",
+        "android_client_info": {
+          "package_name": "dev.kosmo.com.br.guiapro"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1055309555868-rg5iaflcue8l59bostn3r7v371joasdt.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCAJTnF3JVgqpSy8VsLmeY61lyaPqZUQT4"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="dev.kosmo.com.br.guiapro">
 
+
+    <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
     <uses-permission android:name="android.permission.INTERNET"/>
@@ -34,6 +36,19 @@
         <activity android:name="dev.kosmo.com.br.activitys.PrincipalActivity" android:screenOrientation="portrait"/>
         <activity android:name="dev.kosmo.com.br.activitys.CadastroActivity" android:screenOrientation="portrait"/>
         <activity android:name="dev.kosmo.com.br.activitys.SenhaActivity" android:screenOrientation="portrait"/>
+
+        <service android:name="dev.kosmo.com.br.firebase.MessagingService">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+
+        <service android:name="dev.kosmo.com.br.firebase.IDService">
+            <intent-filter>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
+            </intent-filter>
+        </service>
+
     </application>
 
 </manifest>

@@ -1,5 +1,6 @@
 package dev.kosmo.com.br.activitys;
 
+import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -208,6 +209,11 @@ public class PrincipalActivity extends FragmentActivity implements FragmentInter
         }else{
             llFooterMenu.setVisibility(View.GONE);
         }
+    }
+
+    @Override
+    public void mudaActivity(Intent intent) {
+        startActivity(intent);
     }
 
     private View.OnClickListener menuClickListener = new View.OnClickListener() {
