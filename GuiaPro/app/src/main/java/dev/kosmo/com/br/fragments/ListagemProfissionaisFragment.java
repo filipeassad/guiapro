@@ -66,14 +66,14 @@ public class ListagemProfissionaisFragment extends Fragment {
         abaProximidade.setOnClickListener(abaOnCLickListener);
 
         List<Profissional> lista = new ArrayList<>();
-        lista.add(new Profissional("Kratos", "","", BitmapFactory.decodeResource(this.getResources(), R.drawable.kratos)));
+       /* lista.add(new Profissional("Kratos", "","", BitmapFactory.decodeResource(this.getResources(), R.drawable.kratos)));
         lista.add(new Profissional("Gandalf, O Cinzento", "","", BitmapFactory.decodeResource(this.getResources(), R.drawable.gandalf)));
         lista.add(new Profissional("Chimbinha, Guitar Master", "","", BitmapFactory.decodeResource(this.getResources(), R.drawable.chimbinha)));
         lista.add(new Profissional("Darth Vader", "","", BitmapFactory.decodeResource(this.getResources(), R.drawable.darthvader)));
         lista.add(new Profissional("Finn", "","", BitmapFactory.decodeResource(this.getResources(), R.drawable.finn)));
         lista.add(new Profissional("Agent Smith", "","", BitmapFactory.decodeResource(this.getResources(), R.drawable.agentsmith)));
         lista.add(new Profissional("Michelangelo", "","", BitmapFactory.decodeResource(this.getResources(), R.drawable.michelangelo)));
-        lista.add(new Profissional("Roy, Like tears in rain", "","", BitmapFactory.decodeResource(this.getResources(), R.drawable.royrain)));
+        lista.add(new Profissional("Roy, Like tears in rain", "","", BitmapFactory.decodeResource(this.getResources(), R.drawable.royrain)));*/
 
         ListProfAdapter listProfAdapter = new ListProfAdapter(getContext(),R.layout.adapter_list_prof,lista);
         lvProfissionais.setAdapter(listProfAdapter);

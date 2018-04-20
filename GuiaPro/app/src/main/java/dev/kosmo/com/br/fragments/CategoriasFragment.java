@@ -1,5 +1,6 @@
 package dev.kosmo.com.br.fragments;
 
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -16,14 +17,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 import dev.kosmo.com.br.guiapro.R;
+import dev.kosmo.com.br.interfaces.EspecialidadeInterface;
+import dev.kosmo.com.br.models.Especialidades;
 import dev.kosmo.com.br.models.ItemMenuNav;
+import dev.kosmo.com.br.task.GetEspecialidadeAsyncTask;
 import dev.kosmo.com.br.utils.VariaveisEstaticas;
 
 /**
  * Created by 0118431 on 08/03/2018.
  */
 
-public class CategoriasFragment extends Fragment {
+public class CategoriasFragment extends Fragment implements EspecialidadeInterface{
 
     private LinearLayout llCategoria;
 
@@ -37,40 +41,19 @@ public class CategoriasFragment extends Fragment {
 
         VariaveisEstaticas.getFragmentInterface().visibilidadeMenu(true);
 
-        carregaCategorias();
+        //carregaCategorias();
+
+        GetEspecialidadeAsyncTask getEspecialidadeAsyncTask = new GetEspecialidadeAsyncTask(getContext(),this);
+        getEspecialidadeAsyncTask.execute("http://guia-pro.herokuapp.com/api/especialidades/");
 
         return view;
 
     }
 
-    private void carregaCategorias(){
+    private void carregaCategorias(List<Especialidades> especialidades){
 
-        List<ItemMenuNav> lista = new ArrayList<>();
 
-        lista.add(new ItemMenuNav("Encanador", BitmapFactory.decodeResource(getContext().getResources(), R.drawable.encanador)));
-        lista.add(new ItemMenuNav("Marceneiro", BitmapFactory.decodeResource(getContext().getResources(), R.drawable.marceneiro)));
-        lista.add(new ItemMenuNav("Pedreiro", BitmapFactory.decodeResource(getContext().getResources(), R.drawable.pedreiro)));
-        lista.add(new ItemMenuNav("Pintor", BitmapFactory.decodeResource(getContext().getResources(), R.drawable.pintor)));
-        lista.add(new ItemMenuNav("Eletricista", BitmapFactory.decodeResource(getContext().getResources(), R.drawable.eletricista)));
-        lista.add(new ItemMenuNav("Calhas", BitmapFactory.decodeResource(getContext().getResources(), R.drawable.calhas)));
-        lista.add(new ItemMenuNav("Contrutores", BitmapFactory.decodeResource(getContext().getResources(), R.drawable.construtores)));
-        lista.add(new ItemMenuNav("Acabamento", BitmapFactory.decodeResource(getContext().getResources(), R.drawable.acabamento)));
-        lista.add(new ItemMenuNav("Serralheiros", BitmapFactory.decodeResource(getContext().getResources(), R.drawable.serralheiros)));
-        lista.add(new ItemMenuNav("Munk", BitmapFactory.decodeResource(getContext().getResources(), R.drawable.munk)));
-        lista.add(new ItemMenuNav("Jardineiros", BitmapFactory.decodeResource(getContext().getResources(), R.drawable.jardineiros)));
-        lista.add(new ItemMenuNav("Gesso", BitmapFactory.decodeResource(getContext().getResources(), R.drawable.gesso)));
-        lista.add(new ItemMenuNav("Decoradores", BitmapFactory.decodeResource(getContext().getResources(), R.drawable.decoradores)));
-        lista.add(new ItemMenuNav("Carpinteiros", BitmapFactory.decodeResource(getContext().getResources(), R.drawable.carpinteiros)));
-        lista.add(new ItemMenuNav("Banheiras", BitmapFactory.decodeResource(getContext().getResources(), R.drawable.banheiras)));
-        lista.add(new ItemMenuNav("Reparo Gerais", BitmapFactory.decodeResource(getContext().getResources(), R.drawable.reparogerais)));
-        lista.add(new ItemMenuNav("Limpaze", BitmapFactory.decodeResource(getContext().getResources(), R.drawable.limpeza)));
-        lista.add(new ItemMenuNav("Engenheiros", BitmapFactory.decodeResource(getContext().getResources(), R.drawable.engenheiros)));
-        lista.add(new ItemMenuNav("Vidraceiros", BitmapFactory.decodeResource(getContext().getResources(), R.drawable.vidraceiros)));
-        lista.add(new ItemMenuNav("Piscina", BitmapFactory.decodeResource(getContext().getResources(), R.drawable.piscina)));
-        lista.add(new ItemMenuNav("Arquitetos", BitmapFactory.decodeResource(getContext().getResources(), R.drawable.arquitetos)));
-        lista.add(new ItemMenuNav("Papel de Parede", BitmapFactory.decodeResource(getContext().getResources(), R.drawable.papeldeparede)));
-
-        int nLinear = lista.size() / 2;
+        int nLinear = especialidades.size() / 2;
         int index = 0;
 
         for(int i=0; i<nLinear; i++){
@@ -85,15 +68,15 @@ public class CategoriasFragment extends Fragment {
 
             while(tam < 2){
                 tam++;
-                if(index == lista.size()){
+                if(index == especialidades.size()){
                     tam = 2;
                 }else{
                     LinearLayout cat = (LinearLayout) getActivity().getLayoutInflater().inflate(R.layout.modelo_categoria,null);
                     ImageView img = (ImageView) cat.findViewById(R.id.ivImagem);
                     TextView texto = (TextView) cat.findViewById(R.id.tvRotulo);
 
-                    img.setImageBitmap(lista.get(index).getImg());
-                    texto.setText(lista.get(index).getRotulo());
+                    img.setImageBitmap(especialidades.get(index).getImagem());
+                    texto.setText(especialidades.get(index).getNome());
 
                     cat.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -113,4 +96,65 @@ public class CategoriasFragment extends Fragment {
 
     }
 
+    @Override
+    public void getEspecialidades(List<Especialidades> especialidades) {
+        for(Especialidades aux :especialidades){
+            aux.setImagem(getImagem(aux.getNome()));
+        }
+        carregaCategorias(especialidades);
+    }
+
+    private Bitmap getImagem(String nome){
+
+        if(nome.equals("Encanador")){
+            return BitmapFactory.decodeResource(getContext().getResources(), R.drawable.encanador);
+        }else if(nome.equals("Marceneiro")){
+            return BitmapFactory.decodeResource(getContext().getResources(), R.drawable.marceneiro);
+        }else if(nome.equals("Pedreiro")){
+            return BitmapFactory.decodeResource(getContext().getResources(), R.drawable.pedreiro);
+        }else if(nome.equals("Pintor")){
+            return BitmapFactory.decodeResource(getContext().getResources(), R.drawable.pintor);
+        }else if(nome.equals("Eletricista")){
+            return BitmapFactory.decodeResource(getContext().getResources(), R.drawable.eletricista);
+        }else if(nome.equals("Calhas")){
+            return BitmapFactory.decodeResource(getContext().getResources(), R.drawable.calhas);
+        }else if(nome.equals("Construtores")){
+            return BitmapFactory.decodeResource(getContext().getResources(), R.drawable.construtores);
+        }else if(nome.equals("Acabamento")){
+            return BitmapFactory.decodeResource(getContext().getResources(), R.drawable.acabamento);
+        }else if(nome.equals("Serralheiros")){
+            return BitmapFactory.decodeResource(getContext().getResources(), R.drawable.serralheiros);
+        }else if(nome.equals("Munk")){
+            return BitmapFactory.decodeResource(getContext().getResources(), R.drawable.munk);
+        }else if(nome.equals("Jardineiros")){
+            return BitmapFactory.decodeResource(getContext().getResources(), R.drawable.jardineiros);
+        }else if(nome.equals("Gesseiros")){
+            return BitmapFactory.decodeResource(getContext().getResources(), R.drawable.gesso);
+        }else if(nome.equals("Decoradores")){
+            return BitmapFactory.decodeResource(getContext().getResources(), R.drawable.decoradores);
+        }else if(nome.equals("Carpinteiro")){
+            return BitmapFactory.decodeResource(getContext().getResources(), R.drawable.carpinteiros);
+        }else if(nome.equals("Banheiros")){
+            return BitmapFactory.decodeResource(getContext().getResources(), R.drawable.banheiras);
+        }else if(nome.equals("Limpeza")){
+            return BitmapFactory.decodeResource(getContext().getResources(), R.drawable.limpeza);
+        }else if(nome.equals("Engenheiros")){
+            return BitmapFactory.decodeResource(getContext().getResources(), R.drawable.engenheiros);
+        }else if(nome.equals("Reparos Gerais")){
+            return BitmapFactory.decodeResource(getContext().getResources(), R.drawable.reparogerais);
+        }else if(nome.equals("Banheiros")){
+            return BitmapFactory.decodeResource(getContext().getResources(), R.drawable.banheiras);
+        }else if(nome.equals("Vidraceiros")){
+            return BitmapFactory.decodeResource(getContext().getResources(), R.drawable.vidraceiros);
+        }else if(nome.equals("Piscina")){
+            return BitmapFactory.decodeResource(getContext().getResources(), R.drawable.piscina);
+        }else if(nome.equals("Arquitetos")){
+            return BitmapFactory.decodeResource(getContext().getResources(), R.drawable.arquitetos);
+        }else if(nome.equals("Papel de Parede")){
+            return BitmapFactory.decodeResource(getContext().getResources(), R.drawable.papeldeparede);
+        }else{
+            return null;
+        }
+
+    }
 }

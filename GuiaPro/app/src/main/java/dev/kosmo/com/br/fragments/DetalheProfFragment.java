@@ -32,9 +32,11 @@ import com.google.android.gms.maps.model.LatLng;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import dev.kosmo.com.br.guiapro.R;
+import dev.kosmo.com.br.interfaces.NotificacaoPostInterface;
 import dev.kosmo.com.br.models.Especialidades;
 import dev.kosmo.com.br.utils.VariaveisEstaticas;
 
@@ -42,7 +44,7 @@ import dev.kosmo.com.br.utils.VariaveisEstaticas;
  * Created by Filipe on 11/03/2018.
  */
 
-public class DetalheProfFragment extends Fragment implements OnMapReadyCallback{
+public class DetalheProfFragment extends Fragment implements OnMapReadyCallback, NotificacaoPostInterface{
 
     private TextView tvNomeAtende;
     private ImageView ivImagem;
@@ -170,9 +172,9 @@ public class DetalheProfFragment extends Fragment implements OnMapReadyCallback{
 
         List<Especialidades> lista = new ArrayList<>();
 
-        lista.add(new Especialidades("Encanador", BitmapFactory.decodeResource(this.getResources(), R.drawable.trophybranco), "descricao"));
-        lista.add(new Especialidades("Pedreiro", BitmapFactory.decodeResource(this.getResources(), R.drawable.trophybranco), "descricao"));
-        lista.add(new Especialidades("Pintor", BitmapFactory.decodeResource(this.getResources(), R.drawable.trophybranco), "descricao"));
+//        lista.add(new Especialidades("Encanador", BitmapFactory.decodeResource(this.getResources(), R.drawable.trophybranco), "descricao"));
+//        lista.add(new Especialidades("Pedreiro", BitmapFactory.decodeResource(this.getResources(), R.drawable.trophybranco), "descricao"));
+//        lista.add(new Especialidades("Pintor", BitmapFactory.decodeResource(this.getResources(), R.drawable.trophybranco), "descricao"));
 
         for(Especialidades aux :lista){
 
@@ -213,5 +215,10 @@ public class DetalheProfFragment extends Fragment implements OnMapReadyCallback{
         }
 
 
+    }
+
+    @Override
+    public void retornoPost(HashMap<String, String> resultado) {
+        Toast.makeText(getContext(),resultado.get("name"), Toast.LENGTH_SHORT).show();
     }
 }

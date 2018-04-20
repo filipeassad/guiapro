@@ -8,6 +8,7 @@ import android.graphics.Bitmap;
 
 public class Especialidades {
 
+    private Integer id;
     private String nome;
     private Bitmap imagem;
     private String descricao;
@@ -15,10 +16,19 @@ public class Especialidades {
     public Especialidades() {
     }
 
-    public Especialidades(String nome, Bitmap imagem, String descricao) {
+    public Especialidades(Integer id, String nome, Bitmap imagem, String descricao) {
+        this.id = id;
         this.nome = nome;
         this.imagem = imagem;
         this.descricao = descricao;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getNome() {
