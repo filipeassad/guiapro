@@ -19,14 +19,16 @@ import java.util.List;
 
 import dev.kosmo.com.br.adapter.ListProfAdapter;
 import dev.kosmo.com.br.guiapro.R;
+import dev.kosmo.com.br.interfaces.ProfissionaisInterface;
 import dev.kosmo.com.br.models.Profissional;
+import dev.kosmo.com.br.task.GetProfissionaisAsyncTask;
 import dev.kosmo.com.br.utils.VariaveisEstaticas;
 
 /**
  * Created by Filipe on 11/03/2018.
  */
 
-public class ListagemProfissionaisFragment extends Fragment {
+public class ListagemProfissionaisFragment extends Fragment implements ProfissionaisInterface{
 
     private ListView lvProfissionais;
     private LinearLayout abaQualificacoes;
@@ -65,26 +67,8 @@ public class ListagemProfissionaisFragment extends Fragment {
         abaQualificacoes.setOnClickListener(abaOnCLickListener);
         abaProximidade.setOnClickListener(abaOnCLickListener);
 
-        List<Profissional> lista = new ArrayList<>();
-       /* lista.add(new Profissional("Kratos", "","", BitmapFactory.decodeResource(this.getResources(), R.drawable.kratos)));
-        lista.add(new Profissional("Gandalf, O Cinzento", "","", BitmapFactory.decodeResource(this.getResources(), R.drawable.gandalf)));
-        lista.add(new Profissional("Chimbinha, Guitar Master", "","", BitmapFactory.decodeResource(this.getResources(), R.drawable.chimbinha)));
-        lista.add(new Profissional("Darth Vader", "","", BitmapFactory.decodeResource(this.getResources(), R.drawable.darthvader)));
-        lista.add(new Profissional("Finn", "","", BitmapFactory.decodeResource(this.getResources(), R.drawable.finn)));
-        lista.add(new Profissional("Agent Smith", "","", BitmapFactory.decodeResource(this.getResources(), R.drawable.agentsmith)));
-        lista.add(new Profissional("Michelangelo", "","", BitmapFactory.decodeResource(this.getResources(), R.drawable.michelangelo)));
-        lista.add(new Profissional("Roy, Like tears in rain", "","", BitmapFactory.decodeResource(this.getResources(), R.drawable.royrain)));*/
-
-        ListProfAdapter listProfAdapter = new ListProfAdapter(getContext(),R.layout.adapter_list_prof,lista);
-        lvProfissionais.setAdapter(listProfAdapter);
-
-        lvProfissionais.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                VariaveisEstaticas.setProfissional((Profissional) parent.getItemAtPosition(position));
-                VariaveisEstaticas.getFragmentInterface().mudaTela("DetalheProfissional");
-            }
-        });
+        GetProfissionaisAsyncTask getProfissionaisAsyncTask = new GetProfissionaisAsyncTask(getContext(), this);
+        getProfissionaisAsyncTask.execute("http://guia-pro.herokuapp.com/api/profissionais/especialidade/" + VariaveisEstaticas.getEspecialidades().getId());
 
         return view;
     }
@@ -124,5 +108,36 @@ public class ListagemProfissionaisFragment extends Fragment {
         abaUrgencia.setBackgroundResource(R.drawable.menutopolaranja);
         tvUrgencia1.setTextColor(Color.parseColor("#fddeb3"));
         tvUrgencia2.setTextColor(Color.parseColor("#fddeb3"));
+    }
+
+    @Override
+    public void getProfissionais(List<Profissional> profissionais) {
+
+        List<Profissional> lista = new ArrayList<>();
+
+        for(Profissional aux : profissionais){
+            aux.setImg(BitmapFactory.decodeResource(this.getResources(), R.drawable.kratos));
+        }
+
+       /* lista.add(new Profissional("Kratos", "","", BitmapFactory.decodeResource(this.getResources(), R.drawable.kratos)));
+        lista.add(new Profissional("Gandalf, O Cinzento", "","", BitmapFactory.decodeResource(this.getResources(), R.drawable.gandalf)));
+        lista.add(new Profissional("Chimbinha, Guitar Master", "","", BitmapFactory.decodeResource(this.getResources(), R.drawable.chimbinha)));
+        lista.add(new Profissional("Darth Vader", "","", BitmapFactory.decodeResource(this.getResources(), R.drawable.darthvader)));
+        lista.add(new Profissional("Finn", "","", BitmapFactory.decodeResource(this.getResources(), R.drawable.finn)));
+        lista.add(new Profissional("Agent Smith", "","", BitmapFactory.decodeResource(this.getResources(), R.drawable.agentsmith)));
+        lista.add(new Profissional("Michelangelo", "","", BitmapFactory.decodeResource(this.getResources(), R.drawable.michelangelo)));
+        lista.add(new Profissional("Roy, Like tears in rain", "","", BitmapFactory.decodeResource(this.getResources(), R.drawable.royrain)));*/
+
+        ListProfAdapter listProfAdapter = new ListProfAdapter(getContext(),R.layout.adapter_list_prof,profissionais);
+        lvProfissionais.setAdapter(listProfAdapter);
+
+        lvProfissionais.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                VariaveisEstaticas.setProfissional((Profissional) parent.getItemAtPosition(position));
+                VariaveisEstaticas.getFragmentInterface().mudaTela("DetalheProfissional");
+            }
+        });
+
     }
 }

@@ -7,16 +7,14 @@ package dev.kosmo.com.br.models;
 public class Notificacao {
 
     private Integer id;
-    private Integer idProduto;
     private String titulo;
     private String descricao;
 
     public Notificacao() {
     }
 
-    public Notificacao(Integer id, Integer idProduto, String titulo, String descricao) {
+    public Notificacao(Integer id, String titulo, String descricao) {
         this.id = id;
-        this.idProduto = idProduto;
         this.titulo = titulo;
         this.descricao = descricao;
     }
@@ -27,14 +25,6 @@ public class Notificacao {
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public Integer getIdProduto() {
-        return idProduto;
-    }
-
-    public void setIdProduto(Integer idProduto) {
-        this.idProduto = idProduto;
     }
 
     public String getTitulo() {

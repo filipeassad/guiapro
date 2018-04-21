@@ -78,9 +78,12 @@ public class CategoriasFragment extends Fragment implements EspecialidadeInterfa
                     img.setImageBitmap(especialidades.get(index).getImagem());
                     texto.setText(especialidades.get(index).getNome());
 
+                    cat.setTag(especialidades.get(index));
+
                     cat.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
+                            VariaveisEstaticas.setEspecialidades((Especialidades) v.getTag());
                             VariaveisEstaticas.getFragmentInterface().mudaTela("ListagemProfissionais");
                         }
                     });
@@ -98,6 +101,7 @@ public class CategoriasFragment extends Fragment implements EspecialidadeInterfa
 
     @Override
     public void getEspecialidades(List<Especialidades> especialidades) {
+
         for(Especialidades aux :especialidades){
             aux.setImagem(getImagem(aux.getNome()));
         }

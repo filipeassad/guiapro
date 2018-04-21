@@ -82,6 +82,7 @@ public class PostFirebaseNotificationAsyncTask extends AsyncTask<String, String,
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setReadTimeout(10000);
             conn.setRequestProperty("Content-Type","application/json");
+            conn.setRequestProperty("Authorization","Bearer AAAA9bVZ6Jw:APA91bHjesK4WZJBqrbECtSarjOvGyzseLEiZltlovZCXMu3PM7wbI4PYC62VB6_p54Ha2pCgaCm7aH_r_b40AGWw636gEg0pTaiv6ZW5-XIPWd-2B3Reil3OdGikqUQKYM9gC5_BGmd");
             //conn.setRequestProperty("Content-Type","application/x-www-form-urlencoded");
             conn.setConnectTimeout(20000);
             conn.setRequestMethod("POST");
@@ -96,7 +97,8 @@ public class PostFirebaseNotificationAsyncTask extends AsyncTask<String, String,
             notificationParam.put("body", notificacao.getDescricao());
             notificationParam.put("title",notificacao.getTitulo());
 
-            msgParam.put("token", "AIzaSyCtunRR3xddXe33ifC7qUaj4yPwjhbcjkM");
+            msgParam.put("token", "\n" +
+                    "AIzaSyCtunRR3xddXe33ifC7qUaj4yPwjhbcjkM");
             msgParam.put("notification", notificationParam);
 
             //jsonParam.put("id", 10);

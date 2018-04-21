@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import dev.kosmo.com.br.interfaces.ProfissionaisInterface;
+import dev.kosmo.com.br.models.Endereco;
 import dev.kosmo.com.br.models.Profissional;
 
 /**
@@ -119,6 +120,20 @@ public class GetProfissionaisAsyncTask extends AsyncTask<String, String, JSONArr
                 profissional.setNome(linha.getString("nome"));
                 profissional.setCelular(linha.getString("ddd_celular") + linha.getString("celular"));
                 profissional.setUrlImg(linha.getString("foto"));
+
+                JSONObject enderecoObj = linha.getJSONObject("endereco");
+
+                Endereco endereco = new Endereco();
+                endereco.setId(enderecoObj.getInt("id"));
+                endereco.setLogradouro(enderecoObj.getString("logradouro"));
+                endereco.setNumero(enderecoObj.getString("numero"));
+                endereco.setBairro(enderecoObj.getString("bairro"));
+                endereco.setComplemento(enderecoObj.getString("complemento"));
+                endereco.setPais(enderecoObj.getString("pais"));
+                endereco.setCidade(enderecoObj.getString("municipio"));
+                endereco.setEstado(enderecoObj.getString("uf"));
+
+                profissional.setEnderecoObj(endereco);
 
                 lista.add(profissional);
 

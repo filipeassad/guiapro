@@ -38,6 +38,8 @@ import java.util.List;
 import dev.kosmo.com.br.guiapro.R;
 import dev.kosmo.com.br.interfaces.NotificacaoPostInterface;
 import dev.kosmo.com.br.models.Especialidades;
+import dev.kosmo.com.br.models.Notificacao;
+import dev.kosmo.com.br.task.PostFirebaseNotificationAsyncTask;
 import dev.kosmo.com.br.utils.VariaveisEstaticas;
 
 /**
@@ -55,6 +57,8 @@ public class DetalheProfFragment extends Fragment implements OnMapReadyCallback,
     private LinearLayout llQualificacoes;
     private LinearLayout btnLigar;
     private LinearLayout btnWhats;
+    private LinearLayout btnMeLigeu;
+    private NotificacaoPostInterface notificacaoPostInterface = this;
 
     @Nullable
     @Override
@@ -70,6 +74,7 @@ public class DetalheProfFragment extends Fragment implements OnMapReadyCallback,
         llQualificacoes = (LinearLayout) view.findViewById(R.id.llQualificacoes);
         btnLigar = (LinearLayout) view.findViewById(R.id.btnLigar);
         btnWhats = (LinearLayout) view.findViewById(R.id.btnWhats);
+        btnMeLigeu = (LinearLayout) view.findViewById(R.id.btnMeLigeu);
         map = (MapView) view.findViewById(R.id.map);
         map.onCreate(savedInstanceState);
         map.onResume();
@@ -141,6 +146,16 @@ public class DetalheProfFragment extends Fragment implements OnMapReadyCallback,
                 } catch (UnsupportedEncodingException e) {
                     e.printStackTrace();
                 }
+            }
+        });
+
+        btnMeLigeu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                PostFirebaseNotificationAsyncTask postFirebaseNotificationAsyncTask =
+                        new PostFirebaseNotificationAsyncTask(getContext(), notificacaoPostInterface, new Notificacao(1,"Teste Na Kosmo","Primeiro teste mandando pela kosmo."));
+                postFirebaseNotificationAsyncTask.execute("http://fcm.googleapis.com/v1/projects/guiapro-1de0c/messages:send");
+                //postFirebaseNotificationAsyncTask.execute("https://fcm.googleapis.com/v1/projects/myproject-b5ae1/messages:send");
             }
         });
     }
