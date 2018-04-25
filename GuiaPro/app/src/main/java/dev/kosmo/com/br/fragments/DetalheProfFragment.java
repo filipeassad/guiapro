@@ -103,11 +103,13 @@ public class DetalheProfFragment extends Fragment implements OnMapReadyCallback,
     }
 
     private void acoes(){
+
         btnLigar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent callIntent = new Intent(Intent.ACTION_CALL);
-                callIntent.setData(Uri.parse("tel:067991611563"));
+                //callIntent.setData(Uri.parse("tel:067991611563"));
+                callIntent.setData(Uri.parse("tel:" + VariaveisEstaticas.getProfissional().getCelular()));
                 VariaveisEstaticas.getFragmentInterface().mudaActivity(callIntent);
             }
         });
@@ -119,7 +121,8 @@ public class DetalheProfFragment extends Fragment implements OnMapReadyCallback,
                 try {
 
                     Intent i = new Intent(Intent.ACTION_VIEW);
-                    String url = "https://api.whatsapp.com/send?phone="+ "+55067991611563" +"&text=" + URLEncoder.encode("", "UTF-8");
+                    //String url = "https://api.whatsapp.com/send?phone="+ "+55067991611563" +"&text=" + URLEncoder.encode("", "UTF-8");
+                    String url = "https://api.whatsapp.com/send?phone="+ "+55" + VariaveisEstaticas.getProfissional().getCelular() +"&text=" + URLEncoder.encode("", "UTF-8");
                     PackageInfo info = pm.getPackageInfo("com.whatsapp", PackageManager.GET_META_DATA);
                     i.setPackage("com.whatsapp");
                     i.setData(Uri.parse(url));

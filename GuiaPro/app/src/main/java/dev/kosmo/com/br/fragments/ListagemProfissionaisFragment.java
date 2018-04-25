@@ -1,5 +1,6 @@
 package dev.kosmo.com.br.fragments;
 
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -19,8 +20,10 @@ import java.util.List;
 
 import dev.kosmo.com.br.adapter.ListProfAdapter;
 import dev.kosmo.com.br.guiapro.R;
+import dev.kosmo.com.br.interfaces.ImagemInterface;
 import dev.kosmo.com.br.interfaces.ProfissionaisInterface;
 import dev.kosmo.com.br.models.Profissional;
+import dev.kosmo.com.br.task.GetImagemAsyncTask;
 import dev.kosmo.com.br.task.GetProfissionaisAsyncTask;
 import dev.kosmo.com.br.utils.VariaveisEstaticas;
 
@@ -28,7 +31,7 @@ import dev.kosmo.com.br.utils.VariaveisEstaticas;
  * Created by Filipe on 11/03/2018.
  */
 
-public class ListagemProfissionaisFragment extends Fragment implements ProfissionaisInterface{
+public class ListagemProfissionaisFragment extends Fragment implements ProfissionaisInterface, ImagemInterface{
 
     private ListView lvProfissionais;
     private LinearLayout abaQualificacoes;
@@ -40,6 +43,9 @@ public class ListagemProfissionaisFragment extends Fragment implements Profissio
     private TextView tvProximidade;
     private TextView tvUrgencia1;
     private TextView tvUrgencia2;
+    private List<Profissional> listaFinal;
+    private List<Profissional> listaAux;
+    private Profissional atual;
 
     @Nullable
     @Override
@@ -113,13 +119,54 @@ public class ListagemProfissionaisFragment extends Fragment implements Profissio
     @Override
     public void getProfissionais(List<Profissional> profissionais) {
 
-        List<Profissional> lista = new ArrayList<>();
+        listaFinal = new ArrayList<>();
+        listaAux = profissionais;
 
-        for(Profissional aux : profissionais){
-            aux.setImg(BitmapFactory.decodeResource(this.getResources(), R.drawable.kratos));
+        if(!listaAux.isEmpty()){
+            atual = listaAux.remove(0);
+            GetImagemAsyncTask getImagemAsyncTask = new GetImagemAsyncTask(getContext(), this);
+            getImagemAsyncTask.execute(atual.getUrlImg());
+            listaFinal.add(atual);
         }
 
-       /* lista.add(new Profissional("Kratos", "","", BitmapFactory.decodeResource(this.getResources(), R.drawable.kratos)));
+    }
+
+    @Override
+    public void getImagem(Bitmap imagem) {
+
+        if(imagem != null){
+            atual.setImg(imagem);
+        }else{
+            atual.setImg(BitmapFactory.decodeResource(this.getResources(), R.drawable.kratos));
+        }
+
+        if(!listaAux.isEmpty()){
+            atual = listaAux.remove(0);
+            GetImagemAsyncTask getImagemAsyncTask = new GetImagemAsyncTask(getContext(), this);
+            getImagemAsyncTask.execute(atual.getUrlImg());
+            listaFinal.add(atual);
+        }else{
+            ListProfAdapter listProfAdapter = new ListProfAdapter(getContext(),R.layout.adapter_list_prof,listaFinal);
+            lvProfissionais.setAdapter(listProfAdapter);
+
+            lvProfissionais.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    VariaveisEstaticas.setProfissional((Profissional) parent.getItemAtPosition(position));
+                    VariaveisEstaticas.getFragmentInterface().mudaTela("DetalheProfissional");
+                }
+            });
+        }
+
+
+    }
+
+
+
+        /*for(Profissional aux : profissionais){
+            aux.setImg(BitmapFactory.decodeResource(this.getResources(), R.drawable.kratos));
+        }*/
+    /* lista.add(new Profissional("Kratos", "","", BitmapFactory.decodeResource(this.getResources(), R.drawable.kratos)));
         lista.add(new Profissional("Gandalf, O Cinzento", "","", BitmapFactory.decodeResource(this.getResources(), R.drawable.gandalf)));
         lista.add(new Profissional("Chimbinha, Guitar Master", "","", BitmapFactory.decodeResource(this.getResources(), R.drawable.chimbinha)));
         lista.add(new Profissional("Darth Vader", "","", BitmapFactory.decodeResource(this.getResources(), R.drawable.darthvader)));
@@ -127,17 +174,4 @@ public class ListagemProfissionaisFragment extends Fragment implements Profissio
         lista.add(new Profissional("Agent Smith", "","", BitmapFactory.decodeResource(this.getResources(), R.drawable.agentsmith)));
         lista.add(new Profissional("Michelangelo", "","", BitmapFactory.decodeResource(this.getResources(), R.drawable.michelangelo)));
         lista.add(new Profissional("Roy, Like tears in rain", "","", BitmapFactory.decodeResource(this.getResources(), R.drawable.royrain)));*/
-
-        ListProfAdapter listProfAdapter = new ListProfAdapter(getContext(),R.layout.adapter_list_prof,profissionais);
-        lvProfissionais.setAdapter(listProfAdapter);
-
-        lvProfissionais.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                VariaveisEstaticas.setProfissional((Profissional) parent.getItemAtPosition(position));
-                VariaveisEstaticas.getFragmentInterface().mudaTela("DetalheProfissional");
-            }
-        });
-
-    }
 }

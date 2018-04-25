@@ -118,6 +118,7 @@ public class GetProfissionaisAsyncTask extends AsyncTask<String, String, JSONArr
 
                 profissional.setId(linha.getInt("id"));
                 profissional.setNome(linha.getString("nome"));
+                //todo Arrumar essa verificação
                 profissional.setCelular(linha.getString("ddd_celular") + linha.getString("celular"));
                 profissional.setUrlImg(linha.getString("foto"));
 
@@ -147,4 +148,10 @@ public class GetProfissionaisAsyncTask extends AsyncTask<String, String, JSONArr
         profissionaisInterface.getProfissionais(lista);
 
     }
+
+    /*private String verficaNumero(String ddd, String numero){
+
+        return "";
+    }*/
+
 }
