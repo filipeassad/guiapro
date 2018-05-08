@@ -15,12 +15,17 @@ public class Historico {
     private String descricao;
     private Date data;
 
-    public Historico(Integer id, Integer idCliente, Integer idProfissional, String descricao, Date data) {
+    private Cliente clienteObj;
+    private Profissional profissionalObj;
+
+    public Historico(Integer id, Integer idCliente, Integer idProfissional, String descricao, Date data, Cliente clienteObj, Profissional profissionalObj) {
         this.id = id;
         this.idCliente = idCliente;
         this.idProfissional = idProfissional;
         this.descricao = descricao;
         this.data = data;
+        this.clienteObj = clienteObj;
+        this.profissionalObj = profissionalObj;
     }
 
     public Historico() {
@@ -64,6 +69,22 @@ public class Historico {
 
     public void setData(Date data) {
         this.data = data;
+    }
+
+    public Cliente getClienteObj() {
+        return clienteObj;
+    }
+
+    public void setClienteObj(Cliente clienteObj) {
+        this.clienteObj = clienteObj;
+    }
+
+    public Profissional getProfissionalObj() {
+        return profissionalObj;
+    }
+
+    public void setProfissionalObj(Profissional profissionalObj) {
+        this.profissionalObj = profissionalObj;
     }
 
     public String dataExtenso(){
