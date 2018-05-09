@@ -2,6 +2,8 @@ package dev.kosmo.com.br.models;
 
 import android.graphics.Bitmap;
 
+import java.io.ByteArrayOutputStream;
+
 /**
  * Created by Filipe on 11/03/2018.
  */
@@ -114,5 +116,11 @@ public class Profissional {
 
     public void setEnderecoObj(Endereco enderecoObj) {
         this.enderecoObj = enderecoObj;
+    }
+
+    public byte[] imgBlob(){
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        img.compress(Bitmap.CompressFormat.PNG, 100, bos);
+        return bos.toByteArray();
     }
 }

@@ -1,5 +1,7 @@
 package dev.kosmo.com.br.models;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
@@ -89,5 +91,14 @@ public class Historico {
 
     public String dataExtenso(){
         return this.data != null ? new java.text.SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.ENGLISH).format(this.data) : "";
+    }
+
+    public void setDataStr(String valor){
+        try {
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+            data = new Date(simpleDateFormat.parse(valor).getTime());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
     }
 }

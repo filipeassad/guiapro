@@ -2,6 +2,8 @@ package dev.kosmo.com.br.models;
 
 import android.graphics.Bitmap;
 
+import java.io.ByteArrayOutputStream;
+
 /**
  * Created by 0118431 on 19/04/2018.
  */
@@ -9,11 +11,11 @@ import android.graphics.Bitmap;
 public class Cliente {
 
     private Integer id;
+    private Integer idEndereco;
     private String nome;
     private String celular;
     private String email;
     private Bitmap img;
-    private Integer idEndereco;
 
     private Endereco enderecoObj;
 
@@ -85,4 +87,11 @@ public class Cliente {
     public void setEnderecoObj(Endereco enderecoObj) {
         this.enderecoObj = enderecoObj;
     }
+
+    public byte[] imgBlob(){
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        img.compress(Bitmap.CompressFormat.PNG, 100, bos);
+        return bos.toByteArray();
+    }
+
 }
