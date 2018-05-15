@@ -61,6 +61,22 @@ public class DataBaseHelper extends SQLiteOpenHelper{
                 "latitude TEXT,"+
                 "longitude TEXT"+
                 ");");
+
+        //Tabela Especialidade
+        db.execSQL("CREATE TABLE especialidade(" +
+                "id INTEGER PRIMARY KEY AUTOINCREMENT ," +
+                "nome TEXT," +
+                "imagem BLOB," +
+                "descricao TEXT" +
+                ");");
+
+        //Tabela EspecialidadeXProfissional
+        db.execSQL("CREATE TABLE espcialidadeprofissional(" +
+                "id_especialidade INTEGER," +
+                "id_profissional INTEGER" +
+                ");");
+
+
     }
 
     @Override

@@ -41,6 +41,9 @@ public class ProfissionalManager {
             profissional.setImg(BitmapFactory.decodeByteArray(cursor.getBlob(5), 0 ,cursor.getBlob(5).length));
             profissional.setUrlImg(cursor.getString(6));
             profissional.setEnderecoObj(enderecoManager.getEnderecoById(profissional.getIdEndereco()+""));
+
+            profissional.setDescricao1("");
+            profissional.setDescricao2("");
             lista.add(profissional);
 
         }
@@ -66,6 +69,9 @@ public class ProfissionalManager {
             profissional.setImg(BitmapFactory.decodeByteArray(cursor.getBlob(5), 0 ,cursor.getBlob(5).length));
             profissional.setUrlImg(cursor.getString(6));
             profissional.setEnderecoObj(enderecoManager.getEnderecoById(profissional.getIdEndereco()+""));
+
+            profissional.setDescricao1("");
+            profissional.setDescricao2("");
         }
 
         cursor.close();

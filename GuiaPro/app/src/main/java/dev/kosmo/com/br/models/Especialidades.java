@@ -2,6 +2,8 @@ package dev.kosmo.com.br.models;
 
 import android.graphics.Bitmap;
 
+import java.io.ByteArrayOutputStream;
+
 /**
  * Created by 0118431 on 19/03/2018.
  */
@@ -55,4 +57,10 @@ public class Especialidades {
         this.descricao = descricao;
     }
 
+
+    public byte[] imgBlob(){
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        imagem.compress(Bitmap.CompressFormat.PNG, 100, bos);
+        return bos.toByteArray();
+    }
 }
