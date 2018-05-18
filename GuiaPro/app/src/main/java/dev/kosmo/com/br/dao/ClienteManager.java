@@ -75,6 +75,7 @@ public class ClienteManager {
 
         ContentValues args = new ContentValues();
 
+        args.put("id", cliente.getId());
         args.put("id_endereco", cliente.getIdEndereco());
         args.put("nome", cliente.getNome());
         args.put("celular", cliente.getCelular());

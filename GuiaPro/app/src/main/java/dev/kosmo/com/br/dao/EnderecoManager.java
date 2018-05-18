@@ -80,6 +80,7 @@ public class EnderecoManager {
 
         ContentValues args = new ContentValues();
 
+        args.put("id", endereco.getId());
         args.put("logradouro", endereco.getLogradouro());
         args.put("numero", endereco.getNumero());
         args.put("bairro", endereco.getBairro());

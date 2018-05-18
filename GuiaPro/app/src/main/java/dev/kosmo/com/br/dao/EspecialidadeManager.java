@@ -64,6 +64,7 @@ public class EspecialidadeManager {
 
         ContentValues args = new ContentValues();
 
+        args.put("id", especialidades.getId());
         args.put("nome", especialidades.getNome());
         args.put("imagem", especialidades.imgBlob());
         args.put("descricao", especialidades.getDescricao());

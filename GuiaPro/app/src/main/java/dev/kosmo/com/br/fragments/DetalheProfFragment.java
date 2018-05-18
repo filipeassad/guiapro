@@ -155,10 +155,10 @@ public class DetalheProfFragment extends Fragment implements OnMapReadyCallback,
         btnMeLigeu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                PostFirebaseNotificationAsyncTask postFirebaseNotificationAsyncTask =
+                /*PostFirebaseNotificationAsyncTask postFirebaseNotificationAsyncTask =
                         new PostFirebaseNotificationAsyncTask(getContext(), notificacaoPostInterface, new Notificacao(1,"Teste Na Kosmo","Primeiro teste mandando pela kosmo."));
                 postFirebaseNotificationAsyncTask.execute("http://fcm.googleapis.com/v1/projects/guiapro-1de0c/messages:send");
-                //postFirebaseNotificationAsyncTask.execute("https://fcm.googleapis.com/v1/projects/myproject-b5ae1/messages:send");
+                //postFirebaseNotificationAsyncTask.execute("https://fcm.googleapis.com/v1/projects/myproject-b5ae1/messages:send");*/
             }
         });
     }

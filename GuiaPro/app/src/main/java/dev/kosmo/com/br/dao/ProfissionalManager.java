@@ -84,6 +84,7 @@ public class ProfissionalManager {
 
         ContentValues args = new ContentValues();
 
+        args.put("id", profissional.getId());
         args.put("id_endereco", profissional.getIdEndereco());
         args.put("nome", profissional.getNome());
         args.put("celular", profissional.getCelular());

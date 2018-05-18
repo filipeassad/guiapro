@@ -20,9 +20,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import dev.kosmo.com.br.adapter.MenuNavAdapter;
+import dev.kosmo.com.br.dao.ClienteManager;
+import dev.kosmo.com.br.dao.DataBaseHelper;
 import dev.kosmo.com.br.fragments.CategoriasFragment;
 import dev.kosmo.com.br.guiapro.R;
 import dev.kosmo.com.br.interfaces.FragmentInterface;
+import dev.kosmo.com.br.models.Cliente;
+import dev.kosmo.com.br.models.Endereco;
 import dev.kosmo.com.br.models.ItemMenuNav;
 import dev.kosmo.com.br.utils.Animacao;
 import dev.kosmo.com.br.utils.GerenciadorFragment;
@@ -57,6 +61,7 @@ public class PrincipalActivity extends FragmentActivity implements FragmentInter
     private LinearLayout llHistorico;
     private ImageView ivHistorico;
     private TextView tvHistorico;
+    private DataBaseHelper dataBaseHelper;
 
 
     private GerenciadorFragment gerenciadorFragment  = new GerenciadorFragment();
@@ -101,10 +106,42 @@ public class PrincipalActivity extends FragmentActivity implements FragmentInter
 
         VariaveisEstaticas.setFragmentInterface(this);
 
+        dataBaseHelper = new DataBaseHelper(this);
+
         insertFirstFragment();
         carregaNav();
 
         acoes();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        ClienteManager clienteManager = new ClienteManager(dataBaseHelper.getWritableDatabase());
+
+        if(clienteManager.getAllCliente().size() == 0 ){
+
+            Endereco endereco = new Endereco();
+
+            endereco.setLogradouro("Rua Lindóia");
+            endereco.setNumero("1812");
+            endereco.setComplemento("Condomínio Vila de Navarras - Casa 34");
+            endereco.setBairro("Vila Marli");
+            endereco.setCidade("Campo Grande");
+            endereco.setEstado("MS");
+            endereco.setPais("Brasil");
+            endereco.setLatitude("");
+            endereco.setLongitude("");
+
+            Cliente cliente = new Cliente();
+            cliente.setNome("Filipe Assad");
+            cliente.setEmail("filipeassad@gmail.com");
+            cliente.setCelular("067996432316");
+        }
+
+        VariaveisEstaticas.setClienteLogado(clienteManager.getClienteById("1"));
+
     }
 
     private void carregaNav(){

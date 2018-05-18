@@ -16,11 +16,14 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
+import dev.kosmo.com.br.dao.DataBaseHelper;
+import dev.kosmo.com.br.dao.EspecialidadeManager;
 import dev.kosmo.com.br.guiapro.R;
 import dev.kosmo.com.br.interfaces.EspecialidadeInterface;
 import dev.kosmo.com.br.models.Especialidades;
 import dev.kosmo.com.br.models.ItemMenuNav;
 import dev.kosmo.com.br.task.GetEspecialidadeAsyncTask;
+import dev.kosmo.com.br.utils.StatusAplicativo;
 import dev.kosmo.com.br.utils.VariaveisEstaticas;
 
 /**
@@ -30,6 +33,8 @@ import dev.kosmo.com.br.utils.VariaveisEstaticas;
 public class CategoriasFragment extends Fragment implements EspecialidadeInterface{
 
     private LinearLayout llCategoria;
+    private StatusAplicativo statusAplicativo;
+    private DataBaseHelper dataBaseHelper;
 
     @Nullable
     @Override
@@ -41,17 +46,38 @@ public class CategoriasFragment extends Fragment implements EspecialidadeInterfa
 
         VariaveisEstaticas.getFragmentInterface().visibilidadeMenu(true);
 
-        //carregaCategorias();
+        statusAplicativo = new StatusAplicativo(getContext());
+        dataBaseHelper = new DataBaseHelper(getContext());
 
-        GetEspecialidadeAsyncTask getEspecialidadeAsyncTask = new GetEspecialidadeAsyncTask(getContext(),this);
-        getEspecialidadeAsyncTask.execute("http://guia-pro.herokuapp.com/api/especialidades/");
+        //carregaCategorias();
 
         return view;
 
     }
 
+    @Override
+    public void onResume() {
+
+        super.onResume();
+        //todo não deixar ele ficar atualizanado o tempo inteiro
+        if(statusAplicativo.isOnline()){
+            GetEspecialidadeAsyncTask getEspecialidadeAsyncTask = new GetEspecialidadeAsyncTask(getContext(),this);
+            getEspecialidadeAsyncTask.execute("http://guia-pro.herokuapp.com/api/especialidades/");
+        }else{
+            buscaDB();
+        }
+
+    }
+
+    private void buscaDB(){
+        EspecialidadeManager especialidadeManager = new EspecialidadeManager(dataBaseHelper.getWritableDatabase());
+        List<Especialidades> lista = especialidadeManager.getAllEspecialidades();
+        carregaCategorias(lista);
+    }
+
     private void carregaCategorias(List<Especialidades> especialidades){
 
+        llCategoria.removeAllViews();
 
         int nLinear = especialidades.size() / 2;
         int index = 0;
@@ -104,8 +130,23 @@ public class CategoriasFragment extends Fragment implements EspecialidadeInterfa
 
         for(Especialidades aux :especialidades){
             aux.setImagem(getImagem(aux.getNome()));
+            salvaNoBanco(aux);
         }
         carregaCategorias(especialidades);
+
+    }
+
+    private void salvaNoBanco(Especialidades especialidades){
+
+        EspecialidadeManager especialidadeManager = new EspecialidadeManager(dataBaseHelper.getWritableDatabase());
+
+        Especialidades aux = especialidadeManager.getEspecialidadesByID(especialidades.getId() + "");
+        if(aux != null || aux.getId() != null){ // Se já existe no banco, então atualize
+            especialidadeManager.updateEspecialidade(especialidades);
+        }else{ // Senão, insere no banco
+            especialidadeManager.insertEspecialidade(especialidades);
+        }
+
     }
 
     private Bitmap getImagem(String nome){

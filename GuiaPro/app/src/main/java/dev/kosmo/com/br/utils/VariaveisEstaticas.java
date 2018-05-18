@@ -1,6 +1,7 @@
 package dev.kosmo.com.br.utils;
 
 import dev.kosmo.com.br.interfaces.FragmentInterface;
+import dev.kosmo.com.br.models.Cliente;
 import dev.kosmo.com.br.models.Especialidades;
 import dev.kosmo.com.br.models.Profissional;
 
@@ -13,6 +14,7 @@ public class VariaveisEstaticas {
     private static FragmentInterface fragmentInterface;
     private static Profissional profissional;
     private static Especialidades especialidades;
+    private static Cliente clienteLogado;
 
     public static Profissional getProfissional() {
         return profissional;
@@ -36,5 +38,13 @@ public class VariaveisEstaticas {
 
     public static void setEspecialidades(Especialidades especialidades) {
         VariaveisEstaticas.especialidades = especialidades;
+    }
+
+    public static Cliente getClienteLogado() {
+        return clienteLogado;
+    }
+
+    public static void setClienteLogado(Cliente clienteLogado) {
+        VariaveisEstaticas.clienteLogado = clienteLogado;
     }
 }

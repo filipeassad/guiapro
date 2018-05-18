@@ -19,12 +19,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import dev.kosmo.com.br.adapter.ListProfAdapter;
+import dev.kosmo.com.br.dao.DataBaseHelper;
+import dev.kosmo.com.br.dao.EspProfManager;
 import dev.kosmo.com.br.guiapro.R;
 import dev.kosmo.com.br.interfaces.ImagemInterface;
 import dev.kosmo.com.br.interfaces.ProfissionaisInterface;
 import dev.kosmo.com.br.models.Profissional;
 import dev.kosmo.com.br.task.GetImagemAsyncTask;
 import dev.kosmo.com.br.task.GetProfissionaisAsyncTask;
+import dev.kosmo.com.br.utils.StatusAplicativo;
 import dev.kosmo.com.br.utils.VariaveisEstaticas;
 
 /**
@@ -46,6 +49,8 @@ public class ListagemProfissionaisFragment extends Fragment implements Profissio
     private List<Profissional> listaFinal;
     private List<Profissional> listaAux;
     private Profissional atual;
+    private StatusAplicativo statusAplicativo;
+    private DataBaseHelper dataBaseHelper;
 
     @Nullable
     @Override
@@ -73,10 +78,42 @@ public class ListagemProfissionaisFragment extends Fragment implements Profissio
         abaQualificacoes.setOnClickListener(abaOnCLickListener);
         abaProximidade.setOnClickListener(abaOnCLickListener);
 
-        GetProfissionaisAsyncTask getProfissionaisAsyncTask = new GetProfissionaisAsyncTask(getContext(), this);
-        getProfissionaisAsyncTask.execute("http://guia-pro.herokuapp.com/api/profissionais/especialidade/" + VariaveisEstaticas.getEspecialidades().getId());
+        statusAplicativo = new StatusAplicativo(getContext());
+        dataBaseHelper = new DataBaseHelper(getContext());
+
 
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        if(statusAplicativo.isOnline()){
+            GetProfissionaisAsyncTask getProfissionaisAsyncTask = new GetProfissionaisAsyncTask(getContext(), this);
+            getProfissionaisAsyncTask.execute("http://guia-pro.herokuapp.com/api/profissionais/especialidade/" + VariaveisEstaticas.getEspecialidades().getId());
+        }else{
+            buscaDB();
+        }
+
+    }
+
+    private void buscaDB(){
+
+        EspProfManager espProfManager = new EspProfManager(dataBaseHelper.getWritableDatabase());
+        List<Profissional> lista = espProfManager.getProfissionaisByEspecialidades( VariaveisEstaticas.getEspecialidades().getId() + "");
+
+        ListProfAdapter listProfAdapter = new ListProfAdapter(getContext(),R.layout.adapter_list_prof,lista);
+        lvProfissionais.setAdapter(listProfAdapter);
+
+        lvProfissionais.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                VariaveisEstaticas.setProfissional((Profissional) parent.getItemAtPosition(position));
+                VariaveisEstaticas.getFragmentInterface().mudaTela("DetalheProfissional");
+            }
+        });
+
     }
 
     private View.OnClickListener abaOnCLickListener = new View.OnClickListener() {
@@ -146,8 +183,13 @@ public class ListagemProfissionaisFragment extends Fragment implements Profissio
             getImagemAsyncTask.execute(atual.getUrlImg());
             listaFinal.add(atual);
         }else{
+
             ListProfAdapter listProfAdapter = new ListProfAdapter(getContext(),R.layout.adapter_list_prof,listaFinal);
             lvProfissionais.setAdapter(listProfAdapter);
+
+            for(Profissional aux : listaFinal){
+                salvaNoBanco(aux);
+            }
 
             lvProfissionais.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
@@ -158,14 +200,20 @@ public class ListagemProfissionaisFragment extends Fragment implements Profissio
             });
         }
 
-
     }
 
+    private void salvaNoBanco(Profissional profissional){
 
+        //todo Inserir endereço no banco
+        EspProfManager espProfManager = new EspProfManager(dataBaseHelper.getWritableDatabase());
+        if(!espProfManager.verificaExistencia(profissional.getId() + "", VariaveisEstaticas.getEspecialidades().getId() + "")){
+            espProfManager.insertEspProf(VariaveisEstaticas.getEspecialidades().getId(), profissional.getId());
+        }
+    }
 
-        /*for(Profissional aux : profissionais){
-            aux.setImg(BitmapFactory.decodeResource(this.getResources(), R.drawable.kratos));
-        }*/
+    /*for(Profissional aux : profissionais){
+        aux.setImg(BitmapFactory.decodeResource(this.getResources(), R.drawable.kratos));
+    }*/
     /* lista.add(new Profissional("Kratos", "","", BitmapFactory.decodeResource(this.getResources(), R.drawable.kratos)));
         lista.add(new Profissional("Gandalf, O Cinzento", "","", BitmapFactory.decodeResource(this.getResources(), R.drawable.gandalf)));
         lista.add(new Profissional("Chimbinha, Guitar Master", "","", BitmapFactory.decodeResource(this.getResources(), R.drawable.chimbinha)));

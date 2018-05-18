@@ -29,7 +29,7 @@ public class DataBaseHelper extends SQLiteOpenHelper{
 
         //Tabela cliente
         db.execSQL("CREATE TABLE cliente(" +
-                "id INTEGER PRIMARY KEY AUTOINCREMENT ," +
+                "id INTEGER PRIMARY KEY ," +
                 "id_endereco INTEGER," +
                 "nome TEXT," +
                 "celular TEXT," +
@@ -39,7 +39,7 @@ public class DataBaseHelper extends SQLiteOpenHelper{
 
         //Tabela profissional
         db.execSQL("CREATE TABLE profissional(" +
-                "id INTEGER PRIMARY KEY AUTOINCREMENT ," +
+                "id INTEGER PRIMARY KEY ," +
                 "id_endereco INTEGER," +
                 "nome TEXT," +
                 "celular TEXT," +
@@ -50,7 +50,7 @@ public class DataBaseHelper extends SQLiteOpenHelper{
 
         //Tabela profissional
         db.execSQL("CREATE TABLE endereco(" +
-                "id INTEGER PRIMARY KEY AUTOINCREMENT ," +
+                "id INTEGER PRIMARY KEY ," +
                 "logradouro TEXT," +
                 "numero TEXT," +
                 "bairro TEXT," +
@@ -64,7 +64,7 @@ public class DataBaseHelper extends SQLiteOpenHelper{
 
         //Tabela Especialidade
         db.execSQL("CREATE TABLE especialidade(" +
-                "id INTEGER PRIMARY KEY AUTOINCREMENT ," +
+                "id INTEGER PRIMARY KEY ," +
                 "nome TEXT," +
                 "imagem BLOB," +
                 "descricao TEXT" +
