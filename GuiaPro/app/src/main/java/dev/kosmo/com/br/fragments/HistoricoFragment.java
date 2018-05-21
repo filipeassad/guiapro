@@ -6,10 +6,14 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import dev.kosmo.com.br.adapter.HistoricoAdapter;
+import dev.kosmo.com.br.dao.DataBaseHelper;
+import dev.kosmo.com.br.dao.HistoricoManager;
 import dev.kosmo.com.br.guiapro.R;
 import dev.kosmo.com.br.models.Historico;
 import dev.kosmo.com.br.utils.VariaveisEstaticas;
@@ -21,6 +25,7 @@ import dev.kosmo.com.br.utils.VariaveisEstaticas;
 public class HistoricoFragment extends Fragment {
 
     private List<Historico> lista;
+    private DataBaseHelper dataBaseHelper;
 
     @Nullable
     @Override
@@ -29,6 +34,8 @@ public class HistoricoFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_historico, container, false);
         VariaveisEstaticas.getFragmentInterface().visibilidadeMenu(true);
 
+        dataBaseHelper = new DataBaseHelper(getContext());
+
         carregaHistorico();
 
         return view;
@@ -36,7 +43,12 @@ public class HistoricoFragment extends Fragment {
     }
 
     private void carregaHistorico(){
-       lista = new ArrayList<>();
+
+        HistoricoManager historicoManager = new HistoricoManager(dataBaseHelper.getWritableDatabase());
+        lista = historicoManager.getAllHistorico();
+
+        HistoricoAdapter historicoAdapter = new HistoricoAdapter(getContext(), R.layout.adapter_historico_cliente,lista);
+        
 
     }
 }

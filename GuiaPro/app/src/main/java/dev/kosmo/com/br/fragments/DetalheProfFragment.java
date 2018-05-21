@@ -32,12 +32,16 @@ import com.google.android.gms.maps.model.LatLng;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
+import dev.kosmo.com.br.dao.DataBaseHelper;
+import dev.kosmo.com.br.dao.HistoricoManager;
 import dev.kosmo.com.br.guiapro.R;
 import dev.kosmo.com.br.interfaces.NotificacaoPostInterface;
 import dev.kosmo.com.br.models.Especialidades;
+import dev.kosmo.com.br.models.Historico;
 import dev.kosmo.com.br.models.Notificacao;
 import dev.kosmo.com.br.task.PostFirebaseNotificationAsyncTask;
 import dev.kosmo.com.br.utils.VariaveisEstaticas;
@@ -59,6 +63,7 @@ public class DetalheProfFragment extends Fragment implements OnMapReadyCallback,
     private LinearLayout btnWhats;
     private LinearLayout btnMeLigeu;
     private NotificacaoPostInterface notificacaoPostInterface = this;
+    private DataBaseHelper dataBaseHelper;
 
     @Nullable
     @Override
@@ -97,9 +102,26 @@ public class DetalheProfFragment extends Fragment implements OnMapReadyCallback,
                     new String[]{Manifest.permission.CALL_PHONE}, 0);
         }
 
+        dataBaseHelper = new DataBaseHelper(getContext());
+
         carregaEspecialidades();
         acoes();
         return view;
+    }
+
+    private void insertHistorico(String descricao){
+
+        HistoricoManager historicoManager = new HistoricoManager(dataBaseHelper.getWritableDatabase());
+
+        Historico historico = new Historico();
+
+        historico.setIdCliente(VariaveisEstaticas.getClienteLogado().getId());
+        historico.setIdProfissional(VariaveisEstaticas.getProfissional().getId());
+        historico.setDescricao(descricao);
+        historico.setData(new Date());
+
+        historicoManager.insertHistorico(historico);
+
     }
 
     private void acoes(){
@@ -107,6 +129,9 @@ public class DetalheProfFragment extends Fragment implements OnMapReadyCallback,
         btnLigar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                insertHistorico("Você ligou para " + VariaveisEstaticas.getProfissional().getNome());
+
                 Intent callIntent = new Intent(Intent.ACTION_CALL);
                 //callIntent.setData(Uri.parse("tel:067991611563"));
                 callIntent.setData(Uri.parse("tel:" + VariaveisEstaticas.getProfissional().getCelular()));
@@ -120,6 +145,7 @@ public class DetalheProfFragment extends Fragment implements OnMapReadyCallback,
                 PackageManager pm = getContext().getPackageManager();
                 try {
 
+                    insertHistorico("Você enviou uma mensagem no whatsapp para " + VariaveisEstaticas.getProfissional().getNome());
                     Intent i = new Intent(Intent.ACTION_VIEW);
                     //String url = "https://api.whatsapp.com/send?phone="+ "+55067991611563" +"&text=" + URLEncoder.encode("", "UTF-8");
                     String url = "https://api.whatsapp.com/send?phone="+ "+55" + VariaveisEstaticas.getProfissional().getCelular() +"&text=" + URLEncoder.encode("", "UTF-8");
@@ -155,6 +181,8 @@ public class DetalheProfFragment extends Fragment implements OnMapReadyCallback,
         btnMeLigeu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                insertHistorico("Você solicitou contato com  " + VariaveisEstaticas.getProfissional().getNome());
                 /*PostFirebaseNotificationAsyncTask postFirebaseNotificationAsyncTask =
                         new PostFirebaseNotificationAsyncTask(getContext(), notificacaoPostInterface, new Notificacao(1,"Teste Na Kosmo","Primeiro teste mandando pela kosmo."));
                 postFirebaseNotificationAsyncTask.execute("http://fcm.googleapis.com/v1/projects/guiapro-1de0c/messages:send");

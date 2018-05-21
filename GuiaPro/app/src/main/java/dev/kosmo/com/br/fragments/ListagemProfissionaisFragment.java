@@ -20,10 +20,13 @@ import java.util.List;
 
 import dev.kosmo.com.br.adapter.ListProfAdapter;
 import dev.kosmo.com.br.dao.DataBaseHelper;
+import dev.kosmo.com.br.dao.EnderecoManager;
 import dev.kosmo.com.br.dao.EspProfManager;
+import dev.kosmo.com.br.dao.ProfissionalManager;
 import dev.kosmo.com.br.guiapro.R;
 import dev.kosmo.com.br.interfaces.ImagemInterface;
 import dev.kosmo.com.br.interfaces.ProfissionaisInterface;
+import dev.kosmo.com.br.models.Endereco;
 import dev.kosmo.com.br.models.Profissional;
 import dev.kosmo.com.br.task.GetImagemAsyncTask;
 import dev.kosmo.com.br.task.GetProfissionaisAsyncTask;
@@ -204,11 +207,41 @@ public class ListagemProfissionaisFragment extends Fragment implements Profissio
 
     private void salvaNoBanco(Profissional profissional){
 
-        //todo Inserir endereço no banco
+        ProfissionalManager profissionalManager = new ProfissionalManager(dataBaseHelper.getWritableDatabase());
         EspProfManager espProfManager = new EspProfManager(dataBaseHelper.getWritableDatabase());
-        if(!espProfManager.verificaExistencia(profissional.getId() + "", VariaveisEstaticas.getEspecialidades().getId() + "")){
-            espProfManager.insertEspProf(VariaveisEstaticas.getEspecialidades().getId(), profissional.getId());
+
+        if(profissional != null && profissional.getId() != null){
+
+            insereEndereco(profissional.getEnderecoObj());
+
+            if(profissionalManager.getProfissionalById(profissional.getId() + "") != null ){
+                profissionalManager.updateProfissional(profissional);
+            }else{
+                profissionalManager.insertProfissional(profissional);
+            }
+
+            if(!espProfManager.verificaExistencia(profissional.getId() + "", VariaveisEstaticas.getEspecialidades().getId() + "")){
+                espProfManager.insertEspProf(VariaveisEstaticas.getEspecialidades().getId(), profissional.getId());
+            }
+
         }
+
+    }
+
+    private void insereEndereco(Endereco endereco){
+
+        EnderecoManager enderecoManager = new EnderecoManager(dataBaseHelper.getWritableDatabase());
+
+        if(endereco != null && endereco.getId() != null){
+
+            if(enderecoManager.getEnderecoById(endereco.getId() + "") != null){
+                enderecoManager.updateEndereco(endereco);
+            }else{
+                enderecoManager.insertEndereco(endereco);
+            }
+
+        }
+
     }
 
     /*for(Profissional aux : profissionais){

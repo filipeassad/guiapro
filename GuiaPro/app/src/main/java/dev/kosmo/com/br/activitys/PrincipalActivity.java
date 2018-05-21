@@ -122,7 +122,7 @@ public class PrincipalActivity extends FragmentActivity implements FragmentInter
 
         if(clienteManager.getAllCliente().size() == 0 ){
 
-            Endereco endereco = new Endereco();
+            /*Endereco endereco = new Endereco();
 
             endereco.setLogradouro("Rua Lindóia");
             endereco.setNumero("1812");
@@ -132,12 +132,18 @@ public class PrincipalActivity extends FragmentActivity implements FragmentInter
             endereco.setEstado("MS");
             endereco.setPais("Brasil");
             endereco.setLatitude("");
-            endereco.setLongitude("");
+            endereco.setLongitude("");*/
 
             Cliente cliente = new Cliente();
+            cliente.setId(1);
             cliente.setNome("Filipe Assad");
             cliente.setEmail("filipeassad@gmail.com");
             cliente.setCelular("067996432316");
+            cliente.setIdEndereco(1);
+            cliente.setImg(BitmapFactory.decodeResource(getResources(), R.drawable.compadre));
+
+            clienteManager.insertCliente(cliente);
+
         }
 
         VariaveisEstaticas.setClienteLogado(clienteManager.getClienteById("1"));

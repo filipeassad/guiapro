@@ -28,7 +28,7 @@ public class HistoricoManager {
 
         List<Historico> lista = new ArrayList<>();
 
-        Cursor cursor = db.rawQuery("SELECT * FROM historico", new String[]{});
+        Cursor cursor = db.rawQuery("SELECT * FROM historico ORDER BY data", new String[]{});
         ClienteManager clienteManager = new ClienteManager(db);
         ProfissionalManager profissionalManager = new ProfissionalManager(db);
 
