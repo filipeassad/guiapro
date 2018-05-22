@@ -59,7 +59,11 @@ public class Especialidades {
 
 
     public byte[] imgBlob(){
+
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        if(imagem == null ){
+            return bos.toByteArray();
+        }
         imagem.compress(Bitmap.CompressFormat.PNG, 100, bos);
         return bos.toByteArray();
     }

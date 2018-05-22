@@ -25,7 +25,7 @@ public class EnderecoManager {
 
         List<Endereco> lista = new ArrayList<>();
 
-        Cursor cursor = db.rawQuery("SELECT * FROM historico", new String[]{});
+        Cursor cursor = db.rawQuery("SELECT * FROM endereco", new String[]{});
 
         while(cursor.moveToNext()){
 
@@ -53,7 +53,7 @@ public class EnderecoManager {
 
     public Endereco getEnderecoById(String id){
 
-        Cursor cursor = db.rawQuery("SELECT * FROM historico WHERE id = ?", new String[]{id});
+        Cursor cursor = db.rawQuery("SELECT * FROM endereco WHERE id = ?", new String[]{id});
         Endereco endereco = new Endereco();
 
         if(cursor.moveToNext()){

@@ -7,6 +7,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,6 +28,7 @@ public class HistoricoFragment extends Fragment {
 
     private List<Historico> lista;
     private DataBaseHelper dataBaseHelper;
+    private LinearLayout listaHistorico;
 
     @Nullable
     @Override
@@ -33,6 +36,8 @@ public class HistoricoFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_historico, container, false);
         VariaveisEstaticas.getFragmentInterface().visibilidadeMenu(true);
+
+        listaHistorico = (LinearLayout) view.findViewById(R.id.listaHistorico);
 
         dataBaseHelper = new DataBaseHelper(getContext());
 
@@ -47,8 +52,20 @@ public class HistoricoFragment extends Fragment {
         HistoricoManager historicoManager = new HistoricoManager(dataBaseHelper.getWritableDatabase());
         lista = historicoManager.getAllHistorico();
 
-        HistoricoAdapter historicoAdapter = new HistoricoAdapter(getContext(), R.layout.adapter_historico_cliente,lista);
+        //HistoricoAdapter historicoAdapter = new HistoricoAdapter(getContext(), R.layout.adapter_historico_cliente,lista);
         
 
+        for(Historico aux : lista){
+
+            LinearLayout vi = (LinearLayout) getActivity().getLayoutInflater().inflate(R.layout.adapter_historico_cliente,null);
+
+            ImageView ivHistorico = (ImageView) vi.findViewById(R.id.ivHistorico);
+            TextView tvHistorico = (TextView) vi.findViewById(R.id.tvHistorico);
+
+            ivHistorico.setImageBitmap(aux.getProfissionalObj().getImg());
+            tvHistorico.setText(aux.getDescricao());
+
+            listaHistorico.addView(vi);
+        }
     }
 }

@@ -3,6 +3,7 @@ package dev.kosmo.com.br.models;
 import android.graphics.Bitmap;
 
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 
 /**
  * Created by Filipe on 11/03/2018.
@@ -119,8 +120,22 @@ public class Profissional {
     }
 
     public byte[] imgBlob(){
+
+        try {
+            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+            //bitmap to byte[] stream
+            img.compress(Bitmap.CompressFormat.PNG, 100, stream);
+            byte[] x = stream.toByteArray();
+            //close stream to save memory
+            stream.close();
+            return x;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+       /*
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
         img.compress(Bitmap.CompressFormat.PNG, 100, bos);
-        return bos.toByteArray();
+        return bos.toByteArray();*/
     }
 }

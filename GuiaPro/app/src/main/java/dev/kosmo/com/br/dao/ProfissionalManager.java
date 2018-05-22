@@ -58,9 +58,10 @@ public class ProfissionalManager {
 
         Cursor cursor = db.rawQuery("SELECT * FROM profissional WHERE id = ?", new String[]{id});
         EnderecoManager enderecoManager = new EnderecoManager(db);
-        Profissional profissional = new Profissional();
+        Profissional profissional = null;
 
         if(cursor.moveToNext()){
+            profissional = new Profissional();
             profissional.setId(cursor.getInt(0));
             profissional.setIdEndereco(cursor.getInt(1));
             profissional.setNome(cursor.getString(2));
