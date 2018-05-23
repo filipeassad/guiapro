@@ -220,7 +220,7 @@ public class ListagemProfissionaisFragment extends Fragment implements Profissio
                 profissionalManager.insertProfissional(profissional);
             }
 
-            if(!espProfManager.verificaExistencia(profissional.getId() + "", VariaveisEstaticas.getEspecialidades().getId() + "")){
+            if(!espProfManager.verificaExistencia(VariaveisEstaticas.getEspecialidades().getId() + "", profissional.getId() + "")){
                 espProfManager.insertEspProf(VariaveisEstaticas.getEspecialidades().getId(), profissional.getId());
             }
 

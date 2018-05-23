@@ -182,7 +182,7 @@ public class DetalheProfFragment extends Fragment implements OnMapReadyCallback,
             @Override
             public void onClick(View view) {
 
-                insertHistorico("Você solicitou contato com  " + VariaveisEstaticas.getProfissional().getNome());
+                insertHistorico("Você solicitou contato com " + VariaveisEstaticas.getProfissional().getNome());
                 /*PostFirebaseNotificationAsyncTask postFirebaseNotificationAsyncTask =
                         new PostFirebaseNotificationAsyncTask(getContext(), notificacaoPostInterface, new Notificacao(1,"Teste Na Kosmo","Primeiro teste mandando pela kosmo."));
                 postFirebaseNotificationAsyncTask.execute("http://fcm.googleapis.com/v1/projects/guiapro-1de0c/messages:send");

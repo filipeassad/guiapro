@@ -44,17 +44,16 @@ public class EspecialidadeManager {
 
     public Especialidades getEspecialidadesByID(String id){
 
-        Especialidades especialidades = new Especialidades();
+        Especialidades especialidades = null;
 
         Cursor cursor = db.rawQuery("SELECT * FROM especialidade WHERE id = ?", new String[]{id});
 
         if(cursor.moveToNext()){
-
+            especialidades = new Especialidades();
             especialidades.setId(cursor.getInt(0));
             especialidades.setNome(cursor.getString(1));
             especialidades.setImagem(BitmapFactory.decodeByteArray(cursor.getBlob(2), 0 ,cursor.getBlob(2).length));
             especialidades.setDescricao(cursor.getString(3));
-
         }
 
         return especialidades;

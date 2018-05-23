@@ -7,7 +7,26 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="70dp"
-        android:gravity="center|left">
+        android:gravity="center|left"
+        android:orientation="horizontal"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp">
+
+        <View
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            android:layout_marginLeft="30dp"
+            android:background="@drawable/shape_bg_redondo_laranja"></View>
+
+        <TextView
+            android:id="@+id/tvHistorico"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:gravity="left"
+            android:text="Você ligou para fulano."/>
 
         <de.hdodenhof.circleimageview.CircleImageView
             xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -17,15 +36,7 @@
             android:src="@drawable/compadre"
             app:civ_border_width="2dp"
             app:civ_border_color="#e9a11c"
-            android:layout_marginLeft="10dp"/>
-
-        <TextView
-            android:id="@+id/tvHistorico"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:text="Você ligou para fulano."/>
+            android:layout_marginRight="10dp"/>
 
 
     </LinearLayout>

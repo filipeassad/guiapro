@@ -141,7 +141,7 @@ public class CategoriasFragment extends Fragment implements EspecialidadeInterfa
         EspecialidadeManager especialidadeManager = new EspecialidadeManager(dataBaseHelper.getWritableDatabase());
 
         Especialidades aux = especialidadeManager.getEspecialidadesByID(especialidades.getId() + "");
-        if(aux != null || aux.getId() != null){ // Se já existe no banco, então atualize
+        if(aux != null && aux.getId() != null){ // Se já existe no banco, então atualize
             especialidadeManager.updateEspecialidade(especialidades);
         }else{ // Senão, insere no banco
             especialidadeManager.insertEspecialidade(especialidades);
@@ -187,7 +187,7 @@ public class CategoriasFragment extends Fragment implements EspecialidadeInterfa
             return BitmapFactory.decodeResource(getContext().getResources(), R.drawable.engenheiros);
         }else if(nome.equals("Reparos Gerais")){
             return BitmapFactory.decodeResource(getContext().getResources(), R.drawable.reparogerais);
-        }else if(nome.equals("Banheiros")){
+        }else if(nome.equals("Banheiras")){
             return BitmapFactory.decodeResource(getContext().getResources(), R.drawable.banheiras);
         }else if(nome.equals("Vidraceiros")){
             return BitmapFactory.decodeResource(getContext().getResources(), R.drawable.vidraceiros);

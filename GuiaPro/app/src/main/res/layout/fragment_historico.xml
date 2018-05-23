@@ -14,21 +14,15 @@
 
             <ImageView
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
+                android:layout_height="100dp"
                 android:src="@drawable/bg_header"
                 android:scaleType="center"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:scaleType="center"
-                    android:src="@drawable/icon_top"
-                    android:layout_marginTop="20dp"/>
+                android:layout_height="100dp"
+                android:orientation="vertical"
+                android:gravity="center">
 
                 <TextView
                     android:layout_width="match_parent"
@@ -36,19 +30,35 @@
                     android:textColor="#fdfdfe"
                     android:text="HISTÓRICO"
                     android:gravity="center"
-                    android:layout_marginTop="10dp"
                     android:textSize="20dp"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="110dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="#e9a11c"
+                    android:text="Essas são as suas ações:"
+                    android:paddingLeft="10dp"/>
 
                 <LinearLayout
                     android:id="@+id/listaHistorico"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:layout_marginTop="70dp">
+                    android:layout_marginTop="10dp">
 
                 </LinearLayout>
 
             </LinearLayout>
+
+
 
 
         </FrameLayout>
