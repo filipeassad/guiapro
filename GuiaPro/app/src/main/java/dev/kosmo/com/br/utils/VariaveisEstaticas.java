@@ -1,6 +1,7 @@
 package dev.kosmo.com.br.utils;
 
 import dev.kosmo.com.br.interfaces.FragmentInterface;
+import dev.kosmo.com.br.models.Autenticacao;
 import dev.kosmo.com.br.models.Cliente;
 import dev.kosmo.com.br.models.Especialidades;
 import dev.kosmo.com.br.models.Profissional;
@@ -15,6 +16,7 @@ public class VariaveisEstaticas {
     private static Profissional profissional;
     private static Especialidades especialidades;
     private static Cliente clienteLogado;
+    private static Autenticacao autenticacao;
 
     public static Profissional getProfissional() {
         return profissional;
@@ -46,5 +48,13 @@ public class VariaveisEstaticas {
 
     public static void setClienteLogado(Cliente clienteLogado) {
         VariaveisEstaticas.clienteLogado = clienteLogado;
+    }
+
+    public static Autenticacao getAutenticacao() {
+        return autenticacao;
+    }
+
+    public static void setAutenticacao(Autenticacao autenticacao) {
+        VariaveisEstaticas.autenticacao = autenticacao;
     }
 }

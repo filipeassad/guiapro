@@ -76,7 +76,12 @@ public class DataBaseHelper extends SQLiteOpenHelper{
                 "id_profissional INTEGER" +
                 ");");
 
-
+        db.execSQL("CREATE TABLE autenticacao (" +
+                "id INTEGER PRIMARY KEY AUTOINCREMENT," +
+                "hash TEXT, " +
+                "usuario TEXT, " +
+                "ativo TEXT," +
+                "userid INTEGER);");
     }
 
     @Override

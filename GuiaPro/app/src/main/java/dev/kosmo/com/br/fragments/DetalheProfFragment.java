@@ -43,6 +43,7 @@ import dev.kosmo.com.br.interfaces.NotificacaoPostInterface;
 import dev.kosmo.com.br.models.Especialidades;
 import dev.kosmo.com.br.models.Historico;
 import dev.kosmo.com.br.models.Notificacao;
+import dev.kosmo.com.br.task.GetPushNotificationNodeAsyncTask;
 import dev.kosmo.com.br.task.PostFirebaseNotificationAsyncTask;
 import dev.kosmo.com.br.utils.VariaveisEstaticas;
 
@@ -61,7 +62,7 @@ public class DetalheProfFragment extends Fragment implements OnMapReadyCallback,
     private LinearLayout llQualificacoes;
     private LinearLayout btnLigar;
     private LinearLayout btnWhats;
-    private LinearLayout btnMeLigeu;
+    private LinearLayout btnMeLigue;
     private NotificacaoPostInterface notificacaoPostInterface = this;
     private DataBaseHelper dataBaseHelper;
 
@@ -79,7 +80,7 @@ public class DetalheProfFragment extends Fragment implements OnMapReadyCallback,
         llQualificacoes = (LinearLayout) view.findViewById(R.id.llQualificacoes);
         btnLigar = (LinearLayout) view.findViewById(R.id.btnLigar);
         btnWhats = (LinearLayout) view.findViewById(R.id.btnWhats);
-        btnMeLigeu = (LinearLayout) view.findViewById(R.id.btnMeLigeu);
+        btnMeLigue = (LinearLayout) view.findViewById(R.id.btnMeLigeu);
         map = (MapView) view.findViewById(R.id.map);
         map.onCreate(savedInstanceState);
         map.onResume();
@@ -178,14 +179,17 @@ public class DetalheProfFragment extends Fragment implements OnMapReadyCallback,
             }
         });
 
-        btnMeLigeu.setOnClickListener(new View.OnClickListener() {
+        btnMeLigue.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
                 insertHistorico("Você solicitou contato com " + VariaveisEstaticas.getProfissional().getNome());
+                GetPushNotificationNodeAsyncTask getPushNotificationNodeAsyncTask = new GetPushNotificationNodeAsyncTask(getContext());
+                getPushNotificationNodeAsyncTask.execute("http://192.168.254.176:8000/api/notificar?notificacao=Serviço solicitado.");
                 /*PostFirebaseNotificationAsyncTask postFirebaseNotificationAsyncTask =
                         new PostFirebaseNotificationAsyncTask(getContext(), notificacaoPostInterface, new Notificacao(1,"Teste Na Kosmo","Primeiro teste mandando pela kosmo."));
-                postFirebaseNotificationAsyncTask.execute("http://fcm.googleapis.com/v1/projects/guiapro-1de0c/messages:send");
+                postFirebaseNotificationAsyncTask.execute("http://192.168.0.130:8080/api/notificar?notificacao=EnviadoGuiaPro");
+                //postFirebaseNotificationAsyncTask.execute("http://fcm.googleapis.com/v1/projects/guiapro-1de0c/messages:send");
                 //postFirebaseNotificationAsyncTask.execute("https://fcm.googleapis.com/v1/projects/myproject-b5ae1/messages:send");*/
             }
         });
