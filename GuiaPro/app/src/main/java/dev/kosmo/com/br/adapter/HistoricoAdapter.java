@@ -14,14 +14,13 @@ import android.widget.TextView;
 import java.util.List;
 
 import dev.kosmo.com.br.guiapro.R;
-import dev.kosmo.com.br.models.Historico;
 
-public class HistoricoAdapter extends ArrayAdapter<Historico> {
+public class HistoricoAdapter extends ArrayAdapter<String> {
 
     private Context myContext;
     private int myResource;
 
-    public HistoricoAdapter(@NonNull Context context, int resource, @NonNull List<Historico> objects) {
+    public HistoricoAdapter(@NonNull Context context, int resource, @NonNull List<String> objects) {
         super(context, resource, objects);
         myContext = context;
         myResource = resource;
@@ -39,8 +38,8 @@ public class HistoricoAdapter extends ArrayAdapter<Historico> {
         ImageView ivHistorico = (ImageView) convertView.findViewById(R.id.ivHistorico);
         TextView tvHistorico = (TextView) convertView.findViewById(R.id.tvHistorico);
 
-        ivHistorico.setImageBitmap(getItem(position).getProfissionalObj().getImg());
-        tvHistorico.setText(getItem(position).getDescricao());
+        //ivHistorico.setImageBitmap(getItem(position).getProfissionalObj().getImg());
+        //tvHistorico.setText(getItem(position).getDescricao());
 
         return convertView;
 

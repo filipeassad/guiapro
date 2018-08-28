@@ -2,7 +2,6 @@ package dev.kosmo.com.br.adapter;
 
 import android.app.Activity;
 import android.content.Context;
-import android.support.annotation.IdRes;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -16,7 +15,7 @@ import android.widget.TextView;
 import java.util.List;
 
 import dev.kosmo.com.br.guiapro.R;
-import dev.kosmo.com.br.models.ItemMenuNav;
+import dev.kosmo.com.br.models.sistema.ItemMenuNav;
 
 /**
  * Created by 0118431 on 08/03/2018.

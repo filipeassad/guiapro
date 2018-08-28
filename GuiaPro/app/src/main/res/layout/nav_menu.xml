@@ -14,14 +14,16 @@
         android:padding="10dp">
 
         <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/ivImagemPerfil"
             xmlns:app="http://schemas.android.com/apk/res-auto"
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:src="@drawable/compadre"
+            android:src="@drawable/manuserbranco"
             app:civ_border_width="2dp"
             app:civ_border_color="#FFFFFF"/>
 
         <TextView
+            android:id="@+id/tvNomePerfil"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Compadre Washington"
@@ -31,6 +33,7 @@
             android:layout_marginTop="10dp"/>
 
         <TextView
+            android:id="@+id/tvEmailPerfil"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="washington@eotchan.com.br"

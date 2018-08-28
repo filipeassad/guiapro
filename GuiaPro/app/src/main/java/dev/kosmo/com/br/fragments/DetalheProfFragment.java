@@ -4,7 +4,6 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
@@ -29,22 +28,13 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
-import dev.kosmo.com.br.dao.DataBaseHelper;
-import dev.kosmo.com.br.dao.HistoricoManager;
 import dev.kosmo.com.br.guiapro.R;
 import dev.kosmo.com.br.interfaces.NotificacaoPostInterface;
-import dev.kosmo.com.br.models.Especialidades;
-import dev.kosmo.com.br.models.Historico;
-import dev.kosmo.com.br.models.Notificacao;
-import dev.kosmo.com.br.task.GetPushNotificationNodeAsyncTask;
-import dev.kosmo.com.br.task.PostFirebaseNotificationAsyncTask;
+import dev.kosmo.com.br.task.gets.GetPushNotificationNodeAsyncTask;
 import dev.kosmo.com.br.utils.VariaveisEstaticas;
 
 /**
@@ -64,7 +54,6 @@ public class DetalheProfFragment extends Fragment implements OnMapReadyCallback,
     private LinearLayout btnWhats;
     private LinearLayout btnMeLigue;
     private NotificacaoPostInterface notificacaoPostInterface = this;
-    private DataBaseHelper dataBaseHelper;
 
     @Nullable
     @Override
@@ -91,19 +80,18 @@ public class DetalheProfFragment extends Fragment implements OnMapReadyCallback,
             e.printStackTrace();
         }
 
-        ivImagem.setImageBitmap(VariaveisEstaticas.getProfissional().getImg());
-        tvNomeAtende.setText(VariaveisEstaticas.getProfissional().getNome() + " atende a partir desta localidade");
+        //ivImagem.setImageBitmap(VariaveisEstaticas.getProfissional().getImg());
+        //tvNomeAtende.setText(VariaveisEstaticas.getProfissional().getNome() + " atende a partir desta localidade");
 
-        if(VariaveisEstaticas.getProfissional().getNome().contains("Kratos")){
+        /*if(VariaveisEstaticas.getProfissional().getNome().contains("Kratos")){
             llUrgencia.setVisibility(View.GONE);
-        }
+        }*/
 
         if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(getActivity(),
                     new String[]{Manifest.permission.CALL_PHONE}, 0);
         }
 
-        dataBaseHelper = new DataBaseHelper(getContext());
 
         carregaEspecialidades();
         acoes();
@@ -112,6 +100,7 @@ public class DetalheProfFragment extends Fragment implements OnMapReadyCallback,
 
     private void insertHistorico(String descricao){
 
+        /*
         HistoricoManager historicoManager = new HistoricoManager(dataBaseHelper.getWritableDatabase());
 
         Historico historico = new Historico();
@@ -122,7 +111,7 @@ public class DetalheProfFragment extends Fragment implements OnMapReadyCallback,
         historico.setData(new Date());
 
         historicoManager.insertHistorico(historico);
-
+       */
     }
 
     private void acoes(){
@@ -131,11 +120,11 @@ public class DetalheProfFragment extends Fragment implements OnMapReadyCallback,
             @Override
             public void onClick(View view) {
 
-                insertHistorico("Você ligou para " + VariaveisEstaticas.getProfissional().getNome());
+                //insertHistorico("Você ligou para " + VariaveisEstaticas.getProfissional().getNome());
 
                 Intent callIntent = new Intent(Intent.ACTION_CALL);
                 //callIntent.setData(Uri.parse("tel:067991611563"));
-                callIntent.setData(Uri.parse("tel:" + VariaveisEstaticas.getProfissional().getCelular()));
+                //callIntent.setData(Uri.parse("tel:" + VariaveisEstaticas.getProfissional().getCelular()));
                 VariaveisEstaticas.getFragmentInterface().mudaActivity(callIntent);
             }
         });
@@ -146,10 +135,10 @@ public class DetalheProfFragment extends Fragment implements OnMapReadyCallback,
                 PackageManager pm = getContext().getPackageManager();
                 try {
 
-                    insertHistorico("Você enviou uma mensagem no whatsapp para " + VariaveisEstaticas.getProfissional().getNome());
+                    insertHistorico("Você enviou uma mensagem no whatsapp para ");//+ //VariaveisEstaticas.getProfissional().getNome());
                     Intent i = new Intent(Intent.ACTION_VIEW);
                     //String url = "https://api.whatsapp.com/send?phone="+ "+55067991611563" +"&text=" + URLEncoder.encode("", "UTF-8");
-                    String url = "https://api.whatsapp.com/send?phone="+ "+55" + VariaveisEstaticas.getProfissional().getCelular() +"&text=" + URLEncoder.encode("", "UTF-8");
+                    String url = "https://api.whatsapp.com/send?phone="+ "+55"; //+ VariaveisEstaticas.getProfissional().getCelular() +"&text=" + URLEncoder.encode("", "UTF-8");
                     PackageInfo info = pm.getPackageInfo("com.whatsapp", PackageManager.GET_META_DATA);
                     i.setPackage("com.whatsapp");
                     i.setData(Uri.parse(url));
@@ -170,11 +159,8 @@ public class DetalheProfFragment extends Fragment implements OnMapReadyCallback,
                     startActivity(Intent.createChooser(waIntent, ""));*/
 
                 } catch (PackageManager.NameNotFoundException e) {
-
                     Toast.makeText(getContext(), "WhatsApp not Installed", Toast.LENGTH_SHORT)
                             .show();
-                } catch (UnsupportedEncodingException e) {
-                    e.printStackTrace();
                 }
             }
         });
@@ -183,7 +169,7 @@ public class DetalheProfFragment extends Fragment implements OnMapReadyCallback,
             @Override
             public void onClick(View view) {
 
-                insertHistorico("Você solicitou contato com " + VariaveisEstaticas.getProfissional().getNome());
+                insertHistorico("Você solicitou contato com ");// + VariaveisEstaticas.getProfissional().getNome());
                 GetPushNotificationNodeAsyncTask getPushNotificationNodeAsyncTask = new GetPushNotificationNodeAsyncTask(getContext());
                 getPushNotificationNodeAsyncTask.execute("http://192.168.254.176:8000/api/notificar?notificacao=Serviço solicitado.");
                 /*PostFirebaseNotificationAsyncTask postFirebaseNotificationAsyncTask =
@@ -220,13 +206,13 @@ public class DetalheProfFragment extends Fragment implements OnMapReadyCallback,
 
     private void carregaEspecialidades(){
 
-        List<Especialidades> lista = new ArrayList<>();
+        //List<Especialidades> lista = new ArrayList<>();
 
 //        lista.add(new Especialidades("Encanador", BitmapFactory.decodeResource(this.getResources(), R.drawable.trophybranco), "descricao"));
 //        lista.add(new Especialidades("Pedreiro", BitmapFactory.decodeResource(this.getResources(), R.drawable.trophybranco), "descricao"));
 //        lista.add(new Especialidades("Pintor", BitmapFactory.decodeResource(this.getResources(), R.drawable.trophybranco), "descricao"));
 
-        for(Especialidades aux :lista){
+       /* for(Especialidades aux :lista){
 
             LinearLayout especialidade = (LinearLayout) getActivity().getLayoutInflater().inflate(R.layout.modelo_especialidades,null);
             ImageView img = (ImageView) especialidade.findViewById(R.id.ivItem);
@@ -236,7 +222,7 @@ public class DetalheProfFragment extends Fragment implements OnMapReadyCallback,
 
             llEspecialidades.addView(especialidade);
 
-        }
+        }*/
 
     }
 

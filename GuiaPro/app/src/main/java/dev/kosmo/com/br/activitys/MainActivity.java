@@ -11,27 +11,42 @@ import android.widget.TextView;
 import java.util.HashMap;
 import java.util.List;
 
-import dev.kosmo.com.br.dao.AutenticacaoManager;
-import dev.kosmo.com.br.dao.DataBaseHelper;
+import dev.kosmo.com.br.dao.GuiaProDao;
 import dev.kosmo.com.br.dialogs.InformacaoDialog;
 import dev.kosmo.com.br.guiapro.R;
+import dev.kosmo.com.br.interfaces.PerfilInterface;
 import dev.kosmo.com.br.interfaces.PostLoginInterface;
-import dev.kosmo.com.br.models.Autenticacao;
-import dev.kosmo.com.br.task.PostLoginAsyncTask;
+import dev.kosmo.com.br.interfaces.PostValidaTokenInterface;
+import dev.kosmo.com.br.models.Perfil;
+import dev.kosmo.com.br.models.Usuario;
+import dev.kosmo.com.br.task.gets.GetPerfilAsyncTask;
+import dev.kosmo.com.br.task.posts.PostLoginAsyncTask;
+import dev.kosmo.com.br.task.posts.PostValidaTokenAsyncTask;
 import dev.kosmo.com.br.utils.FerramentasBasicas;
+import dev.kosmo.com.br.utils.StatusAplicativo;
 import dev.kosmo.com.br.utils.VariaveisEstaticas;
 
-public class MainActivity extends Activity implements PostLoginInterface{
+public class MainActivity extends Activity implements PostLoginInterface, PerfilInterface, PostValidaTokenInterface{
 
     private Button btnEntrar;
     private TextView tvCadastre;
     private TextView tvSenha;
-    private EditText edtLogin;
+    private EditText edtEmail;
     private EditText edtSenha;
-    private Autenticacao autenticacao;
-    private DataBaseHelper dataBaseHelper;
-    private AutenticacaoManager autenticacaoManager;
+
+    private Usuario usuario;
+
     private PostLoginInterface postLoginInterface = this;
+    private PerfilInterface perfilInterface = this;
+    private PostValidaTokenInterface postValidaTokenInterface = this;
+
+    private final String MENSAGEM_ERRO_LOGIN = "Sem retorno do servidor!";
+    private final String API_LOGIN = "login";
+    private final String API_PERFIL = "perfil_logado";
+    private final String API_VALIDA_TOKEN = "valida_token";
+
+    private GuiaProDao guiaProDao;
+    private StatusAplicativo statusAplicativo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,11 +56,14 @@ public class MainActivity extends Activity implements PostLoginInterface{
         btnEntrar = (Button) findViewById(R.id.btnEntrar);
         tvCadastre = (TextView) findViewById(R.id.tvCadastre);
         tvSenha = (TextView) findViewById(R.id.tvSenha);
-        edtLogin = (EditText) findViewById(R.id.edtLogin);
+        edtEmail = (EditText) findViewById(R.id.edtEmail);
         edtSenha = (EditText) findViewById(R.id.edtSenha);
 
-        dataBaseHelper = new DataBaseHelper(this);
-        autenticacaoManager = new AutenticacaoManager(dataBaseHelper.getWritableDatabase());
+        /*edtEmail.setText("dev-noob");*/
+        //edtSenha.setText("12345");
+
+        guiaProDao = (GuiaProDao) getApplication();
+        statusAplicativo = new StatusAplicativo(this);
 
         verificaTolken();
         acoes();
@@ -58,8 +76,8 @@ public class MainActivity extends Activity implements PostLoginInterface{
             @Override
             public void onClick(View view) {
 
-                if(edtLogin.getText().toString().trim().equals("")){
-                    edtLogin.setError("Digite o login.");
+                if(edtEmail.getText().toString().trim().equals("")){
+                    edtEmail.setError("Digite o login.");
                     return;
                 }
 
@@ -74,12 +92,12 @@ public class MainActivity extends Activity implements PostLoginInterface{
                     return;
                 }
 
-                autenticacao = new Autenticacao();
-                autenticacao.setUsuario(edtLogin.getText().toString());
-                autenticacao.setSenha(edtSenha.getText().toString());
+                usuario = new Usuario();
+                usuario.setEmail(edtEmail.getText().toString());
+                usuario.setSenha(edtSenha.getText().toString());
 
-                PostLoginAsyncTask postLoginAsyncTask = new PostLoginAsyncTask(view.getContext(), autenticacao, postLoginInterface);
-                postLoginAsyncTask.execute(FerramentasBasicas.getURL() + "login");
+                PostLoginAsyncTask postLoginAsyncTask = new PostLoginAsyncTask(view.getContext(), usuario, postLoginInterface);
+                postLoginAsyncTask.execute(FerramentasBasicas.getURL() + API_LOGIN);
 
             }
         });
@@ -103,44 +121,82 @@ public class MainActivity extends Activity implements PostLoginInterface{
     }
 
     private void verificaTolken(){
+        List<Usuario> lista = guiaProDao.getDaoSession().getUsuarioDao().loadAll();
 
-        List<Autenticacao> lista = autenticacaoManager.getAutenticacaoAtivo();
         if(!lista.isEmpty()){
-            VariaveisEstaticas.setAutenticacao(lista.get(0));
-            Intent intent = new Intent(this, PrincipalActivity.class);
-            startActivity(intent);
-            finish();
+           usuario = lista.get(0);
+           if(statusAplicativo.isOnline()){
+               PostValidaTokenAsyncTask postValidaTokenAsyncTask = new PostValidaTokenAsyncTask(this,usuario.getToken(),postValidaTokenInterface);
+               postValidaTokenAsyncTask.execute(FerramentasBasicas.getURL() + API_VALIDA_TOKEN);
+           }else{
+               entrarAplicativo();
+           }
         }
-
     }
 
     @Override
     public void postLogin(HashMap<String, String> hash) {
+        InformacaoDialog informacaoDialog = new InformacaoDialog(this);
 
+        if(hash.isEmpty()){
+            informacaoDialog.gerarDialog(MENSAGEM_ERRO_LOGIN);
+            return;
+        }
         if(hash.get("erro") != null){
-            InformacaoDialog informacaoDialog = new InformacaoDialog(this);
-            informacaoDialog.gerarDialog("Não Foi possível logar!\n Tente novamente.");
-        }else{
-            List<Autenticacao> lista = autenticacaoManager.getAutenticacaobyUsuario(autenticacao.getUsuario());
-
-            if(lista.isEmpty()){
-                autenticacao.setHash(hash.get("token"));
-                autenticacao.setAtivo(true);
-                autenticacaoManager.insertAutenticacao(autenticacao);
-            }else{
-                autenticacao = lista.get(0);
-                autenticacao.setHash(hash.get("token"));
-                autenticacao.setAtivo(true);
-                autenticacaoManager.updateAutenticacao(autenticacao);
-            }
-
-            VariaveisEstaticas.setAutenticacao(autenticacaoManager.getAutenticacaoAtivo().get(0));
-
-            Intent intent = new Intent(this, PrincipalActivity.class);
-            startActivity(intent);
-            finish();
-
+            informacaoDialog.gerarDialog(hash.get("erro"));
+            return;
         }
 
+        usuario.setToken(hash.get("token"));
+
+        GetPerfilAsyncTask getPerfilAsyncTask = new GetPerfilAsyncTask(this,
+                perfilInterface,
+                usuario.getToken());
+
+        getPerfilAsyncTask.execute(FerramentasBasicas.getURL() + API_PERFIL);
+    }
+
+    @Override
+    public void getPerfil(Perfil perfil) {
+        InformacaoDialog informacaoDialog = new InformacaoDialog(this);
+
+        if(perfil == null || perfil.getId() == null){
+            informacaoDialog.gerarDialog(MENSAGEM_ERRO_LOGIN);
+            return;
+        }
+
+        List<Usuario> lista = guiaProDao.getDaoSession().getUsuarioDao().loadAll();
+
+        usuario.setPerfil(perfil);
+
+        if(lista.isEmpty()){
+            guiaProDao.getDaoSession().getUsuarioDao().insert(usuario);
+        }else{
+            usuario.setId(lista.get(0).getId());
+            guiaProDao.getDaoSession().getUsuarioDao().update(usuario);
+        }
+
+        entrarAplicativo();
+    }
+
+    private void entrarAplicativo(){
+        VariaveisEstaticas.setUsuario(usuario);
+
+        Intent intent = new Intent(this, PrincipalActivity.class);
+        startActivity(intent);
+        finish();
+    }
+
+    @Override
+    public void postValidaToken(boolean valido) {
+        if(valido){
+            GetPerfilAsyncTask getPerfilAsyncTask = new GetPerfilAsyncTask(this,
+                    perfilInterface,
+                    usuario.getToken());
+            getPerfilAsyncTask.execute(FerramentasBasicas.getURL() + API_PERFIL);
+        }else{
+            guiaProDao.getDaoSession().getUsuarioDao().delete(usuario);
+            usuario = new Usuario();
+        }
     }
 }

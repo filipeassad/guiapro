@@ -1,4 +1,4 @@
-package dev.kosmo.com.br.models;
+package dev.kosmo.com.br.models.sistema;
 
 /**
  * Created by 0118431 on 20/04/2018.

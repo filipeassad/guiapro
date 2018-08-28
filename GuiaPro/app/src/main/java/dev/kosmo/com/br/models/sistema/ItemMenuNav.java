@@ -1,4 +1,4 @@
-package dev.kosmo.com.br.models;
+package dev.kosmo.com.br.models.sistema;
 
 import android.graphics.Bitmap;
 

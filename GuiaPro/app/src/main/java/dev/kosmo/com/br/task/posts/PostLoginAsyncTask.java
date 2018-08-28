@@ -1,4 +1,4 @@
-package dev.kosmo.com.br.task;
+package dev.kosmo.com.br.task.posts;
 
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -21,18 +21,19 @@ import java.net.URL;
 import java.util.HashMap;
 
 import dev.kosmo.com.br.interfaces.PostLoginInterface;
-import dev.kosmo.com.br.models.Autenticacao;
+import dev.kosmo.com.br.models.Usuario;
+import dev.kosmo.com.br.utils.FerramentasBasicas;
 
 public class PostLoginAsyncTask extends AsyncTask<String, String, HashMap<String,String>>{
 
     private Context contexto;
     private ProgressDialog progress;
-    private Autenticacao autenticacao;
+    private Usuario usuario;
     private PostLoginInterface postLoginInterface;
 
-    public PostLoginAsyncTask(Context contexto, Autenticacao autenticacao, PostLoginInterface postLoginInterface) {
+    public PostLoginAsyncTask(Context contexto, Usuario usuario, PostLoginInterface postLoginInterface) {
         this.contexto = contexto;
-        this.autenticacao = autenticacao;
+        this.usuario = usuario;
         this.postLoginInterface = postLoginInterface;
     }
 
@@ -48,6 +49,7 @@ public class PostLoginAsyncTask extends AsyncTask<String, String, HashMap<String
     protected HashMap<String, String> doInBackground(String... strings) {
 
         int httpResponse = 0;
+        HashMap<String,String> hash = new HashMap<>();
 
         try {
 
@@ -55,7 +57,7 @@ public class PostLoginAsyncTask extends AsyncTask<String, String, HashMap<String
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setReadTimeout(10000);
             conn.setRequestProperty("Content-Type","application/json");
-            //conn.setRequestProperty("Content-Type","application/x-www-form-urlencoded");
+
             conn.setConnectTimeout(20000);
             conn.setRequestMethod("POST");
             conn.setDoInput(true);
@@ -64,14 +66,10 @@ public class PostLoginAsyncTask extends AsyncTask<String, String, HashMap<String
             JSONObject jsonParam = new JSONObject();
             JSONArray jsonArray = new JSONArray();
 
-            //jsonParam.put("id", 10);
-            jsonParam.put("username", autenticacao.getUsuario());
-            jsonParam.put("password", autenticacao.getSenha());
+            jsonParam.put("email", usuario.getEmail());
+            jsonParam.put("senha", usuario.getSenha());
 
             jsonArray.put(jsonParam);
-            Log.i("HTTP - URL ", strings[0]);
-            Log.i("HTTP - JsonObject ", jsonParam.toString());
-            Log.i("HTTP - JsonArray ", jsonArray.toString());
 
             OutputStream os = conn.getOutputStream();
             BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(os, "UTF-8"));
@@ -80,68 +78,31 @@ public class PostLoginAsyncTask extends AsyncTask<String, String, HashMap<String
             writer.close();
             os.close();
 
-            //conn.connect();
-
             httpResponse = conn.getResponseCode();
-            JSONObject response = new JSONObject();
-            HashMap<String,String> hash = new HashMap<>();
+            JSONObject response;
 
             if(httpResponse == HttpURLConnection.HTTP_OK || httpResponse == 201){
-                String responseString = readStream(conn.getInputStream());
-                Log.v("CatalogClient", responseString);
+
+                String responseString = FerramentasBasicas.readStream(conn.getInputStream());
                 response = new JSONObject(responseString);
+                return validaResposta(response);
 
-                hash.put("token", response.getString("token") != null ? response.getString("token") : "");
-                hash.put("usuario", response.getString("username") != null ? response.getString("username") : "");
-                hash.put("nome", response.getString("name") != null ? response.getString("name") : "");
-                hash.put("email", response.getString("email") != null ? response.getString("email") : "");
-                //hash.put("userid", response.getString("userid") != null ? response.getString("userid") : "");
-
-                return hash;
             }else if(httpResponse == HttpURLConnection.HTTP_UNAUTHORIZED){
                 hash.put("erro", "sem credenciais");
                 return hash;
             }else{
                 hash.put("erro", "nao conectou");
-                Log.v("CatalogClient", "Response code:" + httpResponse);
                 return hash;
             }
-            //Log.i("HTTP - Resposta", conn.getResponseMessage());
-            // Log.i("HTTP - error", conn.getErrorStream().toString());
 
         } catch (IOException e) {
-            Log.i("HTTP", e.getMessage());
             e.printStackTrace();
         } catch (JSONException e) {
-            Log.i("HTTP", e.getMessage());
             e.printStackTrace();
         }
-        HashMap<String,String> hash = new HashMap<>();
+
         hash.put("erro", "nao conectou");
         return hash;
-    }
-
-    private String readStream(InputStream in) {
-        BufferedReader reader = null;
-        StringBuffer response = new StringBuffer();
-        try {
-            reader = new BufferedReader(new InputStreamReader(in));
-            String line = "";
-            while ((line = reader.readLine()) != null) {
-                response.append(line);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            if (reader != null) {
-                try {
-                    reader.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-        return response.toString();
     }
 
     @Override
@@ -149,5 +110,23 @@ public class PostLoginAsyncTask extends AsyncTask<String, String, HashMap<String
         super.onPostExecute(stringStringHashMap);
         postLoginInterface.postLogin(stringStringHashMap);
         progress.dismiss();
+    }
+
+    private HashMap<String,String> validaResposta(JSONObject response){
+
+        HashMap<String, String> resultado = new HashMap<>();
+
+        try {
+            boolean sucesso = response.getBoolean("success");
+            if(sucesso){
+                resultado.put("token", response.getString("token"));
+            }else{
+                resultado.put("erro",response.getString("message"));
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return resultado;
     }
 }

@@ -1,25 +1,16 @@
 package dev.kosmo.com.br.fragments;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import dev.kosmo.com.br.adapter.HistoricoAdapter;
-import dev.kosmo.com.br.dao.DataBaseHelper;
-import dev.kosmo.com.br.dao.HistoricoManager;
 import dev.kosmo.com.br.guiapro.R;
-import dev.kosmo.com.br.models.Historico;
 import dev.kosmo.com.br.utils.ConversaoTexto;
 import dev.kosmo.com.br.utils.VariaveisEstaticas;
 
@@ -29,8 +20,7 @@ import dev.kosmo.com.br.utils.VariaveisEstaticas;
 
 public class HistoricoFragment extends Fragment {
 
-    private List<Historico> lista;
-    private DataBaseHelper dataBaseHelper;
+    private List<String> lista;
     private LinearLayout listaHistorico;
     private ConversaoTexto conversaoTexto;
 
@@ -42,9 +32,6 @@ public class HistoricoFragment extends Fragment {
         VariaveisEstaticas.getFragmentInterface().visibilidadeMenu(true);
 
         listaHistorico = (LinearLayout) view.findViewById(R.id.listaHistorico);
-
-        dataBaseHelper = new DataBaseHelper(getContext());
-
         conversaoTexto = new ConversaoTexto();
 
         carregaHistorico();
@@ -55,7 +42,7 @@ public class HistoricoFragment extends Fragment {
 
     private void carregaHistorico(){
 
-        HistoricoManager historicoManager = new HistoricoManager(dataBaseHelper.getWritableDatabase());
+        /*HistoricoManager historicoManager = new HistoricoManager(dataBaseHelper.getWritableDatabase());
         lista = historicoManager.getAllHistorico();
 
         //HistoricoAdapter historicoAdapter = new HistoricoAdapter(getContext(), R.layout.adapter_historico_cliente,lista);
@@ -69,8 +56,8 @@ public class HistoricoFragment extends Fragment {
             ImageView ivHistorico = (ImageView) vi.findViewById(R.id.ivHistorico);
             TextView tvHistorico = (TextView) vi.findViewById(R.id.tvHistorico);
 
-            ivHistorico.setImageBitmap(aux.getProfissionalObj().getImg());
-            tvHistorico.setText(Html.fromHtml(conversaoTexto.getTextoNomeLaranja(aux.getDescricao(), aux.getProfissionalObj().getNome())), TextView.BufferType.SPANNABLE);
+            //ivHistorico.setImageBitmap(aux.getProfissionalObj().getImg());
+            //tvHistorico.setText(Html.fromHtml(conversaoTexto.getTextoNomeLaranja(aux.getDescricao(), aux.getProfissionalObj().getNome())), TextView.BufferType.SPANNABLE);
             //tvHistorico.setText(aux.getDescricao());
 
             listaHistorico.addView(vi);
@@ -84,5 +71,6 @@ public class HistoricoFragment extends Fragment {
             }
             tamanho--;
         }
+        */
     }
 }

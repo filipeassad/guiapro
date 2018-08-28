@@ -1,4 +1,4 @@
-package dev.kosmo.com.br.task;
+package dev.kosmo.com.br.task.gets;
 
 import android.app.ProgressDialog;
 import android.content.Context;

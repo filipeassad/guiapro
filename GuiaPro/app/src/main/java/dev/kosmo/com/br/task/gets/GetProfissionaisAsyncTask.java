@@ -1,4 +1,4 @@
-package dev.kosmo.com.br.task;
+package dev.kosmo.com.br.task.gets;
 
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -125,14 +125,14 @@ public class GetProfissionaisAsyncTask extends AsyncTask<String, String, JSONArr
                 JSONObject enderecoObj = linha.getJSONObject("endereco");
 
                 Endereco endereco = new Endereco();
-                endereco.setId(enderecoObj.getInt("id") );
+                //endereco.setId(enderecoObj.getInt("id") );
                 endereco.setLogradouro(enderecoObj.getString("logradouro") != null ?  enderecoObj.getString("logradouro"):"");
                 endereco.setNumero(enderecoObj.getString("numero") != null ?  enderecoObj.getString("numero"):"");
                 endereco.setBairro(enderecoObj.getString("bairro") != null ?  enderecoObj.getString("bairro"):"");
                 endereco.setComplemento(enderecoObj.getString("complemento") != null ?  enderecoObj.getString("complemento"):"");
                 endereco.setPais(enderecoObj.getString("pais") != null ?  enderecoObj.getString("pais"):"");
                 endereco.setCidade(enderecoObj.getString("municipio") != null ?  enderecoObj.getString("municipio"):"");
-                endereco.setEstado(enderecoObj.getString("uf") != null ?  enderecoObj.getString("uf"):"");
+                //endereco.setEstado(enderecoObj.getString("uf") != null ?  enderecoObj.getString("uf"):"");
 
 
                 profissional.setEnderecoObj(endereco);

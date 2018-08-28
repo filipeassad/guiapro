@@ -13,16 +13,15 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import dev.kosmo.com.br.dao.DataBaseHelper;
-import dev.kosmo.com.br.dao.EspecialidadeManager;
+import dev.kosmo.com.br.dao.GuiaProDao;
 import dev.kosmo.com.br.guiapro.R;
-import dev.kosmo.com.br.interfaces.EspecialidadeInterface;
-import dev.kosmo.com.br.models.Especialidades;
-import dev.kosmo.com.br.models.ItemMenuNav;
-import dev.kosmo.com.br.task.GetEspecialidadeAsyncTask;
+import dev.kosmo.com.br.interfaces.GetCategoriaInterface;
+import dev.kosmo.com.br.models.Categoria;
+import dev.kosmo.com.br.models.Usuario;
+import dev.kosmo.com.br.task.gets.GetCategoriaAsyncTask;
+import dev.kosmo.com.br.utils.FerramentasBasicas;
 import dev.kosmo.com.br.utils.StatusAplicativo;
 import dev.kosmo.com.br.utils.VariaveisEstaticas;
 
@@ -30,11 +29,14 @@ import dev.kosmo.com.br.utils.VariaveisEstaticas;
  * Created by 0118431 on 08/03/2018.
  */
 
-public class CategoriasFragment extends Fragment implements EspecialidadeInterface{
+public class CategoriasFragment extends Fragment implements GetCategoriaInterface{
 
     private LinearLayout llCategoria;
     private StatusAplicativo statusAplicativo;
-    private DataBaseHelper dataBaseHelper;
+    private GetCategoriaInterface getCategoriaInterface = this;
+    private final String API_CATEGORIAS = "mobile/categoria";
+    private Usuario usuario;
+    private GuiaProDao guiaProDao;
 
     @Nullable
     @Override
@@ -46,40 +48,34 @@ public class CategoriasFragment extends Fragment implements EspecialidadeInterfa
 
         VariaveisEstaticas.getFragmentInterface().visibilidadeMenu(true);
 
+        usuario = VariaveisEstaticas.getUsuario();
+        guiaProDao = (GuiaProDao) getActivity().getApplication();
         statusAplicativo = new StatusAplicativo(getContext());
-        dataBaseHelper = new DataBaseHelper(getContext());
-
-        //carregaCategorias();
 
         return view;
-
     }
 
     @Override
     public void onResume() {
-
         super.onResume();
-        //todo não deixar ele ficar atualizanado o tempo inteiro
         if(statusAplicativo.isOnline()){
-            GetEspecialidadeAsyncTask getEspecialidadeAsyncTask = new GetEspecialidadeAsyncTask(getContext(),this);
-            getEspecialidadeAsyncTask.execute("http://guia-pro.herokuapp.com/api/especialidades/");
+            GetCategoriaAsyncTask getCategoriaAsyncTask = new GetCategoriaAsyncTask(getContext(), getCategoriaInterface, usuario.getToken());
+            getCategoriaAsyncTask.execute(FerramentasBasicas.getURL() + API_CATEGORIAS);
         }else{
             buscaDB();
         }
-
     }
 
     private void buscaDB(){
-        EspecialidadeManager especialidadeManager = new EspecialidadeManager(dataBaseHelper.getWritableDatabase());
-        List<Especialidades> lista = especialidadeManager.getAllEspecialidades();
+        List<Categoria> lista = guiaProDao.getDaoSession().getCategoriaDao().loadAll();
         carregaCategorias(lista);
     }
 
-    private void carregaCategorias(List<Especialidades> especialidades){
+    private void carregaCategorias(List<Categoria> categorias){
 
         llCategoria.removeAllViews();
 
-        int nLinear = especialidades.size() / 2;
+        int nLinear = categorias.size() / 2;
         int index = 0;
 
         for(int i=0; i<nLinear; i++){
@@ -94,22 +90,22 @@ public class CategoriasFragment extends Fragment implements EspecialidadeInterfa
 
             while(tam < 2){
                 tam++;
-                if(index == especialidades.size()){
+                if(index == categorias.size()){
                     tam = 2;
                 }else{
                     LinearLayout cat = (LinearLayout) getActivity().getLayoutInflater().inflate(R.layout.modelo_categoria,null);
                     ImageView img = (ImageView) cat.findViewById(R.id.ivImagem);
                     TextView texto = (TextView) cat.findViewById(R.id.tvRotulo);
 
-                    img.setImageBitmap(especialidades.get(index).getImagem());
-                    texto.setText(especialidades.get(index).getNome());
+                    img.setImageBitmap(categorias.get(index).getImagem());
+                    texto.setText(categorias.get(index).getDescricao());
 
-                    cat.setTag(especialidades.get(index));
+                    cat.setTag(categorias.get(index));
 
                     cat.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            VariaveisEstaticas.setEspecialidades((Especialidades) v.getTag());
+                            VariaveisEstaticas.setCategoria((Categoria) v.getTag());
                             VariaveisEstaticas.getFragmentInterface().mudaTela("ListagemProfissionais");
                         }
                     });
@@ -120,33 +116,23 @@ public class CategoriasFragment extends Fragment implements EspecialidadeInterfa
             }
 
             llCategoria.addView(linearLayout);
-
         }
-
     }
 
     @Override
-    public void getEspecialidades(List<Especialidades> especialidades) {
-
-        for(Especialidades aux :especialidades){
-            aux.setImagem(getImagem(aux.getNome()));
+    public void retornoCategoria(List<Categoria> categorias) {
+        for(Categoria aux :categorias){
+            aux.setImagem(getImagem(aux.getDescricao()));
             salvaNoBanco(aux);
         }
-        carregaCategorias(especialidades);
-
+        carregaCategorias(categorias);
     }
 
-    private void salvaNoBanco(Especialidades especialidades){
-
-        EspecialidadeManager especialidadeManager = new EspecialidadeManager(dataBaseHelper.getWritableDatabase());
-
-        Especialidades aux = especialidadeManager.getEspecialidadesByID(especialidades.getId() + "");
-        if(aux != null && aux.getId() != null){ // Se já existe no banco, então atualize
-            especialidadeManager.updateEspecialidade(especialidades);
-        }else{ // Senão, insere no banco
-            especialidadeManager.insertEspecialidade(especialidades);
-        }
-
+    private void salvaNoBanco(Categoria categoria){
+        if(guiaProDao.getDaoSession().getCategoriaDao().hasKey(categoria))
+            guiaProDao.getDaoSession().getCategoriaDao().update(categoria);
+        else
+            guiaProDao.getDaoSession().getCategoriaDao().insert(categoria);
     }
 
     private Bitmap getImagem(String nome){

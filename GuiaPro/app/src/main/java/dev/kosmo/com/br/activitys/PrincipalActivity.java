@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -20,14 +19,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import dev.kosmo.com.br.adapter.MenuNavAdapter;
-import dev.kosmo.com.br.dao.ClienteManager;
-import dev.kosmo.com.br.dao.DataBaseHelper;
+import dev.kosmo.com.br.dao.GuiaProDao;
 import dev.kosmo.com.br.fragments.CategoriasFragment;
+import dev.kosmo.com.br.fragments.ListagemProfissionaisFragment;
 import dev.kosmo.com.br.guiapro.R;
 import dev.kosmo.com.br.interfaces.FragmentInterface;
-import dev.kosmo.com.br.models.Cliente;
-import dev.kosmo.com.br.models.Endereco;
-import dev.kosmo.com.br.models.ItemMenuNav;
+import dev.kosmo.com.br.models.Usuario;
+import dev.kosmo.com.br.models.sistema.ItemMenuNav;
 import dev.kosmo.com.br.utils.Animacao;
 import dev.kosmo.com.br.utils.GerenciadorFragment;
 import dev.kosmo.com.br.utils.VariaveisEstaticas;
@@ -61,11 +59,11 @@ public class PrincipalActivity extends FragmentActivity implements FragmentInter
     private LinearLayout llHistorico;
     private ImageView ivHistorico;
     private TextView tvHistorico;
-    private DataBaseHelper dataBaseHelper;
-
+    private Usuario usuario;
 
     private GerenciadorFragment gerenciadorFragment  = new GerenciadorFragment();
     private Animacao animacao = new Animacao();
+    private GuiaProDao guiaProDao;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -104,9 +102,11 @@ public class PrincipalActivity extends FragmentActivity implements FragmentInter
         llOfertas.setOnClickListener(menuClickListener);
         llHistorico.setOnClickListener(menuClickListener);
 
+        guiaProDao = (GuiaProDao) getApplication();
+
         VariaveisEstaticas.setFragmentInterface(this);
 
-        dataBaseHelper = new DataBaseHelper(this);
+        usuario = VariaveisEstaticas.getUsuario();
 
         insertFirstFragment();
         carregaNav();
@@ -117,43 +117,16 @@ public class PrincipalActivity extends FragmentActivity implements FragmentInter
     @Override
     protected void onResume() {
         super.onResume();
-
-        ClienteManager clienteManager = new ClienteManager(dataBaseHelper.getWritableDatabase());
-
-        if(clienteManager.getAllCliente().size() == 0 ){
-
-            /*Endereco endereco = new Endereco();
-
-            endereco.setLogradouro("Rua Lindóia");
-            endereco.setNumero("1812");
-            endereco.setComplemento("Condomínio Vila de Navarras - Casa 34");
-            endereco.setBairro("Vila Marli");
-            endereco.setCidade("Campo Grande");
-            endereco.setEstado("MS");
-            endereco.setPais("Brasil");
-            endereco.setLatitude("");
-            endereco.setLongitude("");*/
-
-            Cliente cliente = new Cliente();
-            cliente.setId(1);
-            cliente.setNome("Filipe Assad");
-            cliente.setEmail("filipeassad@gmail.com");
-            cliente.setCelular("067996432316");
-            cliente.setIdEndereco(1);
-            cliente.setImg(BitmapFactory.decodeResource(getResources(), R.drawable.compadre));
-
-            clienteManager.insertCliente(cliente);
-
-        }
-
-        VariaveisEstaticas.setClienteLogado(clienteManager.getClienteById("1"));
-
     }
 
     private void carregaNav(){
 
         View nav_layout = getLayoutInflater().inflate(R.layout.nav_menu, llNavDraw);
+
         ListView lvNav = (ListView) nav_layout.findViewById(R.id.lvNav);
+        TextView tvNomePerfil = (TextView) nav_layout.findViewById(R.id.tvNomePerfil);
+        TextView tvEmailPerfil = (TextView) nav_layout.findViewById(R.id.tvEmailPerfil);
+        ImageView ivImagemPerfil = (ImageView) nav_layout.findViewById(R.id.ivImagemPerfil);
 
         List<ItemMenuNav> lista = new ArrayList<>();
         lista.add(new ItemMenuNav("Informações Pessoais", BitmapFactory.decodeResource(this.getResources(), R.drawable.manuser)));
@@ -164,6 +137,14 @@ public class PrincipalActivity extends FragmentActivity implements FragmentInter
 
         MenuNavAdapter menuNavAdapter = new MenuNavAdapter(this, R.layout.adapter_menu_nav, lista);
 
+        tvNomePerfil.setText(usuario.getPerfil().getNome() + " " + usuario.getPerfil().getSobrenome());
+        tvEmailPerfil.setText(usuario.getEmail());
+
+        if(usuario.getPerfil().getUrlImg() == null
+                || usuario.getPerfil().getUrlImg().trim().equals("")){
+            ivImagemPerfil.setImageBitmap(BitmapFactory.decodeResource(this.getResources(), R.drawable.manuserbranco));
+        }
+
         lvNav.setAdapter(menuNavAdapter);
 
         lvNav.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -173,6 +154,9 @@ public class PrincipalActivity extends FragmentActivity implements FragmentInter
                     mudaTela("Perfil");
                 }else if (((ItemMenuNav)adapterView.getItemAtPosition(i)).getRotulo().equals("Notificações")){
                     mudaTela("Notificacao");
+                }else if(((ItemMenuNav)adapterView.getItemAtPosition(i)).getRotulo().equals("Sair")){
+                    guiaProDao.getDaoSession().getUsuarioDao().delete(usuario);
+                    finish();
                 }
             }
         });
@@ -182,12 +166,18 @@ public class PrincipalActivity extends FragmentActivity implements FragmentInter
     private void insertFirstFragment(){
 
         if(savedInstanceState == null){
-            CategoriasFragment categoriasFragment = new CategoriasFragment();
-            FragmentTransaction ft = fm.beginTransaction();
-            ft.add(R.id.contFragments, categoriasFragment, "Categorias");
-            ft.commit();
+            if(usuario.getPerfil().getTipoPerfil().getDescricao().equals("Cliente")){
+                CategoriasFragment categoriasFragment = new CategoriasFragment();
+                FragmentTransaction ft = fm.beginTransaction();
+                ft.add(R.id.contFragments, categoriasFragment, "Categorias");
+                ft.commit();
+            }else if(usuario.getPerfil().getTipoPerfil().getDescricao().equals("Profissional")){
+                ListagemProfissionaisFragment listagemProfissionaisFragment = new ListagemProfissionaisFragment();
+                FragmentTransaction ft = fm.beginTransaction();
+                ft.replace(R.id.contFragments, listagemProfissionaisFragment, "ListagemAtendimentoProfissional");
+                ft.commit();
+            }
         }
-
     }
 
     private void acoes(){

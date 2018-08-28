@@ -51,6 +51,9 @@ public class GerenciadorFragment {
         }else if(nomeTela.equals("Historico")){
             HistoricoFragment historicoFragment = new HistoricoFragment();
             ft.replace(R.id.contFragments, historicoFragment, nomeTela);
+        }else if(nomeTela.equals("ListagemAtendimentoProfissional")){
+            ListagemProfissionaisFragment listagemProfissionaisFragment = new ListagemProfissionaisFragment();
+            ft.replace(R.id.contFragments, listagemProfissionaisFragment, nomeTela);
         }
 
         if(fm.findFragmentByTag(nomeTela) != null){

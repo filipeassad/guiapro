@@ -19,17 +19,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import dev.kosmo.com.br.adapter.ListProfAdapter;
-import dev.kosmo.com.br.dao.DataBaseHelper;
-import dev.kosmo.com.br.dao.EnderecoManager;
-import dev.kosmo.com.br.dao.EspProfManager;
-import dev.kosmo.com.br.dao.ProfissionalManager;
 import dev.kosmo.com.br.guiapro.R;
 import dev.kosmo.com.br.interfaces.ImagemInterface;
 import dev.kosmo.com.br.interfaces.ProfissionaisInterface;
 import dev.kosmo.com.br.models.Endereco;
 import dev.kosmo.com.br.models.Profissional;
-import dev.kosmo.com.br.task.GetImagemAsyncTask;
-import dev.kosmo.com.br.task.GetProfissionaisAsyncTask;
+import dev.kosmo.com.br.task.gets.GetImagemAsyncTask;
+import dev.kosmo.com.br.task.gets.GetProfissionaisAsyncTask;
 import dev.kosmo.com.br.utils.StatusAplicativo;
 import dev.kosmo.com.br.utils.VariaveisEstaticas;
 
@@ -53,7 +49,6 @@ public class ListagemProfissionaisFragment extends Fragment implements Profissio
     private List<Profissional> listaAux;
     private Profissional atual;
     private StatusAplicativo statusAplicativo;
-    private DataBaseHelper dataBaseHelper;
 
     @Nullable
     @Override
@@ -82,7 +77,6 @@ public class ListagemProfissionaisFragment extends Fragment implements Profissio
         abaProximidade.setOnClickListener(abaOnCLickListener);
 
         statusAplicativo = new StatusAplicativo(getContext());
-        dataBaseHelper = new DataBaseHelper(getContext());
 
 
         return view;
@@ -94,7 +88,7 @@ public class ListagemProfissionaisFragment extends Fragment implements Profissio
 
         if(statusAplicativo.isOnline()){
             GetProfissionaisAsyncTask getProfissionaisAsyncTask = new GetProfissionaisAsyncTask(getContext(), this);
-            getProfissionaisAsyncTask.execute("http://guia-pro.herokuapp.com/api/profissionais/especialidade/" + VariaveisEstaticas.getEspecialidades().getId());
+            //getProfissionaisAsyncTask.execute("http://guia-pro.herokuapp.com/api/profissionais/especialidade/" + VariaveisEstaticas.getEspecialidades().getId());
         }else{
             buscaDB();
         }
@@ -102,7 +96,7 @@ public class ListagemProfissionaisFragment extends Fragment implements Profissio
     }
 
     private void buscaDB(){
-
+        /*
         EspProfManager espProfManager = new EspProfManager(dataBaseHelper.getWritableDatabase());
         List<Profissional> lista = espProfManager.getProfissionaisByEspecialidades( VariaveisEstaticas.getEspecialidades().getId() + "");
 
@@ -116,7 +110,7 @@ public class ListagemProfissionaisFragment extends Fragment implements Profissio
                 VariaveisEstaticas.getFragmentInterface().mudaTela("DetalheProfissional");
             }
         });
-
+        */
     }
 
     private View.OnClickListener abaOnCLickListener = new View.OnClickListener() {
@@ -197,7 +191,7 @@ public class ListagemProfissionaisFragment extends Fragment implements Profissio
             lvProfissionais.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    VariaveisEstaticas.setProfissional((Profissional) parent.getItemAtPosition(position));
+                    //VariaveisEstaticas.setProfissional((Profissional) parent.getItemAtPosition(position));
                     VariaveisEstaticas.getFragmentInterface().mudaTela("DetalheProfissional");
                 }
             });
@@ -206,7 +200,7 @@ public class ListagemProfissionaisFragment extends Fragment implements Profissio
     }
 
     private void salvaNoBanco(Profissional profissional){
-
+        /*
         ProfissionalManager profissionalManager = new ProfissionalManager(dataBaseHelper.getWritableDatabase());
         EspProfManager espProfManager = new EspProfManager(dataBaseHelper.getWritableDatabase());
 
@@ -225,11 +219,11 @@ public class ListagemProfissionaisFragment extends Fragment implements Profissio
             }
 
         }
-
+        */
     }
 
     private void insereEndereco(Endereco endereco){
-
+        /*
         EnderecoManager enderecoManager = new EnderecoManager(dataBaseHelper.getWritableDatabase());
 
         if(endereco != null && endereco.getId() != null){
@@ -241,6 +235,7 @@ public class ListagemProfissionaisFragment extends Fragment implements Profissio
             }
 
         }
+        */
 
     }
 

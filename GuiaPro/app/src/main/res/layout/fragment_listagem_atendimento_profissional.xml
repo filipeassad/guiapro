@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/bg_header"
+            android:scaleType="center"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="top|center">
+
+        <TextView
+            android:layout_width="350dp"
+            android:layout_height="wrap_content"
+            android:text="Você possui 03 novos contatos"
+            android:textColor="#FFFFFF"
+            android:textSize="20sp"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:layout_marginTop="20dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Por favor responda as solicitações pendentes."
+            android:textColor="#FFFFFF"
+            android:textSize="12sp"
+            android:gravity="center"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginLeft="15dp"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:id="@+id/abaSolicitacoes"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="40dp"
+                    android:gravity="left|center"
+                    android:background="@drawable/menutopocinza"
+                    android:paddingLeft="10dp">
+                    <TextView
+                        android:id="@+id/tvSolicitacoes"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Solicitações"
+                        android:textColor="#bfbfbf"
+                        android:layout_marginLeft="5dp"
+                        android:textSize="10sp"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/abaAtendidos"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="40dp"
+                    android:gravity="left|center"
+                    android:background="@drawable/menutopolaranja"
+                    android:paddingLeft="10dp">
+                    <TextView
+                        android:id="@+id/tvAtendidos"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Atendidos"
+                        android:textColor="#fddeb3"
+                        android:layout_marginLeft="5dp"
+                        android:textSize="10sp"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/abaMensagens"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="40dp"
+                    android:gravity="left|center"
+                    android:background="@drawable/menutopolaranja"
+                    android:paddingLeft="10dp">
+
+                    <TextView
+                        android:id="@+id/tvMensagens"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Mensagens"
+                        android:textColor="#fddeb3"
+                        android:layout_marginLeft="5dp"
+                        android:textSize="10sp"/>
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <ListView
+                android:id="@+id/lvTelaInicial"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="10dp"
+                android:paddingTop="20dp"
+                android:dividerHeight="0dp"
+                android:divider="#f1f1f1"
+                android:background="#f1f1f1">
+
+            </ListView>
+
+            <LinearLayout
+                android:id="@+id/llDetalheAtendimento"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="10dp"
+                android:background="#f1f1f1"
+                android:orientation="vertical"
+                android:visibility="gone"
+                android:padding="5dp"></LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</FrameLayout>

@@ -1,10 +1,8 @@
 package dev.kosmo.com.br.utils;
 
 import dev.kosmo.com.br.interfaces.FragmentInterface;
-import dev.kosmo.com.br.models.Autenticacao;
-import dev.kosmo.com.br.models.Cliente;
-import dev.kosmo.com.br.models.Especialidades;
-import dev.kosmo.com.br.models.Profissional;
+import dev.kosmo.com.br.models.Categoria;
+import dev.kosmo.com.br.models.Usuario;
 
 /**
  * Created by Filipe on 11/03/2018.
@@ -13,18 +11,8 @@ import dev.kosmo.com.br.models.Profissional;
 public class VariaveisEstaticas {
 
     private static FragmentInterface fragmentInterface;
-    private static Profissional profissional;
-    private static Especialidades especialidades;
-    private static Cliente clienteLogado;
-    private static Autenticacao autenticacao;
-
-    public static Profissional getProfissional() {
-        return profissional;
-    }
-
-    public static void setProfissional(Profissional profissional) {
-        VariaveisEstaticas.profissional = profissional;
-    }
+    private static Usuario usuario;
+    private static Categoria categoria;
 
     public static FragmentInterface getFragmentInterface() {
         return fragmentInterface;
@@ -34,27 +22,19 @@ public class VariaveisEstaticas {
         VariaveisEstaticas.fragmentInterface = fragmentInterface;
     }
 
-    public static Especialidades getEspecialidades() {
-        return especialidades;
+    public static Usuario getUsuario() {
+        return usuario;
     }
 
-    public static void setEspecialidades(Especialidades especialidades) {
-        VariaveisEstaticas.especialidades = especialidades;
+    public static void setUsuario(Usuario usuario) {
+        VariaveisEstaticas.usuario = usuario;
     }
 
-    public static Cliente getClienteLogado() {
-        return clienteLogado;
+    public static Categoria getCategoria() {
+        return categoria;
     }
 
-    public static void setClienteLogado(Cliente clienteLogado) {
-        VariaveisEstaticas.clienteLogado = clienteLogado;
-    }
-
-    public static Autenticacao getAutenticacao() {
-        return autenticacao;
-    }
-
-    public static void setAutenticacao(Autenticacao autenticacao) {
-        VariaveisEstaticas.autenticacao = autenticacao;
+    public static void setCategoria(Categoria categoria) {
+        VariaveisEstaticas.categoria = categoria;
     }
 }
