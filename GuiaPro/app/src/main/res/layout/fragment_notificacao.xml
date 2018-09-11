@@ -61,7 +61,7 @@
                 xmlns:app="http://schemas.android.com/apk/res-auto"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
-                android:src="@drawable/compadre"
+                android:src="@drawable/manuserbranco"
                 app:civ_border_width="2dp"
                 app:civ_border_color="#FFFFFF"/>
 

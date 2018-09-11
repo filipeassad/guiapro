@@ -14,6 +14,7 @@ import java.util.List;
 import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.DaoException;
 import org.greenrobot.greendao.annotation.NotNull;
+import org.greenrobot.greendao.annotation.Transient;
 
 @Entity
 public class Perfil {
@@ -40,6 +41,9 @@ public class Perfil {
             targetProperty = "categoriaId"
     )
     private List<Categoria> categorias;
+    @Transient
+    private List<Categoria> categoriasInsercao;
+
     /** Used to resolve relations */
     @Generated(hash = 2040040024)
     private transient DaoSession daoSession;
@@ -288,6 +292,14 @@ public class Perfil {
             throw new DaoException("Entity is detached from DAO context");
         }
         myDao.update(this);
+    }
+
+    public List<Categoria> getCategoriasInsercao() {
+        return categoriasInsercao;
+    }
+
+    public void setCategoriasInsercao(List<Categoria> categoriasInsercao) {
+        this.categoriasInsercao = categoriasInsercao;
     }
 
     /** called by internal mechanisms, do not call yourself. */

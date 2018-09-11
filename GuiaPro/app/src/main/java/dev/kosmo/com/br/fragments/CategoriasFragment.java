@@ -129,10 +129,7 @@ public class CategoriasFragment extends Fragment implements GetCategoriaInterfac
     }
 
     private void salvaNoBanco(Categoria categoria){
-        if(guiaProDao.getDaoSession().getCategoriaDao().hasKey(categoria))
-            guiaProDao.getDaoSession().getCategoriaDao().update(categoria);
-        else
-            guiaProDao.getDaoSession().getCategoriaDao().insert(categoria);
+        guiaProDao.getDaoSession().getCategoriaDao().insertOrReplace(categoria);
     }
 
     private Bitmap getImagem(String nome){

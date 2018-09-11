@@ -33,7 +33,7 @@
             android:id="@+id/ivHistorico"
             android:layout_width="60dp"
             android:layout_height="60dp"
-            android:src="@drawable/compadre"
+            android:src="@drawable/manuser"
             app:civ_border_width="2dp"
             app:civ_border_color="#e9a11c"
             android:layout_marginRight="10dp"/>

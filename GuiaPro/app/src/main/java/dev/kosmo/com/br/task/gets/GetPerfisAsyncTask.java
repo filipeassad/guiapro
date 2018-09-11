@@ -3,21 +3,21 @@ package dev.kosmo.com.br.task.gets;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
-import org.json.JSONObject;
+import org.json.JSONArray;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import dev.kosmo.com.br.interfaces.PerfilInterface;
 import dev.kosmo.com.br.utils.CarregaDados;
 import dev.kosmo.com.br.utils.FerramentasBasicas;
 
-public class GetPerfilAsyncTask extends AsyncTask<String, String, JSONObject> {
+public class GetPerfisAsyncTask extends AsyncTask<String, String, JSONArray> {
 
     private Context contexto;
     private ProgressDialog progress;
     private PerfilInterface perfilInterface;
     private String token;
 
-    public GetPerfilAsyncTask(Context contexto, PerfilInterface perfilInterface, String token) {
+    public GetPerfisAsyncTask(Context contexto, PerfilInterface perfilInterface, String token) {
         this.contexto = contexto;
         this.perfilInterface = perfilInterface;
         this.token = token;
@@ -31,11 +31,10 @@ public class GetPerfilAsyncTask extends AsyncTask<String, String, JSONObject> {
     }
 
     @Override
-    protected JSONObject doInBackground(String... strings) {
-
+    protected JSONArray doInBackground(String... strings) {
         URL url;
         HttpURLConnection urlConnection = null;
-        JSONObject response = new JSONObject();
+        JSONArray response = new JSONArray();
 
         try {
             url = new URL(strings[0]);
@@ -47,7 +46,7 @@ public class GetPerfilAsyncTask extends AsyncTask<String, String, JSONObject> {
 
             if(responseCode == HttpURLConnection.HTTP_OK){
                 String responseString = FerramentasBasicas.readStream(urlConnection.getInputStream());
-                response = new JSONObject(responseString);
+                response = new JSONArray(responseString);
             }else{
                 return null;
             }
@@ -62,10 +61,9 @@ public class GetPerfilAsyncTask extends AsyncTask<String, String, JSONObject> {
     }
 
     @Override
-    protected void onPostExecute(JSONObject jsonObject) {
+    protected void onPostExecute(JSONArray jsonArray) {
         CarregaDados carregaDados = new CarregaDados();
-        perfilInterface.getPerfil(carregaDados.montaPerfil(jsonObject));
+        perfilInterface.getPerfis(carregaDados.montaPerfis(jsonArray));
         progress.dismiss();
     }
-
 }

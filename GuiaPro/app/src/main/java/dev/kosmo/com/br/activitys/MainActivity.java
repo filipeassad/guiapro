@@ -168,15 +168,16 @@ public class MainActivity extends Activity implements PostLoginInterface, Perfil
         List<Usuario> lista = guiaProDao.getDaoSession().getUsuarioDao().loadAll();
 
         usuario.setPerfil(perfil);
-
-        if(lista.isEmpty()){
-            guiaProDao.getDaoSession().getUsuarioDao().insert(usuario);
-        }else{
-            usuario.setId(lista.get(0).getId());
-            guiaProDao.getDaoSession().getUsuarioDao().update(usuario);
-        }
-
+        guiaProDao.getDaoSession().getUsuarioDao().insertOrReplace(usuario);
+        guiaProDao.getDaoSession().getPerfilDao().insertOrReplace(usuario.getPerfil());
+        //guiaProDao.getDaoSession().getEnderecoDao().insertOrReplace(usuario.getPerfil().getEndereco());
+        guiaProDao.getDaoSession().getTipoPerfilDao().insertOrReplace(usuario.getPerfil().getTipoPerfil());
         entrarAplicativo();
+    }
+
+    @Override
+    public void getPerfis(List<Perfil> perfis) {
+
     }
 
     private void entrarAplicativo(){

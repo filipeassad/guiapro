@@ -2,6 +2,7 @@ package dev.kosmo.com.br.adapter;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.BitmapFactory;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -15,18 +16,18 @@ import android.widget.TextView;
 import java.util.List;
 
 import dev.kosmo.com.br.guiapro.R;
-import dev.kosmo.com.br.models.Profissional;
+import dev.kosmo.com.br.models.Perfil;
 
 /**
  * Created by Filipe on 11/03/2018.
  */
 
-public class ListProfAdapter extends ArrayAdapter<Profissional> {
+public class ProfissionalAdapter extends ArrayAdapter<Perfil> {
 
     private Context myContext;
     private int myResource;
 
-    public ListProfAdapter(@NonNull Context context, @LayoutRes int resource, @NonNull List<Profissional> objects) {
+    public ProfissionalAdapter(@NonNull Context context, @LayoutRes int resource, @NonNull List<Perfil> objects) {
         super(context, resource, objects);
         myContext = context;
         myResource = resource;
@@ -44,8 +45,14 @@ public class ListProfAdapter extends ArrayAdapter<Profissional> {
         ImageView ivItem = (ImageView) convertView.findViewById(R.id.ivItem);
         TextView tvNome = (TextView) convertView.findViewById(R.id.tvNome);
 
-        ivItem.setImageBitmap(getItem(position).getImg());
-        tvNome.setText(getItem(position).getNome());
+        Perfil perfil = getItem(position);
+
+        if(perfil.getUrlImg() == null
+                || perfil.getUrlImg().trim().equals("")){
+            ivItem.setImageBitmap(BitmapFactory.decodeResource(myContext.getResources(), R.drawable.manuserbranco));
+        }
+
+        tvNome.setText(perfil.getNome());
 
         return convertView;
     }

@@ -6,7 +6,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 
 import dev.kosmo.com.br.fragments.CategoriasFragment;
-import dev.kosmo.com.br.fragments.DetalheProfFragment;
+import dev.kosmo.com.br.fragments.DetalheProfissionalFragment;
 import dev.kosmo.com.br.fragments.HistoricoFragment;
 import dev.kosmo.com.br.fragments.ListagemProfissionaisFragment;
 import dev.kosmo.com.br.fragments.NotificacaoFragment;
@@ -40,8 +40,8 @@ public class GerenciadorFragment {
             ListagemProfissionaisFragment listagemProfissionaisFragment = new ListagemProfissionaisFragment();
             ft.replace(R.id.contFragments, listagemProfissionaisFragment, nomeTela);
         }else if(nomeTela.equals("DetalheProfissional")){
-            DetalheProfFragment detalheProfFragment = new DetalheProfFragment();
-            ft.replace(R.id.contFragments, detalheProfFragment, nomeTela);
+            DetalheProfissionalFragment detalheProfissionalFragment = new DetalheProfissionalFragment();
+            ft.replace(R.id.contFragments, detalheProfissionalFragment, nomeTela);
         }else if(nomeTela.equals("TopRanked")){
             TopRankedFragment topRankedFragment = new TopRankedFragment();
             ft.replace(R.id.contFragments, topRankedFragment, nomeTela);
