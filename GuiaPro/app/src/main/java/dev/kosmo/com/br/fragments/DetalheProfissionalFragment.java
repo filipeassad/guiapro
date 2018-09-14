@@ -38,7 +38,9 @@ import java.util.List;
 import dev.kosmo.com.br.adapter.CategoriaProfissionalAdapter;
 import dev.kosmo.com.br.dao.GuiaProDao;
 import dev.kosmo.com.br.guiapro.R;
+import dev.kosmo.com.br.interfaces.AtendimentoInterface;
 import dev.kosmo.com.br.interfaces.NotificacaoPostInterface;
+import dev.kosmo.com.br.interfaces.NotificacaoProfissionalInterface;
 import dev.kosmo.com.br.models.Atendimento;
 import dev.kosmo.com.br.models.AtendimentoDao;
 import dev.kosmo.com.br.models.Categoria;
@@ -48,6 +50,7 @@ import dev.kosmo.com.br.models.Perfil;
 import dev.kosmo.com.br.models.PerfilDao;
 import dev.kosmo.com.br.models.Usuario;
 import dev.kosmo.com.br.task.gets.GetPushNotificationNodeAsyncTask;
+import dev.kosmo.com.br.task.posts.PostCadastrarAtendimentoAsyncTask;
 import dev.kosmo.com.br.utils.FerramentasBasicas;
 import dev.kosmo.com.br.utils.VariaveisEstaticas;
 
@@ -55,7 +58,7 @@ import dev.kosmo.com.br.utils.VariaveisEstaticas;
  * Created by Filipe on 11/03/2018.
  */
 
-public class DetalheProfissionalFragment extends Fragment implements OnMapReadyCallback, NotificacaoPostInterface{
+public class DetalheProfissionalFragment extends Fragment implements OnMapReadyCallback, AtendimentoInterface, NotificacaoProfissionalInterface{
 
     private TextView tvAtendeLocalidade;
     private TextView tvNomeProfissional;
@@ -68,7 +71,8 @@ public class DetalheProfissionalFragment extends Fragment implements OnMapReadyC
     private LinearLayout btnLigar;
     private LinearLayout btnWhats;
     private LinearLayout btnMeLigue;
-    private NotificacaoPostInterface notificacaoPostInterface = this;
+    private AtendimentoInterface atendimentoInterface = this;
+    private NotificacaoProfissionalInterface notificacaoProfissionalInterface = this;
 
     private Perfil profissional;
     private Categoria categoria;
@@ -76,6 +80,13 @@ public class DetalheProfissionalFragment extends Fragment implements OnMapReadyC
     private GuiaProDao guiaProDao;
 
     private final long SITUACAO_AGUARDANDO = 2;
+    private final long ATENDIMENTO_LIGACAO = 1;
+    private final long ATENDIMENTO_WHATS = 2;
+    private final long ATENDIMENTO_MELIGUE = 3;
+    private final String API_ATENDIMENTO = "atendimento_cliente";
+    private final String API_NOTIFICACAO = "notificao_atendimento";
+
+    private int acao = 0;
 
     @Nullable
     @Override
@@ -131,13 +142,52 @@ public class DetalheProfissionalFragment extends Fragment implements OnMapReadyC
         btnLigar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                FerramentasBasicas.fazerLigacao(profissional.getCelular());
+                acao = 1;
+
+                if(clienteJaPossuiAtendimentoComProfissional()){
+                    FerramentasBasicas.fazerLigacao(profissional.getCelular());
+                }else{
+                    Atendimento atendimento = criarAtendimento(
+                            usuario.getPerfil().getNome() + " ligou para o profissinal " + profissional.getNome(),
+                            "Ligação - " + categoria.getDescricao(),
+                            ATENDIMENTO_LIGACAO);
+
+                    guiaProDao.getDaoSession().getAtendimentoDao().insert(atendimento);
+
+                    if(FerramentasBasicas.isOnline(getContext())){
+                        PostCadastrarAtendimentoAsyncTask postCadastrarAtendimentoAsyncTask = new PostCadastrarAtendimentoAsyncTask(getContext(),
+                                atendimento, atendimentoInterface);
+                        postCadastrarAtendimentoAsyncTask.execute(FerramentasBasicas.getURL() + API_ATENDIMENTO);
+                    }else{
+                        FerramentasBasicas.fazerLigacao(profissional.getCelular());
+                    }
+                }
             }
         });
 
         btnWhats.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                acao = 2;
+
+                if(clienteJaPossuiAtendimentoComProfissional()){
+                    FerramentasBasicas.enviarWhats(getContext(), profissional.getCelular());
+                }else{
+                    Atendimento atendimento = criarAtendimento(
+                            usuario.getPerfil().getNome() + " mndou o whats para o profissinal " + profissional.getNome(),
+                            "Whats - " + categoria.getDescricao(),
+                            ATENDIMENTO_WHATS);
+
+                    guiaProDao.getDaoSession().getAtendimentoDao().insert(atendimento);
+
+                    if(FerramentasBasicas.isOnline(getContext())){
+                        PostCadastrarAtendimentoAsyncTask postCadastrarAtendimentoAsyncTask = new PostCadastrarAtendimentoAsyncTask(getContext(),
+                                atendimento, atendimentoInterface);
+                        postCadastrarAtendimentoAsyncTask.execute(FerramentasBasicas.getURL() + API_ATENDIMENTO);
+                    }else{
+                        FerramentasBasicas.enviarWhats(getContext(), profissional.getCelular());
+                    }
+                }
                 FerramentasBasicas.enviarWhats(getContext(), profissional.getCelular());
             }
         });
@@ -145,8 +195,19 @@ public class DetalheProfissionalFragment extends Fragment implements OnMapReadyC
         btnMeLigue.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                GetPushNotificationNodeAsyncTask getPushNotificationNodeAsyncTask = new GetPushNotificationNodeAsyncTask(getContext());
-                getPushNotificationNodeAsyncTask.execute("http://192.168.254.176:8000/api/notificar?notificacao=Serviço solicitado.");
+                acao = 3;
+                Atendimento atendimento = criarAtendimento(
+                        usuario.getPerfil().getNome() + " solicitou liguação para o profissinal " + profissional.getNome(),
+                        "Me Ligue - " + categoria.getDescricao(),
+                        ATENDIMENTO_WHATS);
+
+                guiaProDao.getDaoSession().getAtendimentoDao().insert(atendimento);
+
+                if(FerramentasBasicas.isOnline(getContext())){
+                    PostCadastrarAtendimentoAsyncTask postCadastrarAtendimentoAsyncTask = new PostCadastrarAtendimentoAsyncTask(getContext(),
+                            atendimento, atendimentoInterface);
+                    postCadastrarAtendimentoAsyncTask.execute(FerramentasBasicas.getURL() + API_ATENDIMENTO);
+                }
             }
         });
     }
@@ -190,11 +251,6 @@ public class DetalheProfissionalFragment extends Fragment implements OnMapReadyC
         }
     }
 
-    @Override
-    public void retornoPost(HashMap<String, String> resultado) {
-        Toast.makeText(getContext(),resultado.get("name"), Toast.LENGTH_SHORT).show();
-    }
-
     private void carregaEspecialidades(){
         llEspecialidades.removeAllViews();
         for(Categoria categoria : profissional.getCategorias()){
@@ -218,7 +274,7 @@ public class DetalheProfissionalFragment extends Fragment implements OnMapReadyC
         atendimento.setDescricao(descricao);
         atendimento.setTitulo(titulo);
         atendimento.setTipoAtendimentoId(tipoAtendimentoId);
-        atendimento.setSitucaoId(2);
+        atendimento.setSitucaoId(1);
 
         return atendimento;
     }
@@ -242,4 +298,13 @@ public class DetalheProfissionalFragment extends Fragment implements OnMapReadyC
         return false;
     }
 
+    @Override
+    public void retornoCadastroAtendimento(boolean cadastrou) {
+
+    }
+
+    @Override
+    public void retornoNotificacao(boolean enviou) {
+
+    }
 }

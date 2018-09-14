@@ -52,7 +52,8 @@ public class FerramentasBasicas {
         //return "http://guia-pro.herokuapp.com/api/";
         //return "http://192.168.0.106:8000/api/";
         //return "http://104.236.17.236/api/";
-        return "http://192.168.0.13:3000/api/";
+        //return "http://192.168.0.13:3000/api/";
+        return "https://guiaproweb.herokuapp.com/api/";
     }
 
     public static void fazerLigacao(String numero){
