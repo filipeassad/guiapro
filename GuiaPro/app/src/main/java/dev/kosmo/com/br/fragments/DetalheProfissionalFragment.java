@@ -298,7 +298,12 @@ public class DetalheProfissionalFragment extends Fragment implements OnMapReadyC
     }
 
     @Override
-    public void retornoCadastroAtendimento(boolean cadastrou) {
+    public void retornoNotificacao(boolean enviou) {
+
+    }
+
+    @Override
+    public void retornoCadastroAtendimento(boolean cadastrou, long idAtendimento) {
         if(cadastrou){
             switch (acao){
                 case 1:
@@ -309,14 +314,9 @@ public class DetalheProfissionalFragment extends Fragment implements OnMapReadyC
                     break;
                 case 3:
                     PostNotificacaoProfissionalAsyncTask postNotificacaoProfissionalAsyncTask = new PostNotificacaoProfissionalAsyncTask(getContext(), notificacaoProfissionalInterface);
-                    postNotificacaoProfissionalAsyncTask.execute(FerramentasBasicas.getURL() + API_NOTIFICACAO + "");
+                    postNotificacaoProfissionalAsyncTask.execute(FerramentasBasicas.getURL() + API_NOTIFICACAO + idAtendimento);
                     break;
             }
         }
-    }
-
-    @Override
-    public void retornoNotificacao(boolean enviou) {
-
     }
 }

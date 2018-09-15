@@ -21,7 +21,7 @@ import dev.kosmo.com.br.models.Atendimento;
 import dev.kosmo.com.br.utils.FerramentasBasicas;
 import dev.kosmo.com.br.utils.VariaveisEstaticas;
 
-public class PostCadastrarAtendimentoAsyncTask extends AsyncTask<String, String, Boolean> {
+public class PostCadastrarAtendimentoAsyncTask extends AsyncTask<String, String, HashMap<String, Object>> {
 
     private Context contexto;
     private ProgressDialog progress;
@@ -43,7 +43,7 @@ public class PostCadastrarAtendimentoAsyncTask extends AsyncTask<String, String,
     }
 
     @Override
-    protected Boolean doInBackground(String... strings) {
+    protected HashMap<String, Object> doInBackground(String... strings) {
         int httpResponse = 0;
 
         try {
@@ -87,9 +87,9 @@ public class PostCadastrarAtendimentoAsyncTask extends AsyncTask<String, String,
                 return validaResposta(response);
 
             }else if(httpResponse == HttpURLConnection.HTTP_UNAUTHORIZED){
-                return false;
+                return null;
             }else{
-                return false;
+                return null;
             }
 
         } catch (IOException e) {
@@ -98,24 +98,30 @@ public class PostCadastrarAtendimentoAsyncTask extends AsyncTask<String, String,
             e.printStackTrace();
         }
 
-        return false;
+        return null;
     }
 
-    private boolean validaResposta(JSONObject response){
+    private HashMap<String, Object> validaResposta(JSONObject response){
+        HashMap<String, Object> resultado = new HashMap<>();
         try {
             if(response.has("success") && response.getBoolean("success")){
-                return true;
+                resultado.put("cadastrou", response.getBoolean("sucess"));
+                resultado.put("idAtendimento", response.getLong("idatendimento"));
+            }else{
+                resultado.put("cadastrou", response.getBoolean("sucess"));
+                resultado.put("msg", response.getString("message"));
             }
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        return false;
+        return resultado;
     }
 
     @Override
-    protected void onPostExecute(Boolean cadastrou) {
-        super.onPostExecute(cadastrou);
+    protected void onPostExecute(HashMap<String, Object> resultado) {
+        super.onPostExecute(resultado);
         progress.dismiss();
-        atendimentoInterface.retornoCadastroAtendimento(cadastrou);
+        long idAtendimento = (Boolean) resultado.get("cadastrou") ? (Long) resultado.get("idAtendimento") : 0;
+        atendimentoInterface.retornoCadastroAtendimento((Boolean) resultado.get("cadastrou"), idAtendimento);
     }
 }
