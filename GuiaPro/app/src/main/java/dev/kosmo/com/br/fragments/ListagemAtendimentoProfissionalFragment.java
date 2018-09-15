@@ -14,7 +14,7 @@ import android.widget.TextView;
 import dev.kosmo.com.br.guiapro.R;
 import dev.kosmo.com.br.utils.VariaveisEstaticas;
 
-public class ListagemAtendimentoProfissionalFragment extends Fragment /*implements AtendimentoAdapterInterface*/ {
+public class ListagemAtendimentoProfissionalFragment extends Fragment  {
 
     private LinearLayout abaSolicitacoes;
     private LinearLayout abaAtendidos;

@@ -51,6 +51,7 @@ import dev.kosmo.com.br.models.PerfilDao;
 import dev.kosmo.com.br.models.Usuario;
 import dev.kosmo.com.br.task.gets.GetPushNotificationNodeAsyncTask;
 import dev.kosmo.com.br.task.posts.PostCadastrarAtendimentoAsyncTask;
+import dev.kosmo.com.br.task.posts.PostNotificacaoProfissionalAsyncTask;
 import dev.kosmo.com.br.utils.FerramentasBasicas;
 import dev.kosmo.com.br.utils.VariaveisEstaticas;
 
@@ -67,7 +68,6 @@ public class DetalheProfissionalFragment extends Fragment implements OnMapReadyC
     private GoogleMap googleMap;
     private LinearLayout llEspecialidades;
     private LinearLayout llUrgencia;
-    private LinearLayout llQualificacoes;
     private LinearLayout btnLigar;
     private LinearLayout btnWhats;
     private LinearLayout btnMeLigue;
@@ -84,7 +84,7 @@ public class DetalheProfissionalFragment extends Fragment implements OnMapReadyC
     private final long ATENDIMENTO_WHATS = 2;
     private final long ATENDIMENTO_MELIGUE = 3;
     private final String API_ATENDIMENTO = "atendimento_cliente";
-    private final String API_NOTIFICACAO = "notificao_atendimento";
+    private final String API_NOTIFICACAO = "notificao_atendimento/";
 
     private int acao = 0;
 
@@ -100,7 +100,6 @@ public class DetalheProfissionalFragment extends Fragment implements OnMapReadyC
         ivImagem = (ImageView) view.findViewById(R.id.ivImagem);
         llEspecialidades = (LinearLayout) view.findViewById(R.id.llEspecialidades);
         llUrgencia = (LinearLayout) view.findViewById(R.id.llUrgencia);
-        llQualificacoes = (LinearLayout) view.findViewById(R.id.llQualificacoes);
         btnLigar = (LinearLayout) view.findViewById(R.id.btnLigar);
         btnWhats = (LinearLayout) view.findViewById(R.id.btnWhats);
         btnMeLigue = (LinearLayout) view.findViewById(R.id.btnMeLigeu);
@@ -300,7 +299,20 @@ public class DetalheProfissionalFragment extends Fragment implements OnMapReadyC
 
     @Override
     public void retornoCadastroAtendimento(boolean cadastrou) {
-
+        if(cadastrou){
+            switch (acao){
+                case 1:
+                    FerramentasBasicas.fazerLigacao(profissional.getCelular());
+                    break;
+                case 2:
+                    FerramentasBasicas.enviarWhats(getContext(), profissional.getCelular());
+                    break;
+                case 3:
+                    PostNotificacaoProfissionalAsyncTask postNotificacaoProfissionalAsyncTask = new PostNotificacaoProfissionalAsyncTask(getContext(), notificacaoProfissionalInterface);
+                    postNotificacaoProfissionalAsyncTask.execute(FerramentasBasicas.getURL() + API_NOTIFICACAO + "");
+                    break;
+            }
+        }
     }
 
     @Override
