@@ -5,8 +5,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
+import dev.kosmo.com.br.models.Atendimento;
 import dev.kosmo.com.br.models.Categoria;
 import dev.kosmo.com.br.models.Endereco;
 import dev.kosmo.com.br.models.Perfil;
@@ -34,8 +36,8 @@ public class CarregaDados {
 
         try {
 
-            if(jsonObject.has("success"))
-                return perfil;
+            /*if(jsonObject.has("success"))
+                return perfil;*/
 
             perfil.setId(jsonObject.getLong("id"));
             perfil.setNome(jsonObject.has("nome") ? jsonObject.getString("nome") : "");
@@ -60,6 +62,80 @@ public class CarregaDados {
         }
 
         return perfil;
+    }
+
+    public List<Atendimento> montaAtendimentos(JSONArray jsonArray){
+        List<Atendimento> atendimentos = new ArrayList<>();
+
+        for(int i = 0; i < jsonArray.length(); i++){
+            try {
+                atendimentos.add(montaAtendimento(jsonArray.getJSONObject(i)));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return atendimentos;
+    }
+
+    public Atendimento montaAtendimento(JSONObject jsonObject){
+        Atendimento atendimento = new Atendimento();
+
+        try {
+
+            atendimento.setId(jsonObject.getLong("id"));
+            atendimento.setData(new Date());
+            atendimento.setTitulo(jsonObject.has("titulo") ? jsonObject.getString("titulo") : "");
+            atendimento.setDescricao(jsonObject.has("descricao") ? jsonObject.getString("descricao") : "");
+            atendimento.setClienteId(jsonObject.has("clienteId") ? jsonObject.getLong("clienteId") : 0);
+            atendimento.setProfissionalId(jsonObject.has("profissionalId") ? jsonObject.getLong("profissionalId") : 0);
+            atendimento.setTipoAtendimentoId(jsonObject.has("tipoatendimentoId") ? jsonObject.getLong("tipoatendimentoId") : 0);
+            atendimento.setSitucaoId(jsonObject.has("situacaoId") ? jsonObject.getLong("situacaoId") : 0);
+            atendimento.setCategoriaId(jsonObject.has("categoriaId") ? jsonObject.getLong("categoriaId") : 0);
+
+            if(jsonObject.has("cliente"))
+                atendimento.setCliente(montaPerfil(jsonObject.getJSONObject("cliente")));
+            if(jsonObject.has("profissional"))
+                atendimento.setProfisisonal(montaPerfil(jsonObject.getJSONObject("profissional")));
+            if(jsonObject.has("categoria"))
+                atendimento.setCategoria(montaCategoria(jsonObject.getJSONObject("categoria")));
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return atendimento;
+    }
+
+    public List<Categoria> montaCategorias(JSONArray jsonArray){
+
+        List<Categoria> categorias = new ArrayList<>();
+        for(int i = 0; i < jsonArray.length(); i++) {
+            try {
+                categorias.add(montaCategoria(jsonArray.getJSONObject(i)));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return categorias;
+    }
+
+    public Categoria montaCategoria(JSONObject jsonObject){
+
+        Categoria categoria = new Categoria();
+
+        try {
+            categoria.setId(jsonObject.getLong("id"));
+            categoria.setDescricao(jsonObject.has("descricao") ? jsonObject.getString("descricao") : "");
+            categoria.setSigla(jsonObject.has("sigla") ? jsonObject.getString("sigla") : "");
+            categoria.setUrlImg(jsonObject.has("urlimg") ? jsonObject.getString("urlimg") : "");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return categoria;
+
     }
 
     private void montaTipoPerfil(Perfil perfil, JSONObject jsonObject){
@@ -133,6 +209,5 @@ public class CarregaDados {
                 e.printStackTrace();
             }
         }
-
     }
 }

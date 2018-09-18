@@ -37,6 +37,7 @@ import java.util.List;
 
 import dev.kosmo.com.br.adapter.CategoriaProfissionalAdapter;
 import dev.kosmo.com.br.dao.GuiaProDao;
+import dev.kosmo.com.br.dialogs.InformacaoDialog;
 import dev.kosmo.com.br.guiapro.R;
 import dev.kosmo.com.br.interfaces.AtendimentoInterface;
 import dev.kosmo.com.br.interfaces.NotificacaoPostInterface;
@@ -142,24 +143,19 @@ public class DetalheProfissionalFragment extends Fragment implements OnMapReadyC
             @Override
             public void onClick(View view) {
                 acao = 1;
+                Atendimento atendimento = criarAtendimento(
+                        usuario.getPerfil().getNome() + " ligou para o profissinal " + profissional.getNome(),
+                        "Ligação - " + categoria.getDescricao(),
+                        ATENDIMENTO_LIGACAO);
 
-                if(clienteJaPossuiAtendimentoComProfissional()){
-                    FerramentasBasicas.fazerLigacao(profissional.getCelular());
+                guiaProDao.getDaoSession().getAtendimentoDao().insert(atendimento);
+
+                if(FerramentasBasicas.isOnline(getContext())){
+                    PostCadastrarAtendimentoAsyncTask postCadastrarAtendimentoAsyncTask = new PostCadastrarAtendimentoAsyncTask(getContext(),
+                            atendimento, atendimentoInterface);
+                    postCadastrarAtendimentoAsyncTask.execute(FerramentasBasicas.getURL() + API_ATENDIMENTO);
                 }else{
-                    Atendimento atendimento = criarAtendimento(
-                            usuario.getPerfil().getNome() + " ligou para o profissinal " + profissional.getNome(),
-                            "Ligação - " + categoria.getDescricao(),
-                            ATENDIMENTO_LIGACAO);
-
-                    guiaProDao.getDaoSession().getAtendimentoDao().insert(atendimento);
-
-                    if(FerramentasBasicas.isOnline(getContext())){
-                        PostCadastrarAtendimentoAsyncTask postCadastrarAtendimentoAsyncTask = new PostCadastrarAtendimentoAsyncTask(getContext(),
-                                atendimento, atendimentoInterface);
-                        postCadastrarAtendimentoAsyncTask.execute(FerramentasBasicas.getURL() + API_ATENDIMENTO);
-                    }else{
-                        FerramentasBasicas.fazerLigacao(profissional.getCelular());
-                    }
+                    FerramentasBasicas.fazerLigacao(profissional.getCelular());
                 }
             }
         });
@@ -169,25 +165,20 @@ public class DetalheProfissionalFragment extends Fragment implements OnMapReadyC
             public void onClick(View view) {
                 acao = 2;
 
-                if(clienteJaPossuiAtendimentoComProfissional()){
-                    FerramentasBasicas.enviarWhats(getContext(), profissional.getCelular());
+                Atendimento atendimento = criarAtendimento(
+                        usuario.getPerfil().getNome() + " mandou o whats para o profissinal " + profissional.getNome(),
+                        "Whats - " + categoria.getDescricao(),
+                        ATENDIMENTO_WHATS);
+
+                guiaProDao.getDaoSession().getAtendimentoDao().insert(atendimento);
+
+                if(FerramentasBasicas.isOnline(getContext())){
+                    PostCadastrarAtendimentoAsyncTask postCadastrarAtendimentoAsyncTask = new PostCadastrarAtendimentoAsyncTask(getContext(),
+                            atendimento, atendimentoInterface);
+                    postCadastrarAtendimentoAsyncTask.execute(FerramentasBasicas.getURL() + API_ATENDIMENTO);
                 }else{
-                    Atendimento atendimento = criarAtendimento(
-                            usuario.getPerfil().getNome() + " mndou o whats para o profissinal " + profissional.getNome(),
-                            "Whats - " + categoria.getDescricao(),
-                            ATENDIMENTO_WHATS);
-
-                    guiaProDao.getDaoSession().getAtendimentoDao().insert(atendimento);
-
-                    if(FerramentasBasicas.isOnline(getContext())){
-                        PostCadastrarAtendimentoAsyncTask postCadastrarAtendimentoAsyncTask = new PostCadastrarAtendimentoAsyncTask(getContext(),
-                                atendimento, atendimentoInterface);
-                        postCadastrarAtendimentoAsyncTask.execute(FerramentasBasicas.getURL() + API_ATENDIMENTO);
-                    }else{
-                        FerramentasBasicas.enviarWhats(getContext(), profissional.getCelular());
-                    }
+                    FerramentasBasicas.enviarWhats(getContext(), profissional.getCelular());
                 }
-                FerramentasBasicas.enviarWhats(getContext(), profissional.getCelular());
             }
         });
 
@@ -278,7 +269,7 @@ public class DetalheProfissionalFragment extends Fragment implements OnMapReadyC
         return atendimento;
     }
 
-    private boolean clienteJaPossuiAtendimentoComProfissional(){
+    /*private boolean clienteJaPossuiAtendimentoComProfissional(){
 
         AtendimentoDao.Properties propriedades = new AtendimentoDao.Properties();
 
@@ -295,11 +286,15 @@ public class DetalheProfissionalFragment extends Fragment implements OnMapReadyC
             return true;
 
         return false;
-    }
+    }*/
 
     @Override
     public void retornoNotificacao(boolean enviou) {
-
+        InformacaoDialog informacaoDialog = new InformacaoDialog(getContext());
+        if(enviou)
+            informacaoDialog.gerarDialog("Solicitação enviada com sucesso!");
+        else
+            informacaoDialog.gerarDialog("Não foi possível enviar a solicitação!");
     }
 
     @Override
@@ -318,5 +313,10 @@ public class DetalheProfissionalFragment extends Fragment implements OnMapReadyC
                     break;
             }
         }
+    }
+
+    @Override
+    public void retornoBuscaAtendimentos(List<Atendimento> atendimentos) {
+
     }
 }

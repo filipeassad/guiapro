@@ -33,6 +33,12 @@
         <activity android:name="dev.kosmo.com.br.activitys.CadastroActivity" android:screenOrientation="portrait"/>
         <activity android:name="dev.kosmo.com.br.activitys.SenhaActivity" android:screenOrientation="portrait"/>
 
+        <service android:name="dev.kosmo.com.br.utils.PushNotificationService">
+            <intent-filter>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <action android:name="ServicoSocket"/>
+            </intent-filter>
+        </service>
     </application>
 
 </manifest>

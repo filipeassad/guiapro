@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/llContainer"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:orientation="horizontal"
+        android:gravity="left|center"
+        android:background="@drawable/shape_background_atendimento"
+        android:layout_margin="5dp">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/ivItem"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:src="@drawable/manuser"
+            app:civ_border_width="0dp"
+            android:layout_marginLeft="15dp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="10dp"
+            android:gravity="left|center"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="3"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="10"
+                    android:orientation="vertical"
+                    android:paddingTop="10dp">
+
+                    <TextView
+                        android:id="@+id/tvNomeCliente"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Filipe Assad Baraúna"
+                        android:textSize="14sp"
+                        android:textStyle="bold"/>
+                    <TextView
+                        android:id="@+id/tvDescricaoAtendimento"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="10sp"
+                        android:text="Preciso consertar uma pia, estou sem àgua."/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="3"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:id="@+id/llBotaoLateral"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:background="@drawable/shape_btn_canto_laranja">
+
+                        <ImageView
+                            android:id="@+id/ivBotaoLateral"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:src="@drawable/smartphone"
+                            android:layout_margin="5dp"/>
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/tvLateral"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Ligar"
+                        android:textSize="6sp"
+                        android:textStyle="bold"
+                        android:textColor="#e9a11c"
+                        android:gravity="center"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/llUrgencia"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="SOLICITAÇÃO ATENDIMENTO DE URGÊNCIA"
+                    android:textSize="10sp"
+                    android:textStyle="bold"
+                    android:textColor="#f26035"
+                    android:gravity="left"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

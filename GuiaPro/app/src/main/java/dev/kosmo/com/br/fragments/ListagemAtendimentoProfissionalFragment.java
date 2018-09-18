@@ -11,10 +11,24 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import org.greenrobot.greendao.query.QueryBuilder;
+
+import java.util.List;
+
+import dev.kosmo.com.br.adapter.AtendimentoAdapter;
+import dev.kosmo.com.br.dao.GuiaProDao;
+import dev.kosmo.com.br.dialogs.AtendimentoDialog;
 import dev.kosmo.com.br.guiapro.R;
+import dev.kosmo.com.br.interfaces.AtendimentoAdapterInterface;
+import dev.kosmo.com.br.interfaces.AtendimentoInterface;
+import dev.kosmo.com.br.models.Atendimento;
+import dev.kosmo.com.br.models.AtendimentoDao;
+import dev.kosmo.com.br.models.Usuario;
+import dev.kosmo.com.br.task.gets.GetAtendimentoPorProfissionalAsyncTask;
+import dev.kosmo.com.br.utils.FerramentasBasicas;
 import dev.kosmo.com.br.utils.VariaveisEstaticas;
 
-public class ListagemAtendimentoProfissionalFragment extends Fragment  {
+public class ListagemAtendimentoProfissionalFragment extends Fragment implements AtendimentoAdapterInterface, AtendimentoInterface {
 
     private LinearLayout abaSolicitacoes;
     private LinearLayout abaAtendidos;
@@ -26,13 +40,17 @@ public class ListagemAtendimentoProfissionalFragment extends Fragment  {
     private ListView lvTelaInicial;
     private LinearLayout llDetalheAtendimento;
 
-    //private List<Atendimento> listaAtendimento;
+    private List<Atendimento> listaAtendimento;
+    private Usuario usuario;
 
-    //private AtendimentoAdapterInterface atendimentoAdapterInterface = this;
+    private AtendimentoAdapterInterface atendimentoAdapterInterface = this;
+    private AtendimentoInterface atendimentoInterface = this;
+
+    private GuiaProDao guiaProDao;
 
     private String ATENDIMENTO_NAO_ATENDIDO = "Não Atendido";
-
-    //PopulaAtendimentos populaAtendimentos;
+    private final long SITUACAO_ATENDIMENTO_AGUARDANDO = 1;
+    private final String API_ATENDIMENTO = "atendimento_profissional";
 
     @Nullable
     @Override
@@ -59,13 +77,10 @@ public class ListagemAtendimentoProfissionalFragment extends Fragment  {
         abaAtendidos.setOnClickListener(abaOnCLickListener);
         abaMensagens.setOnClickListener(abaOnCLickListener);
 
-        //populaAtendimentos = new PopulaAtendimentos(getContext());
-        //listaAtendimento = populaAtendimentos.criaAtendimentosNaoAtendidos();
-        //AtendimentosAdapter atendimentosAdapter = new AtendimentosAdapter(getContext(),
-        //        R.layout.adapter_atendimento,listaAtendimento,atendimentoAdapterInterface);
+        guiaProDao = (GuiaProDao) getActivity().getApplication();
+        usuario = VariaveisEstaticas.getUsuario();
 
-        //lvTelaInicial.setAdapter(atendimentosAdapter);
-
+        buscarAtendimentos();
         return view;
     }
 
@@ -73,6 +88,31 @@ public class ListagemAtendimentoProfissionalFragment extends Fragment  {
     public void onResume() {
         super.onResume();
         //verificaSolicitacoes();
+    }
+
+    private void buscarAtendimentos(){
+        if(FerramentasBasicas.isOnline(getContext())){
+            GetAtendimentoPorProfissionalAsyncTask getAtendimentoPorProfissionalAsyncTask = new GetAtendimentoPorProfissionalAsyncTask(getContext(), atendimentoInterface);
+            getAtendimentoPorProfissionalAsyncTask.execute(FerramentasBasicas.getURL() + API_ATENDIMENTO);
+        }else{
+            AtendimentoDao.Properties propriedades = new AtendimentoDao.Properties();
+
+            QueryBuilder<Atendimento> atendimentoQB = guiaProDao.getDaoSession()
+                    .getAtendimentoDao().queryBuilder();
+            atendimentoQB
+                    .where(propriedades.ProfissionalId.eq(usuario.getPerfilId()));
+
+            listaAtendimento = atendimentoQB.list();
+            carregaAtendimentos();
+        }
+    }
+
+
+    private void carregaAtendimentos(){
+        AtendimentoAdapter atendimentoAdapter = new AtendimentoAdapter(getContext(),
+                R.layout.adapter_atendimento,listaAtendimento,atendimentoAdapterInterface);
+
+        lvTelaInicial.setAdapter(atendimentoAdapter);
     }
 
     private View.OnClickListener abaOnCLickListener = new View.OnClickListener() {
@@ -112,13 +152,13 @@ public class ListagemAtendimentoProfissionalFragment extends Fragment  {
 
     }
 
-   /* private void carregaDetalhe(Atendimento atendimento){
+    private void carregaDetalhe(Atendimento atendimento){
         llDetalheAtendimento.setVisibility(View.VISIBLE);
         View view = View.inflate(getContext(), R.layout.fragment_detalhe_atendimento, null);
         llDetalheAtendimento.addView(view);
-    }*/
+    }
 
-    /*@Override
+    @Override
     public void acessarDetalhe(Atendimento atendimento) {
         VariaveisEstaticas.setAtendimento(atendimento);
         VariaveisEstaticas.getFragmentInterface().mudaTela("DetalheAtendimento");
@@ -137,11 +177,21 @@ public class ListagemAtendimentoProfissionalFragment extends Fragment  {
     private Atendimento buscarAtendimantoNaoAtendido(List<Atendimento> listaAtendimentos){
 
         for(Atendimento atendimento : listaAtendimentos){
-            if(atendimento.getSituacaoAtendimento().equals(ATENDIMENTO_NAO_ATENDIDO)){
+            if(atendimento.getSitucaoId() == SITUACAO_ATENDIMENTO_AGUARDANDO ){
                 return atendimento;
             }
         }
         return null;
-    }*/
+    }
 
+    @Override
+    public void retornoCadastroAtendimento(boolean cadastrou, long idAtendimento) {
+
+    }
+
+    @Override
+    public void retornoBuscaAtendimentos(List<Atendimento> atendimentos) {
+        listaAtendimento = atendimentos;
+        carregaAtendimentos();
+    }
 }

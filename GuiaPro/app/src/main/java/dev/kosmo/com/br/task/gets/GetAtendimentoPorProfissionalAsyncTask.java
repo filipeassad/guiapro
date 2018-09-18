@@ -3,43 +3,35 @@ package dev.kosmo.com.br.task.gets;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
-import android.util.JsonReader;
-import android.util.Log;
 
 import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
 
-import dev.kosmo.com.br.interfaces.GetCategoriaInterface;
-import dev.kosmo.com.br.models.Categoria;
+import dev.kosmo.com.br.interfaces.AtendimentoInterface;
 import dev.kosmo.com.br.utils.CarregaDados;
 import dev.kosmo.com.br.utils.FerramentasBasicas;
+import dev.kosmo.com.br.utils.VariaveisEstaticas;
 
-public class GetCategoriaAsyncTask extends AsyncTask<String, String, JSONArray> {
+public class GetAtendimentoPorProfissionalAsyncTask extends AsyncTask<String, String, JSONArray> {
 
     private Context contexto;
-    private GetCategoriaInterface getCategoriaInterface;
-    private String token;
+    private AtendimentoInterface atendimentoInterface;
     private ProgressDialog progress;
     private CarregaDados carregaDados;
-
-    public GetCategoriaAsyncTask(Context contexto, GetCategoriaInterface getCategoriaInterface, String token) {
-        this.contexto = contexto;
-        this.getCategoriaInterface = getCategoriaInterface;
-        this.token = token;
-        carregaDados = new CarregaDados();
-    }
 
     @Override
     protected void onPreExecute() {
         progress = new ProgressDialog(contexto);
-        progress.setMessage("Buscando as categorias...");
+        progress.setMessage("Aguarde...");
         progress.show();
+    }
+
+    public GetAtendimentoPorProfissionalAsyncTask(Context contexto, AtendimentoInterface atendimentoInterface) {
+        this.contexto = contexto;
+        this.atendimentoInterface = atendimentoInterface;
+        carregaDados = new CarregaDados();
     }
 
     @Override
@@ -52,7 +44,7 @@ public class GetCategoriaAsyncTask extends AsyncTask<String, String, JSONArray> 
             url = new URL(strings[0]);
             urlConnection = (HttpURLConnection) url.openConnection();
             urlConnection.setRequestProperty("Content-Type","application/json");
-            urlConnection.addRequestProperty("x-access-token", token);
+            urlConnection.addRequestProperty("x-access-token", VariaveisEstaticas.getUsuario().getToken());
             int responseCode = urlConnection.getResponseCode();
 
             if(responseCode == HttpURLConnection.HTTP_OK){
@@ -61,7 +53,7 @@ public class GetCategoriaAsyncTask extends AsyncTask<String, String, JSONArray> 
             }else if(responseCode == HttpURLConnection.HTTP_UNAUTHORIZED){
                 return null;
             }else{
-               return null;
+                return null;
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -76,16 +68,6 @@ public class GetCategoriaAsyncTask extends AsyncTask<String, String, JSONArray> 
     protected void onPostExecute(JSONArray jsonArray) {
         super.onPostExecute(jsonArray);
         progress.dismiss();
-        getCategoriaInterface.retornoCategoria(montaCategorias(jsonArray));
-    }
-
-    private List<Categoria> montaCategorias(JSONArray jsonArray){
-        List<Categoria> categorias = new ArrayList<>();
-
-        if(jsonArray != null && jsonArray.length() > 0 ){
-            categorias = carregaDados.montaCategorias(jsonArray);
-        }
-
-        return categorias;
+        atendimentoInterface.retornoBuscaAtendimentos(carregaDados.montaAtendimentos(jsonArray));
     }
 }

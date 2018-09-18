@@ -105,10 +105,10 @@ public class PostCadastrarAtendimentoAsyncTask extends AsyncTask<String, String,
         HashMap<String, Object> resultado = new HashMap<>();
         try {
             if(response.has("success") && response.getBoolean("success")){
-                resultado.put("cadastrou", response.getBoolean("sucess"));
-                resultado.put("idAtendimento", response.getLong("idatendimento"));
+                resultado.put("cadastrou", response.getBoolean("success"));
+                resultado.put("idAtendimento", response.getLong("idAtendimento"));
             }else{
-                resultado.put("cadastrou", response.getBoolean("sucess"));
+                resultado.put("cadastrou", response.getBoolean("success"));
                 resultado.put("msg", response.getString("message"));
             }
         } catch (JSONException e) {
@@ -121,7 +121,15 @@ public class PostCadastrarAtendimentoAsyncTask extends AsyncTask<String, String,
     protected void onPostExecute(HashMap<String, Object> resultado) {
         super.onPostExecute(resultado);
         progress.dismiss();
-        long idAtendimento = (Boolean) resultado.get("cadastrou") ? (Long) resultado.get("idAtendimento") : 0;
-        atendimentoInterface.retornoCadastroAtendimento((Boolean) resultado.get("cadastrou"), idAtendimento);
+
+        boolean cadastrou = false;
+        long idAtendimento = 0;
+
+        if(resultado != null && resultado.get("cadastrou") != null){
+            idAtendimento = (Boolean) resultado.get("cadastrou") ? (Long) resultado.get("idAtendimento") : 0;
+            cadastrou = (Boolean) resultado.get("cadastrou");
+        }
+
+        atendimentoInterface.retornoCadastroAtendimento(cadastrou, idAtendimento);
     }
 }

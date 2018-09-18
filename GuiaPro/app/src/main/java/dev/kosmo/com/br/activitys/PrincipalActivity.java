@@ -21,6 +21,7 @@ import java.util.List;
 import dev.kosmo.com.br.adapter.MenuNavAdapter;
 import dev.kosmo.com.br.dao.GuiaProDao;
 import dev.kosmo.com.br.fragments.CategoriasFragment;
+import dev.kosmo.com.br.fragments.ListagemAtendimentoProfissionalFragment;
 import dev.kosmo.com.br.fragments.ListagemProfissionaisFragment;
 import dev.kosmo.com.br.guiapro.R;
 import dev.kosmo.com.br.interfaces.FragmentInterface;
@@ -28,6 +29,7 @@ import dev.kosmo.com.br.models.Usuario;
 import dev.kosmo.com.br.models.sistema.ItemMenuNav;
 import dev.kosmo.com.br.utils.Animacao;
 import dev.kosmo.com.br.utils.GerenciadorFragment;
+import dev.kosmo.com.br.utils.PushNotificationService;
 import dev.kosmo.com.br.utils.VariaveisEstaticas;
 
 /**
@@ -111,6 +113,9 @@ public class PrincipalActivity extends FragmentActivity implements FragmentInter
         insertFirstFragment();
         carregaNav();
 
+        Intent serviceIntent = new Intent(this,PushNotificationService.class);
+        this.startService(serviceIntent);
+
         acoes();
     }
 
@@ -172,9 +177,9 @@ public class PrincipalActivity extends FragmentActivity implements FragmentInter
                 ft.add(R.id.contFragments, categoriasFragment, "Categorias");
                 ft.commit();
             }else if(usuario.getPerfil().getTipoPerfil().getDescricao().equals("Profissional")){
-                ListagemProfissionaisFragment listagemProfissionaisFragment = new ListagemProfissionaisFragment();
+                ListagemAtendimentoProfissionalFragment listagemAtendimentoProfissionalFragment = new ListagemAtendimentoProfissionalFragment();
                 FragmentTransaction ft = fm.beginTransaction();
-                ft.replace(R.id.contFragments, listagemProfissionaisFragment, "ListagemAtendimentoProfissional");
+                ft.replace(R.id.contFragments, listagemAtendimentoProfissionalFragment, "ListagemAtendimentoProfissional");
                 ft.commit();
             }
         }
