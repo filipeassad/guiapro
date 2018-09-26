@@ -243,13 +243,12 @@ public class DetalheProfissionalFragment extends Fragment implements OnMapReadyC
 
     private void carregaEspecialidades(){
         llEspecialidades.removeAllViews();
-        for(Categoria categoria : profissional.getCategorias()){
 
+        for(Categoria categoria : profissional.getCategorias()){
             LinearLayout linearLayout = (LinearLayout) getActivity().getLayoutInflater().inflate(R.layout.adapter_categoria_profissional,null);
             TextView tvCategoria = (TextView) linearLayout.findViewById(R.id.tvCategoria);
             tvCategoria.setText(categoria.getDescricao());
             llEspecialidades.addView(linearLayout);
-
         }
     }
 
