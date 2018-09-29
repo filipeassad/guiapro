@@ -7,6 +7,8 @@ import android.content.Intent;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.support.v4.app.NotificationCompat;
+import android.util.Log;
+
 import java.net.URISyntaxException;
 
 import dev.kosmo.com.br.guiapro.R;
@@ -34,18 +36,31 @@ public class PushNotificationService extends Service {
         //"http://192.168.0.23:4555/"
         try {
             //socket = IO.socket("http://192.168.254.176:4555");
-            socket = IO.socket(FerramentasBasicas.getURL());
+            //Log.v("ID Profissional", VariaveisEstaticas.getUsuario().getPerfilId() + "");
+            IO.Options options = new IO.Options();
+            options.reconnectionDelay = 1000;
+            options.reconnection = true;
+            socket = IO.socket(FerramentasBasicas.getURLSocket(), options);
+
             socket.on(Socket.EVENT_CONNECT, new Emitter.Listener() {
                 @Override
                 public void call(Object... args) {
+                    //Log.v("Conectou", args.toString());
                 }
             }).on(Socket.EVENT_CONNECT_ERROR, new Emitter.Listener() {
                 @Override
                 public void call(Object... args) {
+                    //Log.v("Erro de conexão", args[0].toString());
                 }
             }).on(Socket.EVENT_MESSAGE, new Emitter.Listener() {
                 @Override
                 public void call(Object... args) {
+                }
+            }).on(Socket.EVENT_CONNECT_TIMEOUT, new Emitter.Listener() {
+                @Override
+                public void call(Object... objects) {
+                    //Log.e("timeout", "true");
+                    socket.connect();
                 }
             }).on("guiapro-notificacao-" + VariaveisEstaticas.getUsuario().getPerfilId(), new Emitter.Listener() {
                 @Override

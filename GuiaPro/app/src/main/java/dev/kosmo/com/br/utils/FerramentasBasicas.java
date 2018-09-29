@@ -48,6 +48,10 @@ public class FerramentasBasicas {
         return response.toString();
     }
 
+    public static String getURLSocket(){
+        return "https://guiaproweb.herokuapp.com/";
+    }
+
     public static String getURL(){
         //return "http://guia-pro.herokuapp.com/api/";
         //return "http://192.168.0.106:8000/api/";
