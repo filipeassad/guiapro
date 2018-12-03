@@ -76,7 +76,8 @@ public class Perfil {
     public void setDataNascimentoByString(String valor){
         if(valor != null && (valor.trim().equals("")!= true) && (valor.trim().equals("null")!= true)){
             try {
-                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+                //SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
                 dataNascimento = new Date(simpleDateFormat.parse(valor).getTime());
             } catch (ParseException e) {
                 e.printStackTrace();

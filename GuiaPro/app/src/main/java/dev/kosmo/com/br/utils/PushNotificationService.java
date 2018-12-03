@@ -66,15 +66,20 @@ public class PushNotificationService extends Service {
                 @Override
                 public void call(Object... args) {
 
-                    NotificationCompat.Builder builder =
-                            new NotificationCompat.Builder(getBaseContext())
-                                    .setSmallIcon(R.mipmap.ic_launcher)
-                                    .setContentTitle("Notificação do cliente")
-                                    .setContentText("Mensagem: " + args[0]);
+                    try{
+                        NotificationCompat.Builder builder =
+                                new NotificationCompat.Builder(getBaseContext())
+                                        .setSmallIcon(R.mipmap.ic_launcher)
+                                        .setContentTitle("Notificação do cliente")
+                                        .setContentText("Mensagem: " + args[0]);
 
-                    NotificationManager mNotificationManager = (NotificationManager) getSystemService(getBaseContext().NOTIFICATION_SERVICE);
+                        NotificationManager mNotificationManager = (NotificationManager) getSystemService(getBaseContext().NOTIFICATION_SERVICE);
 
-                    mNotificationManager.notify(1, builder.build());
+                        mNotificationManager.notify(1, builder.build());
+                    }catch (Exception e){
+
+                    }
+
                 }
             });
 

@@ -36,22 +36,24 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:gravity="center">
 
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:scaleType="center"
+                <de.hdodenhof.circleimageview.CircleImageView
+                    xmlns:app="http://schemas.android.com/apk/res-auto"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:src="@drawable/manuserbranco"
+                    app:civ_border_width="2dp"
                     android:layout_marginTop="20dp"
-                    android:src="@drawable/icon_top"/>
+                    app:civ_border_color="#FFFFFF"/>
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="CADASTRE-SE"
-                    android:layout_marginTop="10dp"
-                    android:textSize="20sp"
+                    android:text="Alterar Dados Pessoais"
                     android:textColor="#FFFFFF"
+                    android:textSize="20sp"
                     android:gravity="center"/>
 
                 <LinearLayout
@@ -60,25 +62,10 @@
                     android:padding="15dp"
                     android:background="@drawable/shape_box_white"
                     android:orientation="vertical"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginTop="10dp"
                     android:layout_marginLeft="5dp"
                     android:layout_marginRight="5dp"
                     android:layout_marginBottom="20dp">
-
-                    <EditText
-                        android:id="@+id/edtEmail"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="Email"
-                        android:layout_marginTop="10dp"/>
-
-                    <EditText
-                        android:id="@+id/edtSenha"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="Senha"
-                        android:layout_marginTop="10dp"
-                        android:inputType="textPassword"/>
 
                     <EditText
                         android:id="@+id/edtNome"
@@ -114,9 +101,11 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="M"
+                                android:checked="true"
                                 android:layout_marginRight="10dp"
                                 android:layout_marginLeft="10dp"/>
                             <RadioButton
+                                android:id="@+id/rbF"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="F"/>
@@ -128,33 +117,31 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="Data de Nascimento"
-                        android:layout_marginTop="10dp"
-                        android:inputType="number"/>
+                        android:layout_marginTop="10dp"/>
 
                     <EditText
                         android:id="@+id/edtCpf"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="CPF"
-                        android:inputType="number"/>
+                        android:hint="CPF"/>
 
                     <EditText
                         android:id="@+id/edtCelular"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="Celular"
-                        android:layout_marginTop="10dp"
-                        android:inputType="number"/>
+                        android:layout_marginTop="10dp"/>
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
                         android:gravity="center"
+                        android:padding="5dp"
                         android:layout_marginTop="20dp">
 
                         <Button
-                                android:id="@+id/btnVoltar"
+                            android:id="@+id/btnVoltar"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -164,12 +151,12 @@
                             android:layout_marginRight="10dp"/>
 
                         <Button
-                            android:id="@+id/btnCadastrar"
+                            android:id="@+id/btnSalvar"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:background="@drawable/shape_btn_orange"
-                            android:text="CADASTRAR"
+                            android:text="SALVAR"
                             android:textColor="#FFFFFF"/>
 
                     </LinearLayout>

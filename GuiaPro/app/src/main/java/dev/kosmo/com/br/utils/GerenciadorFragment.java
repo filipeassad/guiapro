@@ -5,6 +5,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.widget.LinearLayout;
 
+import dev.kosmo.com.br.fragments.AlterarPerfilFragment;
 import dev.kosmo.com.br.fragments.CategoriasFragment;
 import dev.kosmo.com.br.fragments.DetalheProfissionalFragment;
 import dev.kosmo.com.br.fragments.HistoricoFragment;
@@ -54,6 +55,9 @@ public class GerenciadorFragment {
         }else if(nomeTela.equals("ListagemAtendimentoProfissional")){
             ListagemProfissionaisFragment listagemProfissionaisFragment = new ListagemProfissionaisFragment();
             ft.replace(R.id.contFragments, listagemProfissionaisFragment, nomeTela);
+        }else if(nomeTela.equals("AlterarDadosCliente")){
+            AlterarPerfilFragment alterarPerfilFragment = new AlterarPerfilFragment();
+            ft.replace(R.id.contFragments, alterarPerfilFragment, nomeTela);
         }
 
         if(fm.findFragmentByTag(nomeTela) != null){

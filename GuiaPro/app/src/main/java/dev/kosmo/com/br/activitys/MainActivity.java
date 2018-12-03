@@ -105,8 +105,8 @@ public class MainActivity extends Activity implements PostLoginInterface, Perfil
         tvCadastre.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //Intent intent = new Intent(view.getContext(), CadastroActivity.class);
-                //startActivity(intent);
+                Intent intent = new Intent(view.getContext(), CadastroActivity.class);
+                startActivity(intent);
             }
         });
 
