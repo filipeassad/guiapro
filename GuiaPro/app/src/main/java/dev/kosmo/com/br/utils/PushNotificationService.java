@@ -87,6 +87,8 @@ public class PushNotificationService extends Service {
 
         } catch (URISyntaxException e) {
             e.printStackTrace();
+        }catch (Exception e){
+
         }
 
         return super.onStartCommand(intent, flags, startId);

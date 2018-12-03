@@ -1,4 +1,4 @@
-package dev.kosmo.com.br.task.puts;
+package dev.kosmo.com.br.task.posts;
 
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -19,14 +19,14 @@ import dev.kosmo.com.br.interfaces.PutAlterarClienteInterface;
 import dev.kosmo.com.br.utils.FerramentasBasicas;
 import dev.kosmo.com.br.utils.VariaveisEstaticas;
 
-public class PutAlterarClienteAsyncTask extends AsyncTask<String, String, HashMap<String, Object>> {
+public class PostAlterarClienteAsyncTask extends AsyncTask<String, String, HashMap<String, Object>> {
 
     private Context contexto;
     private ProgressDialog progress;
     private JSONObject jsonObject;
     private PutAlterarClienteInterface putAlterarClienteInterface;
 
-    public PutAlterarClienteAsyncTask(Context contexto, JSONObject jsonObject, PutAlterarClienteInterface putAlterarClienteInterface) {
+    public PostAlterarClienteAsyncTask(Context contexto, JSONObject jsonObject, PutAlterarClienteInterface putAlterarClienteInterface) {
         this.contexto = contexto;
         this.jsonObject = jsonObject;
         this.putAlterarClienteInterface = putAlterarClienteInterface;
@@ -52,7 +52,7 @@ public class PutAlterarClienteAsyncTask extends AsyncTask<String, String, HashMa
             conn.setRequestProperty("Content-Type","application/json");
             conn.addRequestProperty("x-access-token", VariaveisEstaticas.getUsuario().getToken());
             conn.setConnectTimeout(20000);
-            conn.setRequestMethod("PUT");
+            conn.setRequestMethod("POST");
             conn.setDoInput(true);
             conn.setDoOutput(true);
 

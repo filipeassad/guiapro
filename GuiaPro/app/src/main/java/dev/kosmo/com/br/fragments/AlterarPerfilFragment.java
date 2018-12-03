@@ -18,8 +18,9 @@ import dev.kosmo.com.br.dialogs.InformacaoDialog;
 import dev.kosmo.com.br.guiapro.R;
 import dev.kosmo.com.br.interfaces.PutAlterarClienteInterface;
 import dev.kosmo.com.br.models.Perfil;
-import dev.kosmo.com.br.task.puts.PutAlterarClienteAsyncTask;
+import dev.kosmo.com.br.task.posts.PostAlterarClienteAsyncTask;
 import dev.kosmo.com.br.utils.FerramentasBasicas;
+import dev.kosmo.com.br.utils.MaskEditUtil;
 import dev.kosmo.com.br.utils.VariaveisEstaticas;
 
 public class AlterarPerfilFragment extends Fragment implements PutAlterarClienteInterface {
@@ -59,11 +60,21 @@ public class AlterarPerfilFragment extends Fragment implements PutAlterarCliente
         btnSalvar = (Button) view.findViewById(R.id.btnSalvar);
         rdSexo = (RadioGroup) view.findViewById(R.id.rdSexo);
 
+        edtCpf.addTextChangedListener(MaskEditUtil.mask(edtCpf, MaskEditUtil.FORMAT_CPF));
+        edtDataNascimento.addTextChangedListener(MaskEditUtil.mask(edtDataNascimento, MaskEditUtil.FORMAT_DATE));
+        edtCelular.addTextChangedListener(MaskEditUtil.mask(edtCelular, MaskEditUtil.FORMAT_FONE));
+
         informacaoDialog = new InformacaoDialog(getContext());
-        carregarDados();
+
         acoes();
 
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        carregarDados();
     }
 
     private void acoes(){
@@ -78,8 +89,8 @@ public class AlterarPerfilFragment extends Fragment implements PutAlterarCliente
             @Override
             public void onClick(View view) {
                 validarCampos();
-                PutAlterarClienteAsyncTask putAlterarClienteAsyncTask = new PutAlterarClienteAsyncTask(getContext(), montarJsonParaEnviar(), putAlterarClienteInterface);
-                putAlterarClienteAsyncTask.execute(FerramentasBasicas.getURL() + URL_ALTERAR_CLIENTE);
+                PostAlterarClienteAsyncTask postAlterarClienteAsyncTask = new PostAlterarClienteAsyncTask(getContext(), montarJsonParaEnviar(), putAlterarClienteInterface);
+                postAlterarClienteAsyncTask.execute(FerramentasBasicas.getURL() + URL_ALTERAR_CLIENTE);
             }
         });
 

@@ -37,8 +37,6 @@ public class PerfilFragment extends Fragment {
     private final String SEXO_MASCULINO = "Masculino";
     private final String SEXO_FEMININO = "Feminino";
 
-
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -53,10 +51,15 @@ public class PerfilFragment extends Fragment {
         txtSexo = (TextView) view.findViewById(R.id.txtSexo);
         btnAlterar = (Button) view.findViewById(R.id.btnAlterar);
 
-        carregarDados();
         acoes();
 
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        carregarDados();
     }
 
     private void carregarDados(){
