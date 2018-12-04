@@ -14,16 +14,22 @@ import android.widget.RadioGroup;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.List;
+
+import dev.kosmo.com.br.dao.GuiaProDao;
 import dev.kosmo.com.br.dialogs.InformacaoDialog;
 import dev.kosmo.com.br.guiapro.R;
+import dev.kosmo.com.br.interfaces.PerfilInterface;
 import dev.kosmo.com.br.interfaces.PutAlterarClienteInterface;
 import dev.kosmo.com.br.models.Perfil;
+import dev.kosmo.com.br.models.Usuario;
+import dev.kosmo.com.br.task.gets.GetPerfilAsyncTask;
 import dev.kosmo.com.br.task.posts.PostAlterarClienteAsyncTask;
 import dev.kosmo.com.br.utils.FerramentasBasicas;
 import dev.kosmo.com.br.utils.MaskEditUtil;
 import dev.kosmo.com.br.utils.VariaveisEstaticas;
 
-public class AlterarPerfilFragment extends Fragment implements PutAlterarClienteInterface {
+public class AlterarPerfilFragment extends Fragment implements PutAlterarClienteInterface, PerfilInterface {
 
     private EditText edtNome;
     private EditText edtSobrenome;
@@ -42,8 +48,12 @@ public class AlterarPerfilFragment extends Fragment implements PutAlterarCliente
     private PutAlterarClienteInterface putAlterarClienteInterface = this;
     private final String SIGLA_SEXO_MASCULINO = "M";
     private final String SIGLA_SEXO_FEMININO = "F";
-
     private String sexoSelecionado = "M";
+    private final String API_PERFIL = "perfil_logado";
+
+    private PerfilInterface perfilInterface = this;
+    private Usuario usuario;
+    private GuiaProDao guiaProDao;
 
     @Nullable
     @Override
@@ -65,6 +75,8 @@ public class AlterarPerfilFragment extends Fragment implements PutAlterarCliente
         edtCelular.addTextChangedListener(MaskEditUtil.mask(edtCelular, MaskEditUtil.FORMAT_FONE));
 
         informacaoDialog = new InformacaoDialog(getContext());
+        guiaProDao = (GuiaProDao) getActivity().getApplication();
+        usuario = VariaveisEstaticas.getUsuario();
 
         acoes();
 
@@ -168,9 +180,24 @@ public class AlterarPerfilFragment extends Fragment implements PutAlterarCliente
     public void retornoAlteracao(boolean alterou) {
         if(alterou){
             informacaoDialog.gerarDialog("Dados atualizados com sucesso!");
-            VariaveisEstaticas.getFragmentInterface().voltar();
+            GetPerfilAsyncTask getPerfilAsyncTask = new GetPerfilAsyncTask(getContext(),
+                    perfilInterface,
+                    usuario.getToken());
+            getPerfilAsyncTask.execute(FerramentasBasicas.getURL() + API_PERFIL);
         }else{
             informacaoDialog.gerarDialog("Não foi possível atualizar o dados!");
         }
+    }
+
+    @Override
+    public void getPerfil(Perfil perfil) {
+        usuario.setPerfil(perfil);
+        guiaProDao.getDaoSession().getPerfilDao().insertOrReplace(usuario.getPerfil());
+        VariaveisEstaticas.getFragmentInterface().voltar();
+    }
+
+    @Override
+    public void getPerfis(List<Perfil> perfis) {
+
     }
 }

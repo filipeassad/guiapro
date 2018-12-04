@@ -10,6 +10,7 @@ import android.widget.LinearLayout;
 
 import java.util.List;
 
+import dev.kosmo.com.br.dao.GuiaProDao;
 import dev.kosmo.com.br.guiapro.R;
 import dev.kosmo.com.br.utils.ConversaoTexto;
 import dev.kosmo.com.br.utils.VariaveisEstaticas;
@@ -23,6 +24,8 @@ public class HistoricoFragment extends Fragment {
     private List<String> lista;
     private LinearLayout listaHistorico;
     private ConversaoTexto conversaoTexto;
+    private GuiaProDao guiaProDao;
+
 
     @Nullable
     @Override
@@ -33,6 +36,8 @@ public class HistoricoFragment extends Fragment {
 
         listaHistorico = (LinearLayout) view.findViewById(R.id.listaHistorico);
         conversaoTexto = new ConversaoTexto();
+
+        guiaProDao = (GuiaProDao) getActivity().getApplication();
 
         carregaHistorico();
 
