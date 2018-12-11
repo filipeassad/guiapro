@@ -10,6 +10,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import org.greenrobot.greendao.query.QueryBuilder;
+
 import java.util.List;
 
 import dev.kosmo.com.br.dao.GuiaProDao;
@@ -17,6 +19,8 @@ import dev.kosmo.com.br.guiapro.R;
 import dev.kosmo.com.br.interfaces.AtendimentoAdapterInterface;
 import dev.kosmo.com.br.interfaces.AtendimentoInterface;
 import dev.kosmo.com.br.models.Atendimento;
+import dev.kosmo.com.br.models.AtendimentoDao;
+import dev.kosmo.com.br.models.Usuario;
 import dev.kosmo.com.br.task.gets.GetAtendimentoPorClienteAsyncTask;
 import dev.kosmo.com.br.utils.ConversaoTexto;
 import dev.kosmo.com.br.utils.FerramentasBasicas;
@@ -33,6 +37,7 @@ public class HistoricoFragment extends Fragment implements AtendimentoInterface 
     private ConversaoTexto conversaoTexto;
     private GuiaProDao guiaProDao;
     private AtendimentoInterface atendimentoInterface = this;
+    private Usuario usuario;
 
     private final String URL_ATENDIMENTO_CLIENTE = "mobile/atendimento_cliente/";
 
@@ -46,6 +51,7 @@ public class HistoricoFragment extends Fragment implements AtendimentoInterface 
         listaHistorico = (LinearLayout) view.findViewById(R.id.listaHistorico);
         conversaoTexto = new ConversaoTexto();
 
+        usuario = VariaveisEstaticas.getUsuario();
         guiaProDao = (GuiaProDao) getActivity().getApplication();
 
         carregaHistorico();
@@ -57,9 +63,17 @@ public class HistoricoFragment extends Fragment implements AtendimentoInterface 
     private void carregaHistorico(){
         if(FerramentasBasicas.isOnline(getContext())){
             GetAtendimentoPorClienteAsyncTask getAtendimentoPorClienteAsyncTask = new GetAtendimentoPorClienteAsyncTask(getContext(), atendimentoInterface);
-            getAtendimentoPorClienteAsyncTask.execute(FerramentasBasicas.getURL() + URL_ATENDIMENTO_CLIENTE + VariaveisEstaticas.getUsuario().getPerfil().getId());
+            getAtendimentoPorClienteAsyncTask.execute(FerramentasBasicas.getURL() + URL_ATENDIMENTO_CLIENTE + usuario.getPerfil().getId());
         }else{
+            AtendimentoDao.Properties propriedades = new AtendimentoDao.Properties();
 
+            QueryBuilder<Atendimento> atendimentoQB = guiaProDao.getDaoSession()
+                    .getAtendimentoDao().queryBuilder();
+            atendimentoQB
+                    .where(propriedades.ClienteId.eq(usuario.getPerfil().getId()));
+
+            List<Atendimento> listaAtendimento = atendimentoQB.list();
+            carregarAtendimentos(listaAtendimento);
         }
     }
 
@@ -70,6 +84,10 @@ public class HistoricoFragment extends Fragment implements AtendimentoInterface 
 
     @Override
     public void retornoBuscaAtendimentos(List<Atendimento> atendimentos) {
+        carregarAtendimentos(atendimentos);
+    }
+
+    private void carregarAtendimentos(List<Atendimento> atendimentos){
         for(Atendimento atendimento : atendimentos){
             LinearLayout llHistorico = (LinearLayout) getActivity().getLayoutInflater().inflate(R.layout.adapter_historico_cliente,null);
             ImageView ivHistorico = (ImageView) llHistorico.findViewById(R.id.ivHistorico);
