@@ -107,7 +107,6 @@ public class ListagemAtendimentoProfissionalFragment extends Fragment implements
         }
     }
 
-
     private void carregaAtendimentos(){
         AtendimentoAdapter atendimentoAdapter = new AtendimentoAdapter(getContext(),
                 R.layout.adapter_atendimento,listaAtendimento,atendimentoAdapterInterface);
