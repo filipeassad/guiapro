@@ -67,6 +67,7 @@ public class PostCadastrarAtendimentoAsyncTask extends AsyncTask<String, String,
             jsonParam.put("tipoatendimentoId", atendimento.getTipoAtendimentoId());
             jsonParam.put("situacaoId", atendimento.getSitucaoId());
             jsonParam.put("categoriaId", atendimento.getCategoriaId());
+            jsonParam.put("clienteId", VariaveisEstaticas.getUsuario().getPerfil().getId());
 
             jsonArray.put(jsonParam);
 

@@ -6,26 +6,35 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import java.util.List;
 
 import dev.kosmo.com.br.dao.GuiaProDao;
 import dev.kosmo.com.br.guiapro.R;
+import dev.kosmo.com.br.interfaces.AtendimentoAdapterInterface;
+import dev.kosmo.com.br.interfaces.AtendimentoInterface;
+import dev.kosmo.com.br.models.Atendimento;
+import dev.kosmo.com.br.task.gets.GetAtendimentoPorClienteAsyncTask;
 import dev.kosmo.com.br.utils.ConversaoTexto;
+import dev.kosmo.com.br.utils.FerramentasBasicas;
 import dev.kosmo.com.br.utils.VariaveisEstaticas;
 
 /**
  * Created by 0118431 on 26/03/2018.
  */
 
-public class HistoricoFragment extends Fragment {
+public class HistoricoFragment extends Fragment implements AtendimentoInterface {
 
     private List<String> lista;
     private LinearLayout listaHistorico;
     private ConversaoTexto conversaoTexto;
     private GuiaProDao guiaProDao;
+    private AtendimentoInterface atendimentoInterface = this;
 
+    private final String URL_ATENDIMENTO_CLIENTE = "mobile/atendimento_cliente/";
 
     @Nullable
     @Override
@@ -46,36 +55,112 @@ public class HistoricoFragment extends Fragment {
     }
 
     private void carregaHistorico(){
+        if(FerramentasBasicas.isOnline(getContext())){
+            GetAtendimentoPorClienteAsyncTask getAtendimentoPorClienteAsyncTask = new GetAtendimentoPorClienteAsyncTask(getContext(), atendimentoInterface);
+            getAtendimentoPorClienteAsyncTask.execute(FerramentasBasicas.getURL() + URL_ATENDIMENTO_CLIENTE + VariaveisEstaticas.getUsuario().getPerfil().getId());
+        }else{
 
-        /*HistoricoManager historicoManager = new HistoricoManager(dataBaseHelper.getWritableDatabase());
-        lista = historicoManager.getAllHistorico();
-
-        //HistoricoAdapter historicoAdapter = new HistoricoAdapter(getContext(), R.layout.adapter_historico_cliente,lista);
-        
-        int tamanho = lista.size();
-        for(Historico aux : lista){
-
-
-            LinearLayout vi = (LinearLayout) getActivity().getLayoutInflater().inflate(R.layout.adapter_historico_cliente,null);
-
-            ImageView ivHistorico = (ImageView) vi.findViewById(R.id.ivHistorico);
-            TextView tvHistorico = (TextView) vi.findViewById(R.id.tvHistorico);
-
-            //ivHistorico.setImageBitmap(aux.getProfissionalObj().getImg());
-            //tvHistorico.setText(Html.fromHtml(conversaoTexto.getTextoNomeLaranja(aux.getDescricao(), aux.getProfissionalObj().getNome())), TextView.BufferType.SPANNABLE);
-            //tvHistorico.setText(aux.getDescricao());
-
-            listaHistorico.addView(vi);
-            if(tamanho != 1){
-                LinearLayout linearLayout = new LinearLayout(getContext());
-                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 1);
-                params.setMargins(60,0,60,0);
-                linearLayout.setBackgroundColor(Color.parseColor("#e9a11c"));
-                linearLayout.setLayoutParams(params);
-                listaHistorico.addView(linearLayout);
-            }
-            tamanho--;
         }
-        */
+    }
+
+    @Override
+    public void retornoCadastroAtendimento(boolean cadastrou, long idAtendimento) {
+
+    }
+
+    @Override
+    public void retornoBuscaAtendimentos(List<Atendimento> atendimentos) {
+        for(Atendimento atendimento : atendimentos){
+            LinearLayout llHistorico = (LinearLayout) getActivity().getLayoutInflater().inflate(R.layout.adapter_historico_cliente,null);
+            ImageView ivHistorico = (ImageView) llHistorico.findViewById(R.id.ivHistorico);
+            TextView tvHistorico = (TextView) llHistorico.findViewById(R.id.tvHistorico);
+
+            tvHistorico.setText(montarMensagemHistorico(atendimento));
+
+            listaHistorico.addView(llHistorico);
+        }
+    }
+
+    private String montarMensagemHistorico(Atendimento atendimento){
+        String msg = "";
+
+        switch ((int)atendimento.getTipoAtendimentoId()){
+            case 1: //Ligação
+                msg = montarMensagemLigacao(atendimento);
+                break;
+            case 2: //Whatsapp
+                msg = montarMensagemWhatsapp(atendimento);
+                break;
+            case 3: //Me ligue
+                msg = montarMensagemMeligue(atendimento);
+                break;
+        }
+        return msg;
+    }
+
+    private String montarMensagemLigacao(Atendimento atendimento){
+        String msg = "";
+        switch ((int)atendimento.getSitucaoId()){
+            case 1: //Aguardando Atendimento
+                msg = atendimento.getCliente().getNome() + " entrou em contato por ligação com " + atendimento.getProfisisonal().getNome();
+                break;
+            case 2: //Atendido
+                msg = atendimento.getProfisisonal().getNome() + " retornou por ligação o chamado de " + atendimento.getCliente().getNome();
+                break;
+            case 3: //Trabalho Fechado
+                msg = atendimento.getCliente().getNome() + " fechou um trabalho com " + atendimento.getProfisisonal().getNome();
+                break;
+            case 4: //Trabalho Finalizado
+                msg = atendimento.getProfisisonal().getNome() + " finalizou trabalho com " + atendimento.getCliente().getNome();
+                break;
+            case 5: //Trabalho Não Foi Fechado
+                msg = "O trabalho não foi fechado entre " + atendimento.getCliente().getNome() + " e " + atendimento.getProfisisonal().getNome();
+                break;
+        }
+        return msg;
+    }
+
+    private String montarMensagemWhatsapp(Atendimento atendimento){
+        String msg = "";
+        switch ((int)atendimento.getSitucaoId()){
+            case 1: //Aguardando Atendimento
+                msg = atendimento.getCliente().getNome() + " entrou em contato por whatsapp com " + atendimento.getProfisisonal().getNome();
+                break;
+            case 2: //Atendido
+                msg = atendimento.getProfisisonal().getNome() + " retornou por whatsapp o chamado de " + atendimento.getCliente().getNome();
+                break;
+            case 3: //Trabalho Fechado
+                msg = atendimento.getCliente().getNome() + " fechou um trabalho com " + atendimento.getProfisisonal().getNome();
+                break;
+            case 4: //Trabalho Finalizado
+                msg = atendimento.getProfisisonal().getNome() + " finalizou trabalho com " + atendimento.getCliente().getNome();
+                break;
+            case 5: //Trabalho Não Foi Fechado
+                msg = "O trabalho não foi fechado entre " + atendimento.getCliente().getNome() + " e " + atendimento.getProfisisonal().getNome();
+                break;
+        }
+        return msg;
+    }
+
+    private String montarMensagemMeligue(Atendimento atendimento){
+        String msg = "";
+        switch ((int)atendimento.getSitucaoId()){
+            case 1: //Aguardando Atendimento
+                msg = atendimento.getCliente().getNome() + " solicitou retorno de chamada para " + atendimento.getProfisisonal().getNome();
+                break;
+            case 2: //Atendido
+                msg = atendimento.getProfisisonal().getNome() + " retornou o chamado de " + atendimento.getCliente().getNome();
+                break;
+            case 3: //Trabalho Fechado
+                msg = atendimento.getCliente().getNome() + " fechou um trabalho com " + atendimento.getProfisisonal().getNome();
+                break;
+            case 4: //Trabalho Finalizado
+                msg = atendimento.getProfisisonal().getNome() + " finalizou trabalho com " + atendimento.getCliente().getNome();
+                break;
+            case 5: //Trabalho Não Foi Fechado
+                msg = "O trabalho não foi fechado entre " + atendimento.getCliente().getNome() + " e " + atendimento.getProfisisonal().getNome();
+                break;
+        }
+        return msg;
     }
 }

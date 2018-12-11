@@ -189,7 +189,7 @@ public class DetalheProfissionalFragment extends Fragment implements OnMapReadyC
                 Atendimento atendimento = criarAtendimento(
                         usuario.getPerfil().getNome() + " solicitou liguação para o profissinal " + profissional.getNome(),
                         "Me Ligue - " + categoria.getDescricao(),
-                        ATENDIMENTO_WHATS);
+                        ATENDIMENTO_MELIGUE);
 
                 guiaProDao.getDaoSession().getAtendimentoDao().insert(atendimento);
 
