@@ -324,14 +324,20 @@ public class PrincipalActivity extends FragmentActivity implements FragmentInter
             }else if(view.getTag().equals("TopRanked")){
                 ivTopRanked.setImageBitmap(BitmapFactory.decodeResource(view.getResources(), R.drawable.star));
                 tvTopRanked.setTextColor(Color.parseColor("#e9a11c"));
+                ivTopRankedProfissional.setImageBitmap(BitmapFactory.decodeResource(view.getResources(), R.drawable.star));
+                tvTopRankedProfissional.setTextColor(Color.parseColor("#e9a11c"));
                 mudaTela("TopRanked");
             }else if(view.getTag().equals("Ofertas")){
                 ivOfertas.setImageBitmap(BitmapFactory.decodeResource(view.getResources(), R.drawable.tags));
                 tvOfertas.setTextColor(Color.parseColor("#e9a11c"));
+                ivOfertasProfissional.setImageBitmap(BitmapFactory.decodeResource(view.getResources(), R.drawable.tags));
+                tvOfertasProfissional.setTextColor(Color.parseColor("#e9a11c"));
                 mudaTela("Ofertas");
             }else if(view.getTag().equals("Historico")){
                 ivHistorico.setImageBitmap(BitmapFactory.decodeResource(view.getResources(), R.drawable.list));
                 tvHistorico.setTextColor(Color.parseColor("#e9a11c"));
+                ivHistoricoProfissional.setImageBitmap(BitmapFactory.decodeResource(view.getResources(), R.drawable.list));
+                tvHistoricoProfissional.setTextColor(Color.parseColor("#e9a11c"));
                 mudaTela("Historico");
             }else if(view.getTag().equals("Atendimento")){
                 ivAtendimentoProfissional.setImageBitmap(BitmapFactory.decodeResource(view.getResources(), R.drawable.atendimento_laranja));
