@@ -68,6 +68,10 @@ public class CategoriasFragment extends Fragment implements GetCategoriaInterfac
 
     private void buscaDB(){
         List<Categoria> lista = guiaProDao.getDaoSession().getCategoriaDao().loadAll();
+        for(Categoria aux :lista){
+            aux.setImagem(getImagem(aux.getDescricao()));
+            salvaNoBanco(aux);
+        }
         carregaCategorias(lista);
     }
 

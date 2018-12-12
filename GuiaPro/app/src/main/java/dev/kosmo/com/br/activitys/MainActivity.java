@@ -67,7 +67,6 @@ public class MainActivity extends Activity implements PostLoginInterface, Perfil
 
         verificaTolken();
         acoes();
-
     }
 
     private void acoes(){

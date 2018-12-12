@@ -40,6 +40,8 @@ public class HistoricoFragment extends Fragment implements AtendimentoInterface 
     private Usuario usuario;
 
     private final String URL_ATENDIMENTO_CLIENTE = "mobile/atendimento_cliente/";
+    private final String URL_ATENDIMENTO_PROFISSIONAL = "mobile/atendimento_profissional/";
+    private final long CODIGO_PERFIL_PROFISSIONAL = 2;
 
     @Nullable
     @Override
@@ -57,20 +59,24 @@ public class HistoricoFragment extends Fragment implements AtendimentoInterface 
         carregaHistorico();
 
         return view;
-
     }
 
     private void carregaHistorico(){
         if(FerramentasBasicas.isOnline(getContext())){
             GetAtendimentoPorClienteAsyncTask getAtendimentoPorClienteAsyncTask = new GetAtendimentoPorClienteAsyncTask(getContext(), atendimentoInterface);
-            getAtendimentoPorClienteAsyncTask.execute(FerramentasBasicas.getURL() + URL_ATENDIMENTO_CLIENTE + usuario.getPerfil().getId());
+            if(usuario.getPerfil().getTipoPerfilId() == CODIGO_PERFIL_PROFISSIONAL)
+                getAtendimentoPorClienteAsyncTask.execute(FerramentasBasicas.getURL() + URL_ATENDIMENTO_PROFISSIONAL + usuario.getPerfil().getId());
+            else
+                getAtendimentoPorClienteAsyncTask.execute(FerramentasBasicas.getURL() + URL_ATENDIMENTO_CLIENTE + usuario.getPerfil().getId());
         }else{
             AtendimentoDao.Properties propriedades = new AtendimentoDao.Properties();
 
             QueryBuilder<Atendimento> atendimentoQB = guiaProDao.getDaoSession()
                     .getAtendimentoDao().queryBuilder();
             atendimentoQB
-                    .where(propriedades.ClienteId.eq(usuario.getPerfil().getId()));
+                    .where(usuario.getPerfil().getTipoPerfilId() == CODIGO_PERFIL_PROFISSIONAL ?
+                            propriedades.ProfissionalId.eq(usuario.getPerfil().getId())
+                            : propriedades.ClienteId.eq(usuario.getPerfil().getId()));
 
             List<Atendimento> listaAtendimento = atendimentoQB.list();
             carregarAtendimentos(listaAtendimento);
@@ -84,6 +90,12 @@ public class HistoricoFragment extends Fragment implements AtendimentoInterface 
 
     @Override
     public void retornoBuscaAtendimentos(List<Atendimento> atendimentos) {
+        for(Atendimento aux :atendimentos){
+            guiaProDao.getDaoSession().getPerfilDao().insertOrReplace(aux.getCliente());
+            guiaProDao.getDaoSession().getPerfilDao().insertOrReplace(aux.getProfisisonal());
+            guiaProDao.getDaoSession().getCategoriaDao().insertOrReplace(aux.getCategoria());
+            guiaProDao.getDaoSession().getAtendimentoDao().insertOrReplace(aux);
+        }
         carregarAtendimentos(atendimentos);
     }
 
