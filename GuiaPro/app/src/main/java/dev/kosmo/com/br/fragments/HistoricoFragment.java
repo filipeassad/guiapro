@@ -41,14 +41,18 @@ public class HistoricoFragment extends Fragment implements AtendimentoInterface 
 
     private final String URL_ATENDIMENTO_CLIENTE = "mobile/atendimento_cliente/";
     private final String URL_ATENDIMENTO_PROFISSIONAL = "mobile/atendimento_profissional/";
-    private final long CODIGO_PERFIL_PROFISSIONAL = 2;
+    private final long TIPO_PERFIL_PROFISSIONAL = 2;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_historico, container, false);
-        VariaveisEstaticas.getFragmentInterface().visibilidadeMenu(true);
+
+        if(VariaveisEstaticas.getUsuario().getPerfil().getTipoPerfilId() == TIPO_PERFIL_PROFISSIONAL)
+            VariaveisEstaticas.getFragmentInterface().visibilidadeMenuProfissional(true);
+        else
+            VariaveisEstaticas.getFragmentInterface().visibilidadeMenu(true);
 
         listaHistorico = (LinearLayout) view.findViewById(R.id.listaHistorico);
         conversaoTexto = new ConversaoTexto();
@@ -64,7 +68,7 @@ public class HistoricoFragment extends Fragment implements AtendimentoInterface 
     private void carregaHistorico(){
         if(FerramentasBasicas.isOnline(getContext())){
             GetAtendimentoPorClienteAsyncTask getAtendimentoPorClienteAsyncTask = new GetAtendimentoPorClienteAsyncTask(getContext(), atendimentoInterface);
-            if(usuario.getPerfil().getTipoPerfilId() == CODIGO_PERFIL_PROFISSIONAL)
+            if(usuario.getPerfil().getTipoPerfilId() == TIPO_PERFIL_PROFISSIONAL)
                 getAtendimentoPorClienteAsyncTask.execute(FerramentasBasicas.getURL() + URL_ATENDIMENTO_PROFISSIONAL + usuario.getPerfil().getId());
             else
                 getAtendimentoPorClienteAsyncTask.execute(FerramentasBasicas.getURL() + URL_ATENDIMENTO_CLIENTE + usuario.getPerfil().getId());
@@ -74,7 +78,7 @@ public class HistoricoFragment extends Fragment implements AtendimentoInterface 
             QueryBuilder<Atendimento> atendimentoQB = guiaProDao.getDaoSession()
                     .getAtendimentoDao().queryBuilder();
             atendimentoQB
-                    .where(usuario.getPerfil().getTipoPerfilId() == CODIGO_PERFIL_PROFISSIONAL ?
+                    .where(usuario.getPerfil().getTipoPerfilId() == TIPO_PERFIL_PROFISSIONAL ?
                             propriedades.ProfissionalId.eq(usuario.getPerfil().getId())
                             : propriedades.ClienteId.eq(usuario.getPerfil().getId()));
 

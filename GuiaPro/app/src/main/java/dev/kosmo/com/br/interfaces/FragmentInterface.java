@@ -10,5 +10,6 @@ public interface FragmentInterface {
     public void mudaTela(String nome);
     public void voltar();
     public void visibilidadeMenu(boolean visivel);
+    public void visibilidadeMenuProfissional(boolean visivel);
     public void mudaActivity(Intent intent);
 }

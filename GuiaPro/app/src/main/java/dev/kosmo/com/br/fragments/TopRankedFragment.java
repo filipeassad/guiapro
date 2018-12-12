@@ -18,13 +18,18 @@ import dev.kosmo.com.br.utils.VariaveisEstaticas;
 public class TopRankedFragment extends Fragment {
 
     private Button btnVoltar;
+    private final long TIPO_PERFIL_PROFISSIONAL = 2;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_embreve, container, false);
-        VariaveisEstaticas.getFragmentInterface().visibilidadeMenu(true);
+
+        if(VariaveisEstaticas.getUsuario().getPerfil().getTipoPerfilId() == TIPO_PERFIL_PROFISSIONAL)
+            VariaveisEstaticas.getFragmentInterface().visibilidadeMenuProfissional(true);
+        else
+            VariaveisEstaticas.getFragmentInterface().visibilidadeMenu(true);
 
         btnVoltar = (Button) view.findViewById(R.id.btnVoltar);
 

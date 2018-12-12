@@ -45,6 +45,7 @@ public class PrincipalActivity extends FragmentActivity implements FragmentInter
     private LinearLayout llBgCinza;
     private ImageView ivMenu;
     private LinearLayout llFooterMenu;
+    private LinearLayout llFooterMenuProfissional;
 
     private LinearLayout llPesquisar;
     private ImageView ivPesquisar;
@@ -63,6 +64,22 @@ public class PrincipalActivity extends FragmentActivity implements FragmentInter
     private TextView tvHistorico;
     private Usuario usuario;
 
+    private LinearLayout llAtendimentoProfissional;
+    private ImageView ivAtendimentoProfissional;
+    private TextView tvAtendimentoProfissional;
+
+    private LinearLayout llTopRankedProfissional;
+    private ImageView ivTopRankedProfissional;
+    private TextView tvTopRankedProfissional;
+
+    private LinearLayout llOfertasProfissional;
+    private ImageView ivOfertasProfissional;
+    private TextView tvOfertasProfissional;
+
+    private LinearLayout llHistoricoProfissional;
+    private ImageView ivHistoricoProfissional;
+    private TextView tvHistoricoProfissional;
+
     private GerenciadorFragment gerenciadorFragment  = new GerenciadorFragment();
     private Animacao animacao = new Animacao();
     private GuiaProDao guiaProDao;
@@ -77,6 +94,7 @@ public class PrincipalActivity extends FragmentActivity implements FragmentInter
         llBgCinza = (LinearLayout) findViewById(R.id.llBgCinza);
         ivMenu = (ImageView) findViewById(R.id.ivMenu);
         llFooterMenu = (LinearLayout) findViewById(R.id.llFooterMenu);
+        llFooterMenuProfissional = (LinearLayout) findViewById(R.id.llFooterMenuProfissional);
 
         llPesquisar = (LinearLayout) findViewById(R.id.llPesquisar);
         ivPesquisar = (ImageView) findViewById(R.id.ivPesquisar);
@@ -94,15 +112,41 @@ public class PrincipalActivity extends FragmentActivity implements FragmentInter
         ivHistorico = (ImageView) findViewById(R.id.ivHistorico);
         tvHistorico = (TextView) findViewById(R.id.tvHistorico);
 
+        llAtendimentoProfissional = (LinearLayout) findViewById(R.id.llAtendimentoProfissional);
+        ivAtendimentoProfissional = (ImageView) findViewById(R.id.ivAtendimentoProfissional);
+        tvAtendimentoProfissional = (TextView) findViewById(R.id.tvAtendimentoProfissional);
+
+        llTopRankedProfissional = (LinearLayout) findViewById(R.id.llTopRankedProfissional);
+        ivTopRankedProfissional = (ImageView) findViewById(R.id.ivTopRankedProfissional);
+        tvTopRankedProfissional = (TextView) findViewById(R.id.tvTopRankedProfissional);
+
+        llOfertasProfissional = (LinearLayout) findViewById(R.id.llOfertasProfissional);
+        ivOfertasProfissional = (ImageView) findViewById(R.id.ivOfertasProfissional);
+        tvOfertasProfissional = (TextView) findViewById(R.id.tvOfertasProfissional);
+
+        llHistoricoProfissional = (LinearLayout) findViewById(R.id.llHistoricoProfissional);
+        ivHistoricoProfissional = (ImageView) findViewById(R.id.ivHistoricoProfissional);
+        tvHistoricoProfissional = (TextView) findViewById(R.id.tvHistoricoProfissional);
+
         llPesquisar.setTag("Pesquisar");
         llTopRanked.setTag("TopRanked");
         llOfertas.setTag("Ofertas");
         llHistorico.setTag("Historico");
 
+        llAtendimentoProfissional.setTag("Atendimento");
+        llTopRankedProfissional.setTag("TopRanked");
+        llOfertasProfissional.setTag("Ofertas");
+        llHistoricoProfissional.setTag("Historico");
+
         llPesquisar.setOnClickListener(menuClickListener);
         llTopRanked.setOnClickListener(menuClickListener);
         llOfertas.setOnClickListener(menuClickListener);
         llHistorico.setOnClickListener(menuClickListener);
+
+        llAtendimentoProfissional.setOnClickListener(menuClickListener);
+        llTopRankedProfissional.setOnClickListener(menuClickListener);
+        llOfertasProfissional.setOnClickListener(menuClickListener);
+        llHistoricoProfissional.setOnClickListener(menuClickListener);
 
         guiaProDao = (GuiaProDao) getApplication();
 
@@ -244,8 +288,21 @@ public class PrincipalActivity extends FragmentActivity implements FragmentInter
     public void visibilidadeMenu(boolean visivel) {
         if(visivel){
             llFooterMenu.setVisibility(View.VISIBLE);
+            llFooterMenuProfissional.setVisibility(View.GONE);
         }else{
             llFooterMenu.setVisibility(View.GONE);
+            llFooterMenuProfissional.setVisibility(View.GONE);
+        }
+    }
+
+    @Override
+    public void visibilidadeMenuProfissional(boolean visivel) {
+        if(visivel){
+            llFooterMenu.setVisibility(View.GONE);
+            llFooterMenuProfissional.setVisibility(View.VISIBLE);
+        }else{
+            llFooterMenu.setVisibility(View.GONE);
+            llFooterMenuProfissional.setVisibility(View.GONE);
         }
     }
 
@@ -276,6 +333,10 @@ public class PrincipalActivity extends FragmentActivity implements FragmentInter
                 ivHistorico.setImageBitmap(BitmapFactory.decodeResource(view.getResources(), R.drawable.list));
                 tvHistorico.setTextColor(Color.parseColor("#e9a11c"));
                 mudaTela("Historico");
+            }else if(view.getTag().equals("Atendimento")){
+                ivAtendimentoProfissional.setImageBitmap(BitmapFactory.decodeResource(view.getResources(), R.drawable.atendimento_laranja));
+                tvAtendimentoProfissional.setTextColor(Color.parseColor("#e9a11c"));
+                mudaTela("ListagemAtendimentoProfissional");
             }
 
         }
@@ -294,6 +355,9 @@ public class PrincipalActivity extends FragmentActivity implements FragmentInter
 
         ivHistorico.setImageBitmap(BitmapFactory.decodeResource(this.getResources(), R.drawable.listcinza));
         tvHistorico.setTextColor(Color.parseColor("#868686"));
+
+        ivAtendimentoProfissional.setImageBitmap(BitmapFactory.decodeResource(this.getResources(), R.drawable.atendimento_cinza));
+        tvAtendimentoProfissional.setTextColor(Color.parseColor("#868686"));
 
     }
 

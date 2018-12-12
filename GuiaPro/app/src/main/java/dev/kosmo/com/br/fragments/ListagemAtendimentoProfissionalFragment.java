@@ -67,7 +67,7 @@ public class ListagemAtendimentoProfissionalFragment extends Fragment implements
         lvTelaInicial = (ListView) view.findViewById(R.id.lvTelaInicial);
         llDetalheAtendimento = (LinearLayout) view.findViewById(R.id.llDetalheAtendimento);
 
-        VariaveisEstaticas.getFragmentInterface().visibilidadeMenu(true);
+        VariaveisEstaticas.getFragmentInterface().visibilidadeMenuProfissional(true);
 
         abaSolicitacoes.setTag("Solicitacoes");
         abaAtendidos.setTag("Atendidos");
