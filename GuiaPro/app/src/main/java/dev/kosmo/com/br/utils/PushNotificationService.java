@@ -79,7 +79,6 @@ public class PushNotificationService extends Service {
                     }catch (Exception e){
 
                     }
-
                 }
             });
 
