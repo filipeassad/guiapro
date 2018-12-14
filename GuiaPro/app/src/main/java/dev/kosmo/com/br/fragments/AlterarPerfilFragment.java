@@ -144,6 +144,7 @@ public class AlterarPerfilFragment extends Fragment implements PutAlterarCliente
             jsonObject.put("cpf", edtCpf.getText().toString());
             jsonObject.put("sexo", sexoSelecionado);
             jsonObject.put("celular", edtCelular.getText().toString());
+            jsonObject.put("ativo", VariaveisEstaticas.getUsuario().getPerfil().getAtivo());
         } catch (JSONException e) {
             e.printStackTrace();
         }

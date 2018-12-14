@@ -20,9 +20,6 @@ import dev.kosmo.com.br.task.posts.PostCadastrarClienteAsyncTask;
 import dev.kosmo.com.br.utils.FerramentasBasicas;
 import dev.kosmo.com.br.utils.MaskEditUtil;
 
-/**
- * Created by 0118431 on 08/03/2018.
- */
 
 public class CadastroActivity extends Activity implements CadastroClienteInterface, DialogFinalizadoInterface {
 

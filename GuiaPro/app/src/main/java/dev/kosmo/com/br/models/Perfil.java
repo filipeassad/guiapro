@@ -27,6 +27,7 @@ public class Perfil {
     private String sexo;
     private String celular;
     private String urlImg;
+    private String ativo;
 
     private long enderecoId;
     private long tipoPerfilId;
@@ -58,9 +59,9 @@ public class Perfil {
     public Perfil() {
     }
 
-    @Generated(hash = 664846739)
-    public Perfil(Long id, String nome, String sobrenome, Date dataNascimento, String cpf,
-            String sexo, String celular, String urlImg, long enderecoId, long tipoPerfilId) {
+    @Generated(hash = 1779228029)
+    public Perfil(Long id, String nome, String sobrenome, Date dataNascimento, String cpf, String sexo,
+            String celular, String urlImg, String ativo, long enderecoId, long tipoPerfilId) {
         this.id = id;
         this.nome = nome;
         this.sobrenome = sobrenome;
@@ -69,6 +70,7 @@ public class Perfil {
         this.sexo = sexo;
         this.celular = celular;
         this.urlImg = urlImg;
+        this.ativo = ativo;
         this.enderecoId = enderecoId;
         this.tipoPerfilId = tipoPerfilId;
     }
@@ -163,6 +165,14 @@ public class Perfil {
 
     public void setTipoPerfilId(long tipoPerfilId) {
         this.tipoPerfilId = tipoPerfilId;
+    }
+
+    public String getAtivo() {
+        return ativo;
+    }
+
+    public void setAtivo(String ativo) {
+        this.ativo = ativo;
     }
 
     /** To-one relationship, resolved on first access. */

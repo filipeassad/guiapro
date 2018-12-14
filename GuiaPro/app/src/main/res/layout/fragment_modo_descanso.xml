@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_header">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="15dp"
+        android:background="@drawable/shape_box_white"
+        android:orientation="vertical"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginBottom="20dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Qual é a sua situação no momento?"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="left|center"
+            android:layout_marginTop="10dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Situação:"/>
+            <RadioGroup
+                android:id="@+id/rdSituacao"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <RadioButton
+                    android:id="@+id/rbT"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Trabalhando"
+                    android:checked="true"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginLeft="10dp"/>
+                <RadioButton
+                    android:id="@+id/rbD"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Descansando"/>
+            </RadioGroup>
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="left"
+            android:layout_marginTop="10dp"
+            android:textSize="10sp"
+            android:text="Trabalhando: O seu perfil aparecerá na listagem de profissionais."/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="left"
+            android:layout_marginTop="10dp"
+            android:textSize="10sp"
+            android:text="Descansando: O seu perfil não aparecerá na listagem de profissionais."/>
+
+
+    </LinearLayout>
+
+</LinearLayout>

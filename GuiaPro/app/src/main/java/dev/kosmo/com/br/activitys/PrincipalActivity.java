@@ -84,6 +84,8 @@ public class PrincipalActivity extends FragmentActivity implements FragmentInter
     private Animacao animacao = new Animacao();
     private GuiaProDao guiaProDao;
 
+    private final long TIPO_PERFIL_PROFISSIONAL = 2;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
 
@@ -179,7 +181,10 @@ public class PrincipalActivity extends FragmentActivity implements FragmentInter
 
         List<ItemMenuNav> lista = new ArrayList<>();
         lista.add(new ItemMenuNav("Informações Pessoais", BitmapFactory.decodeResource(this.getResources(), R.drawable.manuser)));
-        lista.add(new ItemMenuNav("Notificações", BitmapFactory.decodeResource(this.getResources(), R.drawable.notification)));
+        if(usuario.getPerfil().getTipoPerfilId() == TIPO_PERFIL_PROFISSIONAL){
+            lista.add(new ItemMenuNav("Modo Descanso", BitmapFactory.decodeResource(this.getResources(), R.drawable.notification)));
+        }
+        //lista.add(new ItemMenuNav("Notificações", BitmapFactory.decodeResource(this.getResources(), R.drawable.notification)));
         //lista.add(new ItemMenuNav("Relate um Problema", BitmapFactory.decodeResource(this.getResources(), R.drawable.attention)));
         //lista.add(new ItemMenuNav("Ajuda", BitmapFactory.decodeResource(this.getResources(), R.drawable.help)));
         lista.add(new ItemMenuNav("Sair", BitmapFactory.decodeResource(this.getResources(), R.drawable.sair)));
@@ -206,6 +211,8 @@ public class PrincipalActivity extends FragmentActivity implements FragmentInter
                 }else if(((ItemMenuNav)adapterView.getItemAtPosition(i)).getRotulo().equals("Sair")){
                     guiaProDao.getDaoSession().getUsuarioDao().delete(usuario);
                     finish();
+                }else if(((ItemMenuNav)adapterView.getItemAtPosition(i)).getRotulo().equals("Modo Descanso")){
+                    mudaTela("ModoDescanso");
                 }
             }
         });

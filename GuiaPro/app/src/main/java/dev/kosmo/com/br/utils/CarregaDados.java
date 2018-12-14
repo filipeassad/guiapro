@@ -47,6 +47,7 @@ public class CarregaDados {
             perfil.setSexo(jsonObject.has("sexo") ? jsonObject.getString("sexo") : "");
             perfil.setCelular(jsonObject.has("celular") ? jsonObject.getString("celular") : "");
             perfil.setUrlImg(jsonObject.has("urlimg") ? jsonObject.getString("urlimg") : "");
+            perfil.setAtivo(jsonObject.has("ativo") ? jsonObject.getString("ativo") : "");
 
             if(jsonObject.has("tipoperfil"))
                 montaTipoPerfil(perfil, jsonObject.getJSONObject("tipoperfil"));

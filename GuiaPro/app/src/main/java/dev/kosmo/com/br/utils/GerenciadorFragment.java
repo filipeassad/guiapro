@@ -9,7 +9,9 @@ import dev.kosmo.com.br.fragments.AlterarPerfilFragment;
 import dev.kosmo.com.br.fragments.CategoriasFragment;
 import dev.kosmo.com.br.fragments.DetalheProfissionalFragment;
 import dev.kosmo.com.br.fragments.HistoricoFragment;
+import dev.kosmo.com.br.fragments.ListagemAtendimentoProfissionalFragment;
 import dev.kosmo.com.br.fragments.ListagemProfissionaisFragment;
+import dev.kosmo.com.br.fragments.ModoDescansoFragment;
 import dev.kosmo.com.br.fragments.NotificacaoFragment;
 import dev.kosmo.com.br.fragments.OfertasFragment;
 import dev.kosmo.com.br.fragments.PerfilFragment;
@@ -53,11 +55,14 @@ public class GerenciadorFragment {
             HistoricoFragment historicoFragment = new HistoricoFragment();
             ft.replace(R.id.contFragments, historicoFragment, nomeTela);
         }else if(nomeTela.equals("ListagemAtendimentoProfissional")){
-            ListagemProfissionaisFragment listagemProfissionaisFragment = new ListagemProfissionaisFragment();
-            ft.replace(R.id.contFragments, listagemProfissionaisFragment, nomeTela);
+            ListagemAtendimentoProfissionalFragment listagemAtendimentoProfissionalFragment = new ListagemAtendimentoProfissionalFragment();
+            ft.replace(R.id.contFragments, listagemAtendimentoProfissionalFragment, nomeTela);
         }else if(nomeTela.equals("AlterarDadosCliente")){
             AlterarPerfilFragment alterarPerfilFragment = new AlterarPerfilFragment();
             ft.replace(R.id.contFragments, alterarPerfilFragment, nomeTela);
+        }else if(nomeTela.equals("ModoDescanso")){
+            ModoDescansoFragment modoDescansoFragment = new ModoDescansoFragment();
+            ft.replace(R.id.contFragments, modoDescansoFragment, nomeTela);
         }
 
         if(fm.findFragmentByTag(nomeTela) != null){
