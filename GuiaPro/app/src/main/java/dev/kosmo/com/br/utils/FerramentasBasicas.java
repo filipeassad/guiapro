@@ -72,14 +72,15 @@ public class FerramentasBasicas {
         //return "http://192.168.0.106:8000/api/";
         //return "http://104.236.17.236/api/";
         //return "http://192.168.0.13:3000/api/";
-        return "https://guiaproweb.herokuapp.com/api/";
+        //return "https://guiaproweb.herokuapp.com/api/";
+        return "https://guiapro.herokuapp.com/api/";
     }
 
     public static void fazerLigacao(String numero){
         //insertHistorico("Você ligou para " + VariaveisEstaticas.getProfissional().getNome());
         //callIntent.setData(Uri.parse("tel:067991611563"));
         Intent callIntent = new Intent(Intent.ACTION_CALL);
-        callIntent.setData(Uri.parse("tel:" + numero));
+        callIntent.setData(Uri.parse("tel:0" + numero));
         VariaveisEstaticas.getFragmentInterface().mudaActivity(callIntent);
     }
 
@@ -89,7 +90,7 @@ public class FerramentasBasicas {
             //String url = "https://api.whatsapp.com/send?phone="+ "+55067991611563" +"&text=" + URLEncoder.encode("", "UTF-8");
 
             Intent i = new Intent(Intent.ACTION_VIEW);
-            String url = "https://api.whatsapp.com/send?phone="+ "+55"
+            String url = "https://api.whatsapp.com/send?phone="+ "+550"
                     + numero
                     +"&text="
                     + URLEncoder.encode("", "UTF-8");

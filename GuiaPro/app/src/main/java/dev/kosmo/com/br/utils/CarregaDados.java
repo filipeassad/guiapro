@@ -46,6 +46,7 @@ public class CarregaDados {
             perfil.setCpf(jsonObject.has("cpf") ? jsonObject.getString("cpf") : "");
             perfil.setSexo(jsonObject.has("sexo") ? jsonObject.getString("sexo") : "");
             perfil.setCelular(jsonObject.has("celular") ? jsonObject.getString("celular") : "");
+            perfil.setCelularwhats(jsonObject.has("celularwhats") ? jsonObject.getString("celularwhats") : "");
             perfil.setUrlImg(jsonObject.has("urlimg") ? jsonObject.getString("urlimg") : "");
             perfil.setAtivo(jsonObject.has("ativo") ? jsonObject.getString("ativo") : "");
 

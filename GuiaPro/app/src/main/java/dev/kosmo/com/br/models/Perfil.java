@@ -26,6 +26,7 @@ public class Perfil {
     private String cpf;
     private String sexo;
     private String celular;
+    private String celularwhats;
     private String urlImg;
     private String ativo;
 
@@ -59,9 +60,10 @@ public class Perfil {
     public Perfil() {
     }
 
-    @Generated(hash = 1779228029)
+    @Generated(hash = 1235043796)
     public Perfil(Long id, String nome, String sobrenome, Date dataNascimento, String cpf, String sexo,
-            String celular, String urlImg, String ativo, long enderecoId, long tipoPerfilId) {
+            String celular, String celularwhats, String urlImg, String ativo, long enderecoId,
+            long tipoPerfilId) {
         this.id = id;
         this.nome = nome;
         this.sobrenome = sobrenome;
@@ -69,6 +71,7 @@ public class Perfil {
         this.cpf = cpf;
         this.sexo = sexo;
         this.celular = celular;
+        this.celularwhats = celularwhats;
         this.urlImg = urlImg;
         this.ativo = ativo;
         this.enderecoId = enderecoId;
@@ -311,6 +314,14 @@ public class Perfil {
 
     public void setCategoriasInsercao(List<Categoria> categoriasInsercao) {
         this.categoriasInsercao = categoriasInsercao;
+    }
+
+    public String getCelularwhats() {
+        return this.celularwhats;
+    }
+
+    public void setCelularwhats(String celularwhats) {
+        this.celularwhats = celularwhats;
     }
 
     /** called by internal mechanisms, do not call yourself. */

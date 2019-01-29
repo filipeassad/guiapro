@@ -66,7 +66,7 @@ public class CadastroActivity extends Activity implements CadastroClienteInterfa
 
         edtCpf.addTextChangedListener(MaskEditUtil.mask(edtCpf, MaskEditUtil.FORMAT_CPF));
         edtDataNascimento.addTextChangedListener(MaskEditUtil.mask(edtDataNascimento, MaskEditUtil.FORMAT_DATE));
-        edtCelular.addTextChangedListener(MaskEditUtil.mask(edtCelular, MaskEditUtil.FORMAT_FONE));
+        edtCelular.addTextChangedListener(MaskEditUtil.mask(edtCelular, MaskEditUtil.FORMAT_FONE_SECONDE));
 
         acoes();
     }
@@ -142,6 +142,7 @@ public class CadastroActivity extends Activity implements CadastroClienteInterfa
             jsonObject.put("cpf", edtCpf.getText().toString());
             jsonObject.put("sexo", sexoSelecionado);
             jsonObject.put("celular", edtCelular.getText().toString());
+            jsonObject.put("celularwhats", edtCelular.getText().toString());
         } catch (JSONException e) {
             e.printStackTrace();
         }
