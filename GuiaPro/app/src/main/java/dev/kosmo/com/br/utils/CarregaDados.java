@@ -11,6 +11,7 @@ import java.util.List;
 import dev.kosmo.com.br.models.Atendimento;
 import dev.kosmo.com.br.models.Categoria;
 import dev.kosmo.com.br.models.Endereco;
+import dev.kosmo.com.br.models.HistoricoAtendimento;
 import dev.kosmo.com.br.models.Perfil;
 import dev.kosmo.com.br.models.TipoPerfil;
 
@@ -107,6 +108,52 @@ public class CarregaDados {
         }
 
         return atendimento;
+    }
+
+    public List<HistoricoAtendimento> montaHistoricosAtendimento(JSONArray jsonArray){
+        List<HistoricoAtendimento> historicoAtendimentos = new ArrayList<>();
+
+        for(int i = 0; i < jsonArray.length(); i++){
+            try {
+                historicoAtendimentos.add(montaHistoricoAtendimento(jsonArray.getJSONObject(i)));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return historicoAtendimentos;
+    }
+
+    public HistoricoAtendimento montaHistoricoAtendimento(JSONObject jsonObject){
+        HistoricoAtendimento historicoAtendimento = new HistoricoAtendimento();
+
+        try {
+
+            historicoAtendimento.setId(jsonObject.getLong("id"));
+            historicoAtendimento.setData(new Date());
+            historicoAtendimento.setTitulo(jsonObject.has("titulo") ? jsonObject.getString("titulo") : "");
+            historicoAtendimento.setDescricao(jsonObject.has("descricao") ? jsonObject.getString("descricao") : "");
+            historicoAtendimento.setClienteId(jsonObject.has("clienteId") ? jsonObject.getLong("clienteId") : 0);
+            historicoAtendimento.setProfissionalId(jsonObject.has("profissionalId") ? jsonObject.getLong("profissionalId") : 0);
+            historicoAtendimento.setTipoAtendimentoId(jsonObject.has("tipoatendimentoId") ? jsonObject.getLong("tipoatendimentoId") : 0);
+            historicoAtendimento.setSitucaoId(jsonObject.has("situacaoId") ? jsonObject.getLong("situacaoId") : 0);
+            historicoAtendimento.setCategoriaId(jsonObject.has("categoriaId") ? jsonObject.getLong("categoriaId") : 0);
+            historicoAtendimento.setAtendimentoId(jsonObject.has("atendimentoId") ? jsonObject.getLong("atendimentoId") : 0);
+
+            if(jsonObject.has("cliente"))
+                historicoAtendimento.setCliente(montaPerfil(jsonObject.getJSONObject("cliente")));
+            if(jsonObject.has("profissional"))
+                historicoAtendimento.setProfisisonal(montaPerfil(jsonObject.getJSONObject("profissional")));
+            if(jsonObject.has("categoria"))
+                historicoAtendimento.setCategoria(montaCategoria(jsonObject.getJSONObject("categoria")));
+            if(jsonObject.has("atendimento"))
+                historicoAtendimento.setAtendimento(montaAtendimento(jsonObject.getJSONObject("atendimento")));
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return historicoAtendimento;
     }
 
     public List<Categoria> montaCategorias(JSONArray jsonArray){

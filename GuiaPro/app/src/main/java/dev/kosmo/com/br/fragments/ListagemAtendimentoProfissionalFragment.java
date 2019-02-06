@@ -24,7 +24,7 @@ import dev.kosmo.com.br.interfaces.AtendimentoInterface;
 import dev.kosmo.com.br.models.Atendimento;
 import dev.kosmo.com.br.models.AtendimentoDao;
 import dev.kosmo.com.br.models.Usuario;
-import dev.kosmo.com.br.task.gets.GetAtendimentoPorProfissionalAsyncTask;
+import dev.kosmo.com.br.task.gets.GetAtendimentoAsyncTask;
 import dev.kosmo.com.br.utils.FerramentasBasicas;
 import dev.kosmo.com.br.utils.VariaveisEstaticas;
 
@@ -94,8 +94,8 @@ public class ListagemAtendimentoProfissionalFragment extends Fragment implements
 
     private void buscarAtendimentos(){
         if(FerramentasBasicas.isOnline(getContext())){
-            GetAtendimentoPorProfissionalAsyncTask getAtendimentoPorProfissionalAsyncTask = new GetAtendimentoPorProfissionalAsyncTask(getContext(), atendimentoInterface);
-            getAtendimentoPorProfissionalAsyncTask.execute(FerramentasBasicas.getURL() + API_ATENDIMENTO);
+            GetAtendimentoAsyncTask getAtendimentoAsyncTask = new GetAtendimentoAsyncTask(getContext(), atendimentoInterface);
+            getAtendimentoAsyncTask.execute(FerramentasBasicas.getURL() + API_ATENDIMENTO);
         }else{
             AtendimentoDao.Properties propriedades = new AtendimentoDao.Properties();
 

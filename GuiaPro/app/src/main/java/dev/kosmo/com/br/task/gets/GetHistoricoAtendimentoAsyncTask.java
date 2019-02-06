@@ -9,29 +9,29 @@ import org.json.JSONArray;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-import dev.kosmo.com.br.interfaces.AtendimentoInterface;
+import dev.kosmo.com.br.interfaces.HistoricoAtendimentoInterface;
 import dev.kosmo.com.br.utils.CarregaDados;
 import dev.kosmo.com.br.utils.FerramentasBasicas;
 import dev.kosmo.com.br.utils.VariaveisEstaticas;
 
-public class GetAtendimentoPorProfissionalAsyncTask extends AsyncTask<String, String, JSONArray> {
+public class GetHistoricoAtendimentoAsyncTask extends AsyncTask<String, String, JSONArray> {
 
     private Context contexto;
-    private AtendimentoInterface atendimentoInterface;
+    private HistoricoAtendimentoInterface historicoAtendimentoInterface;
     private ProgressDialog progress;
     private CarregaDados carregaDados;
+
+    public GetHistoricoAtendimentoAsyncTask(Context contexto, HistoricoAtendimentoInterface historicoAtendimentoInterface) {
+        this.contexto = contexto;
+        this.historicoAtendimentoInterface = historicoAtendimentoInterface;
+        this.carregaDados = new CarregaDados();
+    }
 
     @Override
     protected void onPreExecute() {
         progress = new ProgressDialog(contexto);
         progress.setMessage("Aguarde...");
         progress.show();
-    }
-
-    public GetAtendimentoPorProfissionalAsyncTask(Context contexto, AtendimentoInterface atendimentoInterface) {
-        this.contexto = contexto;
-        this.atendimentoInterface = atendimentoInterface;
-        carregaDados = new CarregaDados();
     }
 
     @Override
@@ -68,6 +68,6 @@ public class GetAtendimentoPorProfissionalAsyncTask extends AsyncTask<String, St
     protected void onPostExecute(JSONArray jsonArray) {
         super.onPostExecute(jsonArray);
         progress.dismiss();
-        atendimentoInterface.retornoBuscaAtendimentos(carregaDados.montaAtendimentos(jsonArray));
+        historicoAtendimentoInterface.retornoBuscaHistoricosAtendimento(carregaDados.montaHistoricosAtendimento(jsonArray));
     }
 }

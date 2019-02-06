@@ -14,14 +14,14 @@ import dev.kosmo.com.br.utils.CarregaDados;
 import dev.kosmo.com.br.utils.FerramentasBasicas;
 import dev.kosmo.com.br.utils.VariaveisEstaticas;
 
-public class GetAtendimentoPorClienteAsyncTask extends AsyncTask<String, String, JSONArray> {
+public class GetAtendimentoAsyncTask extends AsyncTask<String, String, JSONArray> {
 
     private Context contexto;
     private AtendimentoInterface atendimentoInterface;
     private ProgressDialog progress;
     private CarregaDados carregaDados;
 
-    public GetAtendimentoPorClienteAsyncTask(Context contexto, AtendimentoInterface atendimentoInterface) {
+    public GetAtendimentoAsyncTask(Context contexto, AtendimentoInterface atendimentoInterface) {
         this.contexto = contexto;
         this.atendimentoInterface = atendimentoInterface;
         this.carregaDados = new CarregaDados();

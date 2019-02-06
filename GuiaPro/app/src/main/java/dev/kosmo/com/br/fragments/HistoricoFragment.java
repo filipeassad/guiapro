@@ -16,12 +16,15 @@ import java.util.List;
 
 import dev.kosmo.com.br.dao.GuiaProDao;
 import dev.kosmo.com.br.guiapro.R;
-import dev.kosmo.com.br.interfaces.AtendimentoAdapterInterface;
 import dev.kosmo.com.br.interfaces.AtendimentoInterface;
+import dev.kosmo.com.br.interfaces.HistoricoAtendimentoInterface;
 import dev.kosmo.com.br.models.Atendimento;
 import dev.kosmo.com.br.models.AtendimentoDao;
+import dev.kosmo.com.br.models.HistoricoAtendimento;
+import dev.kosmo.com.br.models.HistoricoAtendimentoDao;
 import dev.kosmo.com.br.models.Usuario;
-import dev.kosmo.com.br.task.gets.GetAtendimentoPorClienteAsyncTask;
+import dev.kosmo.com.br.task.gets.GetAtendimentoAsyncTask;
+import dev.kosmo.com.br.task.gets.GetHistoricoAtendimentoAsyncTask;
 import dev.kosmo.com.br.utils.ConversaoTexto;
 import dev.kosmo.com.br.utils.FerramentasBasicas;
 import dev.kosmo.com.br.utils.VariaveisEstaticas;
@@ -30,17 +33,17 @@ import dev.kosmo.com.br.utils.VariaveisEstaticas;
  * Created by 0118431 on 26/03/2018.
  */
 
-public class HistoricoFragment extends Fragment implements AtendimentoInterface {
+public class HistoricoFragment extends Fragment implements HistoricoAtendimentoInterface {
 
     private List<String> lista;
     private LinearLayout listaHistorico;
     private ConversaoTexto conversaoTexto;
     private GuiaProDao guiaProDao;
-    private AtendimentoInterface atendimentoInterface = this;
+    private HistoricoAtendimentoInterface historicoAtendimentoInterface = this;
     private Usuario usuario;
 
-    private final String URL_ATENDIMENTO_CLIENTE = "mobile/atendimento_cliente/";
-    private final String URL_ATENDIMENTO_PROFISSIONAL = "mobile/atendimento_profissional/";
+    private final String URL_HISTORICO_ATENDIMENTO_CLIENTE = "mobile/historico_atendimento_cliente/";
+    private final String URL_HISTORICO_ATENDIMENTO_PROFISSIONAL = "mobile/historico_atendimento_profissional/";
     private final long TIPO_PERFIL_PROFISSIONAL = 2;
 
     @Nullable
@@ -67,134 +70,135 @@ public class HistoricoFragment extends Fragment implements AtendimentoInterface 
 
     private void carregaHistorico(){
         if(FerramentasBasicas.isOnline(getContext())){
-            GetAtendimentoPorClienteAsyncTask getAtendimentoPorClienteAsyncTask = new GetAtendimentoPorClienteAsyncTask(getContext(), atendimentoInterface);
+            GetHistoricoAtendimentoAsyncTask getHistoricoAtendimentoAsyncTask = new GetHistoricoAtendimentoAsyncTask(getContext(), historicoAtendimentoInterface);
             if(usuario.getPerfil().getTipoPerfilId() == TIPO_PERFIL_PROFISSIONAL)
-                getAtendimentoPorClienteAsyncTask.execute(FerramentasBasicas.getURL() + URL_ATENDIMENTO_PROFISSIONAL + usuario.getPerfil().getId());
+                getHistoricoAtendimentoAsyncTask.execute(FerramentasBasicas.getURL() + URL_HISTORICO_ATENDIMENTO_PROFISSIONAL + usuario.getPerfil().getId());
             else
-                getAtendimentoPorClienteAsyncTask.execute(FerramentasBasicas.getURL() + URL_ATENDIMENTO_CLIENTE + usuario.getPerfil().getId());
+                getHistoricoAtendimentoAsyncTask.execute(FerramentasBasicas.getURL() + URL_HISTORICO_ATENDIMENTO_CLIENTE + usuario.getPerfil().getId());
         }else{
-            AtendimentoDao.Properties propriedades = new AtendimentoDao.Properties();
+            HistoricoAtendimentoDao.Properties propriedades = new HistoricoAtendimentoDao.Properties();
 
-            QueryBuilder<Atendimento> atendimentoQB = guiaProDao.getDaoSession()
-                    .getAtendimentoDao().queryBuilder();
-            atendimentoQB
+            QueryBuilder<HistoricoAtendimento> historicoAtendimentoQB = guiaProDao.getDaoSession()
+                    .getHistoricoAtendimentoDao().queryBuilder();
+            historicoAtendimentoQB
                     .where(usuario.getPerfil().getTipoPerfilId() == TIPO_PERFIL_PROFISSIONAL ?
                             propriedades.ProfissionalId.eq(usuario.getPerfil().getId())
                             : propriedades.ClienteId.eq(usuario.getPerfil().getId()));
 
-            List<Atendimento> listaAtendimento = atendimentoQB.list();
-            carregarAtendimentos(listaAtendimento);
+            List<HistoricoAtendimento> historicosAtendimento = historicoAtendimentoQB.list();
+            carregarHistoricosAtendimento(historicosAtendimento);
         }
     }
 
-    @Override
-    public void retornoCadastroAtendimento(boolean cadastrou, long idAtendimento) {
-
-    }
-
-    @Override
-    public void retornoBuscaAtendimentos(List<Atendimento> atendimentos) {
-        for(Atendimento aux :atendimentos){
-            guiaProDao.getDaoSession().getPerfilDao().insertOrReplace(aux.getCliente());
-            guiaProDao.getDaoSession().getPerfilDao().insertOrReplace(aux.getProfisisonal());
-            guiaProDao.getDaoSession().getCategoriaDao().insertOrReplace(aux.getCategoria());
-            guiaProDao.getDaoSession().getAtendimentoDao().insertOrReplace(aux);
-        }
-        carregarAtendimentos(atendimentos);
-    }
-
-    private void carregarAtendimentos(List<Atendimento> atendimentos){
-        for(Atendimento atendimento : atendimentos){
+    private void carregarHistoricosAtendimento(List<HistoricoAtendimento> historicoAtendimentos){
+        for(HistoricoAtendimento aux : historicoAtendimentos){
             LinearLayout llHistorico = (LinearLayout) getActivity().getLayoutInflater().inflate(R.layout.adapter_historico_cliente,null);
             ImageView ivHistorico = (ImageView) llHistorico.findViewById(R.id.ivHistorico);
             TextView tvHistorico = (TextView) llHistorico.findViewById(R.id.tvHistorico);
 
-            tvHistorico.setText(montarMensagemHistorico(atendimento));
+            tvHistorico.setText(montarMensagemHistorico(aux));
 
             listaHistorico.addView(llHistorico);
         }
     }
 
-    private String montarMensagemHistorico(Atendimento atendimento){
+    private String montarMensagemHistorico(HistoricoAtendimento historicoAtendimento){
         String msg = "";
 
-        switch ((int)atendimento.getTipoAtendimentoId()){
+        switch ((int)historicoAtendimento.getTipoAtendimentoId()){
             case 1: //Ligação
-                msg = montarMensagemLigacao(atendimento);
+                msg = montarMensagemLigacao(historicoAtendimento);
                 break;
             case 2: //Whatsapp
-                msg = montarMensagemWhatsapp(atendimento);
+                msg = montarMensagemWhatsapp(historicoAtendimento);
                 break;
             case 3: //Me ligue
-                msg = montarMensagemMeligue(atendimento);
+                msg = montarMensagemMeligue(historicoAtendimento);
                 break;
         }
         return msg;
     }
 
-    private String montarMensagemLigacao(Atendimento atendimento){
+    private String montarMensagemLigacao(HistoricoAtendimento historicoAtendimento){
         String msg = "";
-        switch ((int)atendimento.getSitucaoId()){
+        switch ((int)historicoAtendimento.getSitucaoId()){
             case 1: //Aguardando Atendimento
-                msg = atendimento.getCliente().getNome() + " entrou em contato por ligação com " + atendimento.getProfisisonal().getNome();
+                msg = historicoAtendimento.getCliente().getNome() + " entrou em contato por ligação com " + historicoAtendimento.getProfisisonal().getNome();
                 break;
             case 2: //Atendido
-                msg = atendimento.getProfisisonal().getNome() + " retornou por ligação o chamado de " + atendimento.getCliente().getNome();
+                msg = historicoAtendimento.getProfisisonal().getNome() + " retornou por ligação o chamado de " + historicoAtendimento.getCliente().getNome();
                 break;
             case 3: //Trabalho Fechado
-                msg = atendimento.getCliente().getNome() + " fechou um trabalho com " + atendimento.getProfisisonal().getNome();
+                msg = historicoAtendimento.getCliente().getNome() + " fechou um trabalho com " + historicoAtendimento.getProfisisonal().getNome();
                 break;
             case 4: //Trabalho Finalizado
-                msg = atendimento.getProfisisonal().getNome() + " finalizou trabalho com " + atendimento.getCliente().getNome();
+                msg = historicoAtendimento.getProfisisonal().getNome() + " finalizou trabalho com " + historicoAtendimento.getCliente().getNome();
                 break;
             case 5: //Trabalho Não Foi Fechado
-                msg = "O trabalho não foi fechado entre " + atendimento.getCliente().getNome() + " e " + atendimento.getProfisisonal().getNome();
+                msg = "O trabalho não foi fechado entre " + historicoAtendimento.getCliente().getNome() + " e " + historicoAtendimento.getProfisisonal().getNome();
                 break;
         }
         return msg;
     }
 
-    private String montarMensagemWhatsapp(Atendimento atendimento){
+    private String montarMensagemWhatsapp(HistoricoAtendimento historicoAtendimento){
         String msg = "";
-        switch ((int)atendimento.getSitucaoId()){
+        switch ((int)historicoAtendimento.getSitucaoId()){
             case 1: //Aguardando Atendimento
-                msg = atendimento.getCliente().getNome() + " entrou em contato por whatsapp com " + atendimento.getProfisisonal().getNome();
+                msg = historicoAtendimento.getCliente().getNome() + " entrou em contato por whatsapp com " + historicoAtendimento.getProfisisonal().getNome();
                 break;
             case 2: //Atendido
-                msg = atendimento.getProfisisonal().getNome() + " retornou por whatsapp o chamado de " + atendimento.getCliente().getNome();
+                msg = historicoAtendimento.getProfisisonal().getNome() + " retornou por whatsapp o chamado de " + historicoAtendimento.getCliente().getNome();
                 break;
             case 3: //Trabalho Fechado
-                msg = atendimento.getCliente().getNome() + " fechou um trabalho com " + atendimento.getProfisisonal().getNome();
+                msg = historicoAtendimento.getCliente().getNome() + " fechou um trabalho com " + historicoAtendimento.getProfisisonal().getNome();
                 break;
             case 4: //Trabalho Finalizado
-                msg = atendimento.getProfisisonal().getNome() + " finalizou trabalho com " + atendimento.getCliente().getNome();
+                msg = historicoAtendimento.getProfisisonal().getNome() + " finalizou trabalho com " + historicoAtendimento.getCliente().getNome();
                 break;
             case 5: //Trabalho Não Foi Fechado
-                msg = "O trabalho não foi fechado entre " + atendimento.getCliente().getNome() + " e " + atendimento.getProfisisonal().getNome();
+                msg = "O trabalho não foi fechado entre " + historicoAtendimento.getCliente().getNome() + " e " + historicoAtendimento.getProfisisonal().getNome();
                 break;
         }
         return msg;
     }
 
-    private String montarMensagemMeligue(Atendimento atendimento){
+    private String montarMensagemMeligue(HistoricoAtendimento historicoAtendimento){
         String msg = "";
-        switch ((int)atendimento.getSitucaoId()){
+        switch ((int)historicoAtendimento.getSitucaoId()){
             case 1: //Aguardando Atendimento
-                msg = atendimento.getCliente().getNome() + " solicitou retorno de chamada para " + atendimento.getProfisisonal().getNome();
+                msg = historicoAtendimento.getCliente().getNome() + " solicitou retorno de chamada para " + historicoAtendimento.getProfisisonal().getNome();
                 break;
             case 2: //Atendido
-                msg = atendimento.getProfisisonal().getNome() + " retornou o chamado de " + atendimento.getCliente().getNome();
+                msg = historicoAtendimento.getProfisisonal().getNome() + " retornou o chamado de " + historicoAtendimento.getCliente().getNome();
                 break;
             case 3: //Trabalho Fechado
-                msg = atendimento.getCliente().getNome() + " fechou um trabalho com " + atendimento.getProfisisonal().getNome();
+                msg = historicoAtendimento.getCliente().getNome() + " fechou um trabalho com " + historicoAtendimento.getProfisisonal().getNome();
                 break;
             case 4: //Trabalho Finalizado
-                msg = atendimento.getProfisisonal().getNome() + " finalizou trabalho com " + atendimento.getCliente().getNome();
+                msg = historicoAtendimento.getProfisisonal().getNome() + " finalizou trabalho com " + historicoAtendimento.getCliente().getNome();
                 break;
             case 5: //Trabalho Não Foi Fechado
-                msg = "O trabalho não foi fechado entre " + atendimento.getCliente().getNome() + " e " + atendimento.getProfisisonal().getNome();
+                msg = "O trabalho não foi fechado entre " + historicoAtendimento.getCliente().getNome() + " e " + historicoAtendimento.getProfisisonal().getNome();
                 break;
         }
         return msg;
+    }
+
+    @Override
+    public void retornoCadastroHistoricoAtendimento(boolean cadastrou, long idHistoricoAtendimento) {
+
+    }
+
+    @Override
+    public void retornoBuscaHistoricosAtendimento(List<HistoricoAtendimento> historicosAtendimento) {
+        for(HistoricoAtendimento aux :historicosAtendimento){
+            guiaProDao.getDaoSession().getPerfilDao().insertOrReplace(aux.getCliente());
+            guiaProDao.getDaoSession().getPerfilDao().insertOrReplace(aux.getProfisisonal());
+            guiaProDao.getDaoSession().getCategoriaDao().insertOrReplace(aux.getCategoria());
+            guiaProDao.getDaoSession().getAtendimentoDao().insertOrReplace(aux.getAtendimento());
+            guiaProDao.getDaoSession().getHistoricoAtendimentoDao().insertOrReplace(aux);
+        }
+        carregarHistoricosAtendimento(historicosAtendimento);
     }
 }
