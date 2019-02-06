@@ -22,7 +22,7 @@
         <TextView
             android:layout_width="350dp"
             android:layout_height="wrap_content"
-            android:text="Você possui 03 novos contatos"
+            android:text="Guiapro"
             android:textColor="#FFFFFF"
             android:textSize="20sp"
             android:gravity="center"
@@ -30,6 +30,7 @@
             android:layout_marginTop="20dp"/>
 
         <TextView
+            android:id="@+id/tvTitulo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Por favor responda as solicitações pendentes."

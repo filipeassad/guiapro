@@ -36,6 +36,7 @@ public class ListagemAtendimentoProfissionalFragment extends Fragment implements
     private TextView tvSolicitacoes;
     private TextView tvAtendidos;
     private TextView tvMensagens;
+    private TextView tvTitulo;
 
     private ListView lvTelaInicial;
     private LinearLayout llDetalheAtendimento;
@@ -64,6 +65,7 @@ public class ListagemAtendimentoProfissionalFragment extends Fragment implements
         tvSolicitacoes = (TextView) view.findViewById(R.id.tvSolicitacoes);
         tvAtendidos = (TextView) view.findViewById(R.id.tvAtendidos);
         tvMensagens = (TextView) view.findViewById(R.id.tvMensagens);
+        tvTitulo = (TextView) view.findViewById(R.id.tvTitulo);
         lvTelaInicial = (ListView) view.findViewById(R.id.lvTelaInicial);
         llDetalheAtendimento = (LinearLayout) view.findViewById(R.id.llDetalheAtendimento);
 
