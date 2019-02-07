@@ -17,6 +17,8 @@ import dev.kosmo.com.br.models.TipoPerfil;
 
 public class CarregaDados {
 
+    private final String FORMATO_DATA_SERVER = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
+
     public List<Perfil> montaPerfis(JSONArray jsonArray){
         List<Perfil> perfis = new ArrayList<>();
 
@@ -87,7 +89,7 @@ public class CarregaDados {
         try {
 
             atendimento.setId(jsonObject.getLong("id"));
-            atendimento.setData(new Date());
+            atendimento.setData(jsonObject.has("data") ? FerramentasBasicas.converterStringParaData(jsonObject.getString("data"), FORMATO_DATA_SERVER) : new Date());
             atendimento.setTitulo(jsonObject.has("titulo") ? jsonObject.getString("titulo") : "");
             atendimento.setDescricao(jsonObject.has("descricao") ? jsonObject.getString("descricao") : "");
             atendimento.setClienteId(jsonObject.has("clienteId") ? jsonObject.getLong("clienteId") : 0);
@@ -130,7 +132,7 @@ public class CarregaDados {
         try {
 
             historicoAtendimento.setId(jsonObject.getLong("id"));
-            historicoAtendimento.setData(new Date());
+            historicoAtendimento.setData(jsonObject.has("data") ? FerramentasBasicas.converterStringParaData(jsonObject.getString("data"), FORMATO_DATA_SERVER) : new Date());
             historicoAtendimento.setTitulo(jsonObject.has("titulo") ? jsonObject.getString("titulo") : "");
             historicoAtendimento.setDescricao(jsonObject.has("descricao") ? jsonObject.getString("descricao") : "");
             historicoAtendimento.setClienteId(jsonObject.has("clienteId") ? jsonObject.getLong("clienteId") : 0);

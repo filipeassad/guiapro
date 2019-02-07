@@ -30,7 +30,7 @@ public class DetalheHistoricoFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_historico, container, false);
+        View view = inflater.inflate(R.layout.fragment_detalhe_historico, container, false);
 
         txtTipoAtendimento = (TextView) view.findViewById(R.id.txtTipoAtendimento);
         txtData = (TextView) view.findViewById(R.id.txtData);
@@ -49,42 +49,12 @@ public class DetalheHistoricoFragment extends Fragment {
 
     private void montarDetalheHistorico(){
 
-        txtTipoAtendimento.setText(obterTipoAtendimento(Integer.parseInt(historicoAtendimento.getTipoAtendimentoId() + "")));
+        txtTipoAtendimento.setText(FerramentasBasicas.obterTipoAtendimento(Integer.parseInt(historicoAtendimento.getTipoAtendimentoId() + "")));
         txtData.setText(FerramentasBasicas.converterDataParaString(historicoAtendimento.getData(), FORMATO_DATA ));
         txtCategoria.setText(historicoAtendimento.getCategoria().getDescricao());
         txtCliente.setText(historicoAtendimento.getCliente().getNome() + " " + historicoAtendimento.getCliente().getSobrenome());
         txtProfissional.setText(historicoAtendimento.getProfisisonal().getNome() + " " + historicoAtendimento.getProfisisonal().getSobrenome());
-        txtSituacao.setText(obterSituacao(Integer.parseInt(historicoAtendimento.getSitucaoId() + "")));
+        txtSituacao.setText(FerramentasBasicas.obterSituacao(Integer.parseInt(historicoAtendimento.getSitucaoId() + "")));
 
-    }
-
-    private String obterTipoAtendimento(int codigo){
-
-        switch (codigo){
-            case 1:
-                return "Ligação";
-            case 2:
-                return "Whatsapp";
-            case 3:
-                return "Me ligue";
-        }
-        return "";
-    }
-
-    private String obterSituacao(int codigo){
-
-        switch (codigo){
-            case 1:
-                return "Aguardando Atendimento";
-            case 2:
-                return "Atendido";
-            case 3:
-                return "Trabalho Fechado";
-            case 4:
-                return "Trabalho Finalizado";
-            case 5:
-                return "Trabalho Não Foi Fechado";
-        }
-        return "";
     }
 }

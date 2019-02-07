@@ -1,8 +1,12 @@
 package dev.kosmo.com.br.fragments;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +22,7 @@ import java.util.List;
 import dev.kosmo.com.br.adapter.AtendimentoAdapter;
 import dev.kosmo.com.br.dao.GuiaProDao;
 import dev.kosmo.com.br.dialogs.AtendimentoDialog;
+import dev.kosmo.com.br.dialogs.EntrarContatoDialog;
 import dev.kosmo.com.br.guiapro.R;
 import dev.kosmo.com.br.interfaces.AtendimentoAdapterInterface;
 import dev.kosmo.com.br.interfaces.AtendimentoInterface;
@@ -36,7 +41,6 @@ public class ListagemAtendimentoProfissionalFragment extends Fragment implements
     private TextView tvSolicitacoes;
     private TextView tvAtendidos;
     private TextView tvMensagens;
-    private TextView tvTitulo;
 
     private ListView lvTelaInicial;
     private LinearLayout llDetalheAtendimento;
@@ -65,7 +69,6 @@ public class ListagemAtendimentoProfissionalFragment extends Fragment implements
         tvSolicitacoes = (TextView) view.findViewById(R.id.tvSolicitacoes);
         tvAtendidos = (TextView) view.findViewById(R.id.tvAtendidos);
         tvMensagens = (TextView) view.findViewById(R.id.tvMensagens);
-        tvTitulo = (TextView) view.findViewById(R.id.tvTitulo);
         lvTelaInicial = (ListView) view.findViewById(R.id.lvTelaInicial);
         llDetalheAtendimento = (LinearLayout) view.findViewById(R.id.llDetalheAtendimento);
 
@@ -83,6 +86,12 @@ public class ListagemAtendimentoProfissionalFragment extends Fragment implements
         usuario = VariaveisEstaticas.getUsuario();
 
         buscarAtendimentos();
+
+        if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(getActivity(),
+                    new String[]{Manifest.permission.CALL_PHONE}, 0);
+        }
+
         return view;
     }
 
@@ -165,6 +174,12 @@ public class ListagemAtendimentoProfissionalFragment extends Fragment implements
         VariaveisEstaticas.getFragmentInterface().mudaTela("DetalheAtendimento");
     }
 
+    @Override
+    public void entrarEmContato(Atendimento atendimento) {
+        EntrarContatoDialog entrarContatoDialog = new EntrarContatoDialog(getContext());
+        entrarContatoDialog.gerarDialog(atendimento);
+    }
+
     private void verificaSolicitacoes(){
         if(!listaAtendimento.isEmpty()){
             Atendimento atendimento = buscarAtendimantoNaoAtendido(listaAtendimento);
@@ -194,5 +209,21 @@ public class ListagemAtendimentoProfissionalFragment extends Fragment implements
     public void retornoBuscaAtendimentos(List<Atendimento> atendimentos) {
         listaAtendimento = atendimentos;
         carregaAtendimentos();
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        switch (requestCode) {
+            case 0: {
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                } else {
+                    VariaveisEstaticas.getFragmentInterface().voltar();
+                }
+                return;
+            }
+        }
     }
 }

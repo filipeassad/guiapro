@@ -7,7 +7,7 @@
     <LinearLayout
         android:id="@+id/llContainer"
         android:layout_width="match_parent"
-        android:layout_height="80dp"
+        android:layout_height="90dp"
         android:orientation="horizontal"
         android:gravity="left|center"
         android:background="@drawable/shape_background_atendimento"
@@ -50,11 +50,30 @@
                         android:textSize="14sp"
                         android:textStyle="bold"/>
                     <TextView
-                        android:id="@+id/tvDescricaoAtendimento"
+                        android:id="@+id/tvCategoria"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textSize="10sp"
-                        android:text="Preciso consertar uma pia, estou sem àgua."/>
+                        android:text="Categoria: "/>
+                    <TextView
+                        android:id="@+id/tvTipoAtendimento"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="10sp"
+                        android:text="Ligação"/>
+                    <TextView
+                        android:id="@+id/tvData"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="10sp"
+                        android:text="Data:"/>
+                    <TextView
+                        android:id="@+id/tvSituacao"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="10sp"
+                        android:text="Situação:"/>
+
 
                 </LinearLayout>
 
@@ -99,7 +118,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:visibility="gone">
 
                 <TextView
                     android:layout_width="match_parent"

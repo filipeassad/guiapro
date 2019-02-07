@@ -19,6 +19,7 @@ import java.util.List;
 import dev.kosmo.com.br.guiapro.R;
 import dev.kosmo.com.br.interfaces.AtendimentoAdapterInterface;
 import dev.kosmo.com.br.models.Atendimento;
+import dev.kosmo.com.br.utils.FerramentasBasicas;
 
 public class AtendimentoAdapter extends ArrayAdapter<Atendimento> {
 
@@ -26,12 +27,14 @@ public class AtendimentoAdapter extends ArrayAdapter<Atendimento> {
     private int myResource;
     private String TIPO_ATENDIMENTO_LIGAR = "Ligar";
     private String TIPO_ATENDIMENTO_CONVERSAR = "Conversar";
+    private final String ENTRAR_EM_CONTATO_COM_CLIENTE = "Entrar em contato";
     private String COR_LARANJA = "#e9a11c";
     private String COR_VERDE = "#2daa0a";
 
     private final long TIPO_ATENDIMENTO_LIGACAO = 1;
     private final long TIPO_ATENDIMENTO_WHATSAPP = 2;
     private final long TIPO_ATENDIMENTO_ME_LIGUE = 3;
+    private final String FORMATO_DATA = "dd/MM/yyyy hh:mm:ss";
 
     private AtendimentoAdapterInterface atendimentoAdapterInterface;
 
@@ -53,7 +56,10 @@ public class AtendimentoAdapter extends ArrayAdapter<Atendimento> {
 
         ImageView ivItem = (ImageView) convertView.findViewById(R.id.ivItem);
         TextView tvNomeCliente = (TextView) convertView.findViewById(R.id.tvNomeCliente);
-        TextView tvDescricaoAtendimento = (TextView) convertView.findViewById(R.id.tvDescricaoAtendimento);
+        TextView tvCategoria = (TextView) convertView.findViewById(R.id.tvCategoria);
+        TextView tvTipoAtendimento = (TextView) convertView.findViewById(R.id.tvTipoAtendimento);
+        TextView tvData = (TextView) convertView.findViewById(R.id.tvData);
+        TextView tvSituacao = (TextView) convertView.findViewById(R.id.tvSituacao);
         LinearLayout llBotaoLateral = (LinearLayout) convertView.findViewById(R.id.llBotaoLateral);
         ImageView ivBotaoLateral = (ImageView) convertView.findViewById(R.id.ivBotaoLateral);
         TextView tvLateral = (TextView) convertView.findViewById(R.id.tvLateral);
@@ -67,28 +73,24 @@ public class AtendimentoAdapter extends ArrayAdapter<Atendimento> {
                 BitmapFactory.decodeResource(myContext.getResources(), R.drawable.usuario_laranja));*/
 
         tvNomeCliente.setText(atendimento.getCliente().getNome());
-        tvDescricaoAtendimento.setText(atendimento.getDescricao());
 
-        if(atendimento.getTipoAtendimentoId() == TIPO_ATENDIMENTO_LIGACAO){
-            llBotaoLateral.setBackgroundResource(R.drawable.shape_btn_canto_laranja);
-            ivBotaoLateral.setImageBitmap(BitmapFactory.decodeResource(myContext.getResources(),
-                    R.drawable.smartphone));
-            tvLateral.setText(TIPO_ATENDIMENTO_LIGAR);
-            tvLateral.setTextColor(Color.parseColor(COR_LARANJA));
-        }else{
-            llBotaoLateral.setBackgroundResource(R.drawable.shape_btn_canto_verde);
-            ivBotaoLateral.setImageBitmap(BitmapFactory.decodeResource(myContext.getResources(),
-                    R.drawable.whatsapp));
-            tvLateral.setText(TIPO_ATENDIMENTO_CONVERSAR);
-            tvLateral.setTextColor(Color.parseColor(COR_VERDE));
-        }
+        tvCategoria.setText("Categoria: " + atendimento.getCategoria().getDescricao());
+        tvTipoAtendimento.setText(FerramentasBasicas.obterTipoAtendimento(Integer.parseInt(atendimento.getTipoAtendimentoId() + "")));
+        tvData.setText("Data: " + FerramentasBasicas.converterDataParaString(atendimento.getData(), FORMATO_DATA ));
+        tvSituacao.setText("Situação: " + FerramentasBasicas.obterSituacao(Integer.parseInt(atendimento.getSitucaoId() + "")));
 
-        llUrgencia.setVisibility(atendimento.getId() % 2 == 0 ? View.VISIBLE: View.GONE);
+        llBotaoLateral.setBackgroundResource(R.drawable.shape_btn_canto_laranja);
+        ivBotaoLateral.setImageBitmap(BitmapFactory.decodeResource(myContext.getResources(),
+                R.drawable.transfer));
+        tvLateral.setText(ENTRAR_EM_CONTATO_COM_CLIENTE);
+        tvLateral.setTextColor(Color.parseColor(COR_LARANJA));
+
+        //llUrgencia.setVisibility(atendimento.getId() % 2 == 0 ? View.VISIBLE: View.GONE);
 
         llContainer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                atendimentoAdapterInterface.acessarDetalhe(atendimento);
+                atendimentoAdapterInterface.entrarEmContato(atendimento);
             }
         });
 

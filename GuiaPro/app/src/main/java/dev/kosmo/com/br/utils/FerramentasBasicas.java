@@ -40,6 +40,16 @@ public class FerramentasBasicas {
         return dataConvertida;
     }
 
+    public static Date converterStringParaData(String data, String formato){
+        try{
+            SimpleDateFormat format = new SimpleDateFormat(formato);
+            return format.parse(data);
+        }catch (Exception e){
+
+        }
+        return new Date();
+    }
+
     public static String readStream(InputStream in) {
         BufferedReader reader = null;
         StringBuffer response = new StringBuffer();
@@ -109,5 +119,35 @@ public class FerramentasBasicas {
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
+    }
+
+    public static String obterTipoAtendimento(int codigo){
+
+        switch (codigo){
+            case 1:
+                return "Ligação";
+            case 2:
+                return "Whatsapp";
+            case 3:
+                return "Me ligue";
+        }
+        return "";
+    }
+
+    public static String obterSituacao(int codigo){
+
+        switch (codigo){
+            case 1:
+                return "Aguardando Atendimento";
+            case 2:
+                return "Atendido";
+            case 3:
+                return "Trabalho Fechado";
+            case 4:
+                return "Trabalho Finalizado";
+            case 5:
+                return "Trabalho Não Foi Fechado";
+        }
+        return "";
     }
 }
