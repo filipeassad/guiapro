@@ -7,6 +7,7 @@ import android.widget.LinearLayout;
 
 import dev.kosmo.com.br.fragments.AlterarPerfilFragment;
 import dev.kosmo.com.br.fragments.CategoriasFragment;
+import dev.kosmo.com.br.fragments.DetalheHistoricoFragment;
 import dev.kosmo.com.br.fragments.DetalheProfissionalFragment;
 import dev.kosmo.com.br.fragments.HistoricoFragment;
 import dev.kosmo.com.br.fragments.ListagemAtendimentoProfissionalFragment;
@@ -63,6 +64,9 @@ public class GerenciadorFragment {
         }else if(nomeTela.equals("ModoDescanso")){
             ModoDescansoFragment modoDescansoFragment = new ModoDescansoFragment();
             ft.replace(R.id.contFragments, modoDescansoFragment, nomeTela);
+        }else if(nomeTela.equals("DetalheHistorico")){
+            DetalheHistoricoFragment detalheHistoricoFragment = new DetalheHistoricoFragment();
+            ft.replace(R.id.contFragments, detalheHistoricoFragment, nomeTela);
         }
 
         if(fm.findFragmentByTag(nomeTela) != null){

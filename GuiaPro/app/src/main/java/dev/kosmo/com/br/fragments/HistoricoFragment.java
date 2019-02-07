@@ -45,6 +45,7 @@ public class HistoricoFragment extends Fragment implements HistoricoAtendimentoI
     private final String URL_HISTORICO_ATENDIMENTO_CLIENTE = "mobile/historico_atendimento_cliente/";
     private final String URL_HISTORICO_ATENDIMENTO_PROFISSIONAL = "mobile/historico_atendimento_profissional/";
     private final long TIPO_PERFIL_PROFISSIONAL = 2;
+    private final String NOME_TELA_DETALHE_HISTORICO = "DetalheHistorico";
 
     @Nullable
     @Override
@@ -97,6 +98,16 @@ public class HistoricoFragment extends Fragment implements HistoricoAtendimentoI
             TextView tvHistorico = (TextView) llHistorico.findViewById(R.id.tvHistorico);
 
             tvHistorico.setText(montarMensagemHistorico(aux));
+
+            llHistorico.setTag(aux);
+
+            llHistorico.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    VariaveisEstaticas.setHistoricoAtendimento((HistoricoAtendimento) view.getTag());
+                    VariaveisEstaticas.getFragmentInterface().mudaTela(NOME_TELA_DETALHE_HISTORICO);
+                }
+            });
 
             listaHistorico.addView(llHistorico);
         }
