@@ -134,6 +134,14 @@ public class CadastroActivity extends Activity implements CadastroClienteInterfa
         JSONObject jsonObject = new JSONObject();
 
         try {
+
+            String celular = edtCelular.getText().toString();
+
+            celular = celular.replace("(", "");
+            celular = celular.replace(")", "");
+            celular = celular.replace("-", "");
+            celular = celular.replace(" ", "");
+
             jsonObject.put("email", edtEmail.getText().toString());
             jsonObject.put("senha", edtSenha.getText().toString());
             jsonObject.put("nome", edtNome.getText().toString());
@@ -141,8 +149,9 @@ public class CadastroActivity extends Activity implements CadastroClienteInterfa
             jsonObject.put("datanascimento", edtDataNascimento.getText().toString());
             jsonObject.put("cpf", edtCpf.getText().toString());
             jsonObject.put("sexo", sexoSelecionado);
-            jsonObject.put("celular", edtCelular.getText().toString());
-            jsonObject.put("celularwhats", edtCelular.getText().toString());
+            jsonObject.put("celular", celular);
+            jsonObject.put("celularwhats", celular);
+
         } catch (JSONException e) {
             e.printStackTrace();
         }
