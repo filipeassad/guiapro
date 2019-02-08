@@ -369,6 +369,15 @@ public class PrincipalActivity extends FragmentActivity implements FragmentInter
         ivHistorico.setImageBitmap(BitmapFactory.decodeResource(this.getResources(), R.drawable.listcinza));
         tvHistorico.setTextColor(Color.parseColor("#868686"));
 
+        ivTopRankedProfissional.setImageBitmap(BitmapFactory.decodeResource(this.getResources(), R.drawable.starcinza));
+        tvTopRankedProfissional.setTextColor(Color.parseColor("#868686"));
+
+        ivOfertasProfissional.setImageBitmap(BitmapFactory.decodeResource(this.getResources(), R.drawable.tagscinza));
+        tvOfertasProfissional.setTextColor(Color.parseColor("#868686"));
+
+        ivHistoricoProfissional.setImageBitmap(BitmapFactory.decodeResource(this.getResources(), R.drawable.listcinza));
+        tvHistoricoProfissional.setTextColor(Color.parseColor("#868686"));
+
         ivAtendimentoProfissional.setImageBitmap(BitmapFactory.decodeResource(this.getResources(), R.drawable.atendimento_cinza));
         tvAtendimentoProfissional.setTextColor(Color.parseColor("#868686"));
 
