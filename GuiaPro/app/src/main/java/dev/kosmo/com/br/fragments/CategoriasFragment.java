@@ -220,6 +220,11 @@ public class CategoriasFragment extends Fragment implements GetCategoriaInterfac
         verificarAtendimentos();
     }
 
+    @Override
+    public void retornoAlteracaoAtendimentos(boolean cadastrou) {
+
+    }
+
     private void verificarAtendimentos(){
 
         for(Atendimento aux :atendimentosCliente){
@@ -228,7 +233,7 @@ public class CategoriasFragment extends Fragment implements GetCategoriaInterfac
             if(situacao == SituacaoEnum.AGUARDANDOATENDIMENTO.getValue()
                     || situacao == SituacaoEnum.ATENDIDO.getValue()
                     || situacao == SituacaoEnum.TRABALHOFECHADO.getValue()){
-                QuestionarioAtendimentoDialog questionarioAtendimentoDialog = new QuestionarioAtendimentoDialog(getContext());
+                QuestionarioAtendimentoDialog questionarioAtendimentoDialog = new QuestionarioAtendimentoDialog(getContext(), atendimentoInterface);
                 questionarioAtendimentoDialog.gerarDialog(aux);
                 return;
             }

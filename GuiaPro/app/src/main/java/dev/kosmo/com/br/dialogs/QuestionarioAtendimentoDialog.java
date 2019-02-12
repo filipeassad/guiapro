@@ -8,16 +8,23 @@ import android.view.Window;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import java.util.Date;
+
 import dev.kosmo.com.br.enuns.SituacaoEnum;
 import dev.kosmo.com.br.guiapro.R;
+import dev.kosmo.com.br.interfaces.AtendimentoInterface;
 import dev.kosmo.com.br.models.Atendimento;
 import dev.kosmo.com.br.utils.FerramentasBasicas;
 
 public class QuestionarioAtendimentoDialog {
 
     private Context context;
-    public QuestionarioAtendimentoDialog(Context context) {
+    private AtendimentoInterface atendimentoInterface;
+    private final String URL_ATENDIMENTO_PUT = "atendimento/";
+
+    public QuestionarioAtendimentoDialog(Context context, AtendimentoInterface atendimentoInterface) {
         this.context = context;
+        this.atendimentoInterface = atendimentoInterface;
     }
 
     public Dialog gerarDialog(final Atendimento atendimento){
@@ -64,9 +71,12 @@ public class QuestionarioAtendimentoDialog {
         LinearLayout btnSim = (LinearLayout) dialog.findViewById(R.id.btnSim);
         LinearLayout btnNao = (LinearLayout) dialog.findViewById(R.id.btnNao);
 
+        atendimento.setData(new Date());
+
         btnSim.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if()
 
                 dialog.dismiss();
             }
@@ -83,5 +93,17 @@ public class QuestionarioAtendimentoDialog {
         dialog.show();
 
         return dialog;
+    }
+
+    private int obterSituacaoSIM(int situacao){
+        if(situacao == SituacaoEnum.AGUARDANDOATENDIMENTO.getValue()){
+            return SituacaoEnum.ATENDIMENTOCONFIRMADOPELOCLIENTE.getValue();
+        }else if(situacao == SituacaoEnum.ATENDIMENTOCONFIRMADOPELOCLIENTE.getValue()){
+            return SituacaoEnum.ATENDIDO.getValue();
+        }else if(situacao == SituacaoEnum.ATENDIMENTONAOCONFIRMADOPELOCLIENTE.getValue()){
+            return SituacaoEnum.ATENDIMENTOCOMRESPOSTASDIVERGENTES.getValue();
+        }else{
+
+        }
     }
 }
