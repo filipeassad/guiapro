@@ -1,5 +1,6 @@
 package dev.kosmo.com.br.fragments;
 
+import android.app.ProgressDialog;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -16,10 +17,15 @@ import android.widget.TextView;
 import java.util.List;
 
 import dev.kosmo.com.br.dao.GuiaProDao;
+import dev.kosmo.com.br.dialogs.QuestionarioAtendimentoDialog;
+import dev.kosmo.com.br.enuns.SituacaoEnum;
 import dev.kosmo.com.br.guiapro.R;
+import dev.kosmo.com.br.interfaces.AtendimentoInterface;
 import dev.kosmo.com.br.interfaces.GetCategoriaInterface;
+import dev.kosmo.com.br.models.Atendimento;
 import dev.kosmo.com.br.models.Categoria;
 import dev.kosmo.com.br.models.Usuario;
+import dev.kosmo.com.br.task.gets.GetAtendimentoAsyncTask;
 import dev.kosmo.com.br.task.gets.GetCategoriaAsyncTask;
 import dev.kosmo.com.br.utils.FerramentasBasicas;
 import dev.kosmo.com.br.utils.StatusAplicativo;
@@ -29,14 +35,17 @@ import dev.kosmo.com.br.utils.VariaveisEstaticas;
  * Created by 0118431 on 08/03/2018.
  */
 
-public class CategoriasFragment extends Fragment implements GetCategoriaInterface{
+public class CategoriasFragment extends Fragment implements GetCategoriaInterface, AtendimentoInterface {
 
     private LinearLayout llCategoria;
     private StatusAplicativo statusAplicativo;
     private GetCategoriaInterface getCategoriaInterface = this;
+    private AtendimentoInterface atendimentoInterface = this;
     private final String API_CATEGORIAS = "mobile/categoria";
+    private final String API_ATENDIMENTO = "mobile/atendimento_cliente/";
     private Usuario usuario;
     private GuiaProDao guiaProDao;
+    private List<Atendimento> atendimentosCliente;
 
     @Nullable
     @Override
@@ -60,7 +69,7 @@ public class CategoriasFragment extends Fragment implements GetCategoriaInterfac
         super.onResume();
         if(statusAplicativo.isOnline()){
             GetCategoriaAsyncTask getCategoriaAsyncTask = new GetCategoriaAsyncTask(getContext(), getCategoriaInterface, usuario.getToken());
-            getCategoriaAsyncTask.execute(FerramentasBasicas.getURL() + API_CATEGORIAS);
+            getCategoriaAsyncTask.execute(FerramentasBasicas.getURL() + API_CATEGORIAS );
         }else{
             buscaDB();
         }
@@ -76,6 +85,10 @@ public class CategoriasFragment extends Fragment implements GetCategoriaInterfac
     }
 
     private void carregaCategorias(List<Categoria> categorias){
+
+        ProgressDialog progress = new ProgressDialog(getContext());
+        progress.setMessage("Aguarde...");
+        progress.show();
 
         llCategoria.removeAllViews();
 
@@ -120,6 +133,13 @@ public class CategoriasFragment extends Fragment implements GetCategoriaInterfac
             }
 
             llCategoria.addView(linearLayout);
+        }
+
+        progress.dismiss();
+
+        if(FerramentasBasicas.isOnline(getContext())){
+            GetAtendimentoAsyncTask getAtendimentoAsyncTask = new GetAtendimentoAsyncTask(getContext(), atendimentoInterface);
+            getAtendimentoAsyncTask.execute(FerramentasBasicas.getURL() + API_ATENDIMENTO  + usuario.getPerfilId());
         }
     }
 
@@ -186,6 +206,32 @@ public class CategoriasFragment extends Fragment implements GetCategoriaInterfac
             return BitmapFactory.decodeResource(getContext().getResources(), R.drawable.papeldeparede);
         }else{
             return null;
+        }
+    }
+
+    @Override
+    public void retornoCadastroAtendimento(boolean cadastrou, long idAtendimento) {
+
+    }
+
+    @Override
+    public void retornoBuscaAtendimentos(List<Atendimento> atendimentos) {
+        atendimentosCliente = atendimentos;
+        verificarAtendimentos();
+    }
+
+    private void verificarAtendimentos(){
+
+        for(Atendimento aux :atendimentosCliente){
+            int situacao = Integer.parseInt(aux.getSitucaoId() + "");
+
+            if(situacao == SituacaoEnum.AGUARDANDOATENDIMENTO.getValue()
+                    || situacao == SituacaoEnum.ATENDIDO.getValue()
+                    || situacao == SituacaoEnum.TRABALHOFECHADO.getValue()){
+                QuestionarioAtendimentoDialog questionarioAtendimentoDialog = new QuestionarioAtendimentoDialog(getContext());
+                questionarioAtendimentoDialog.gerarDialog(aux);
+                return;
+            }
         }
 
     }

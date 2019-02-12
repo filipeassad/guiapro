@@ -10,11 +10,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:text="Selecione uma forma de entrar em contato com o cliente"
-        android:textColor="#ecac1b"
-        android:textSize="20sp"
+        android:text="SELECIONE UMA FORMA DE ENTRAR EM CONTATO COM O CLIENTE"
+        android:textSize="12sp"
         android:textStyle="bold"
-        android:gravity="center"/>
+        android:gravity="center"
+        android:paddingLeft="30dp"
+        android:paddingRight="30dp"/>
 
     <LinearLayout
         android:id="@+id/btnLigar"

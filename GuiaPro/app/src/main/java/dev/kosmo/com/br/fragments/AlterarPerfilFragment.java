@@ -45,6 +45,7 @@ public class AlterarPerfilFragment extends Fragment implements PutAlterarCliente
     private InformacaoDialog informacaoDialog;
     private final String FORMATO_DATA_BR = "dd/MM/yyyy";
     private final String URL_ALTERAR_CLIENTE = "mobile/alterarcliente";
+    private final String URL_ALTERAR_PROFISSIONAL = "mobile/alterarprofissional";
     private PutAlterarClienteInterface putAlterarClienteInterface = this;
     private final String SIGLA_SEXO_MASCULINO = "M";
     private final String SIGLA_SEXO_FEMININO = "F";
@@ -72,7 +73,7 @@ public class AlterarPerfilFragment extends Fragment implements PutAlterarCliente
 
         edtCpf.addTextChangedListener(MaskEditUtil.mask(edtCpf, MaskEditUtil.FORMAT_CPF));
         edtDataNascimento.addTextChangedListener(MaskEditUtil.mask(edtDataNascimento, MaskEditUtil.FORMAT_DATE));
-        edtCelular.addTextChangedListener(MaskEditUtil.mask(edtCelular, MaskEditUtil.FORMAT_FONE));
+        edtCelular.addTextChangedListener(MaskEditUtil.mask(edtCelular, MaskEditUtil.FORMAT_FONE_SECONDE));
 
         informacaoDialog = new InformacaoDialog(getContext());
         guiaProDao = (GuiaProDao) getActivity().getApplication();
@@ -101,8 +102,9 @@ public class AlterarPerfilFragment extends Fragment implements PutAlterarCliente
             @Override
             public void onClick(View view) {
                 validarCampos();
+                Perfil perfil = VariaveisEstaticas.getUsuario().getPerfil();
                 PostAlterarClienteAsyncTask postAlterarClienteAsyncTask = new PostAlterarClienteAsyncTask(getContext(), montarJsonParaEnviar(), putAlterarClienteInterface);
-                postAlterarClienteAsyncTask.execute(FerramentasBasicas.getURL() + URL_ALTERAR_CLIENTE);
+                postAlterarClienteAsyncTask.execute(FerramentasBasicas.getURL() + (perfil.getTipoPerfil().getDescricao().equals("Profissional") ? URL_ALTERAR_PROFISSIONAL : URL_ALTERAR_CLIENTE));
             }
         });
 
@@ -135,7 +137,12 @@ public class AlterarPerfilFragment extends Fragment implements PutAlterarCliente
 
     private JSONObject montarJsonParaEnviar(){
         JSONObject jsonObject = new JSONObject();
+        String celular = edtCelular.getText().toString();
 
+        celular = celular.replace("(", "");
+        celular = celular.replace(")", "");
+        celular = celular.replace("-", "");
+        celular = celular.replace(" ", "");
         try {
             jsonObject.put("id", VariaveisEstaticas.getUsuario().getPerfil().getId());
             jsonObject.put("nome", edtNome.getText().toString());
@@ -143,7 +150,7 @@ public class AlterarPerfilFragment extends Fragment implements PutAlterarCliente
             jsonObject.put("datanascimento", edtDataNascimento.getText().toString());
             jsonObject.put("cpf", edtCpf.getText().toString());
             jsonObject.put("sexo", sexoSelecionado);
-            jsonObject.put("celular", edtCelular.getText().toString());
+            jsonObject.put("celular", celular);
             jsonObject.put("ativo", VariaveisEstaticas.getUsuario().getPerfil().getAtivo());
         } catch (JSONException e) {
             e.printStackTrace();

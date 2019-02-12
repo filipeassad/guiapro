@@ -138,15 +138,39 @@ public class FerramentasBasicas {
 
         switch (codigo){
             case 1:
-                return "Aguardando Atendimento";
+                return "Aguardando Ligação";
             case 2:
-                return "Atendido";
+                return "Aguardando Atendimento";
             case 3:
-                return "Trabalho Fechado";
+                return "Atendimento Confirmado Pelo Cliente";
             case 4:
-                return "Trabalho Finalizado";
+                return "Atendimento Não Confirmado Pelo Cliente";
             case 5:
-                return "Trabalho Não Foi Fechado";
+                return "Atendido";
+            case 6:
+                return "Não Atendido";
+            case 7:
+                return "Atendimento Com Respostas Divergentes";
+            case 8:
+                return "Cliente Confirmou Fechamento De Trabalho";
+            case 9:
+                return "Cliente Não Confirmou Fechamento De Trabalho";
+            case 10:
+                return "Trabalho Fechado";
+            case 11:
+                return "Trabalho Não Fechado";
+            case 12:
+                return "Fechamento De Trabalho Com Respostas Divergentes";
+            case 13:
+                return "Cliente Confirmou Finalização Do Trabalho";
+            case 14:
+                return "Cliente Não Confirmou Finalização Do Trabalho";
+            case 15:
+                return "Trabalho Finalizado";
+            case 16:
+                return "Trabalho Não Finalizado";
+            case 17:
+                return "Finalização Do Trabalho Com Respostas Divergentes";
         }
         return "";
     }

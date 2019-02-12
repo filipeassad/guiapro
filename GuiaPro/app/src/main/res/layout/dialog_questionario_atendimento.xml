@@ -3,14 +3,15 @@
     android:layout_width="350dp"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:gravity="center">
+    android:gravity="center"
+    android:background="@drawable/shape_background_atendimento">
 
     <LinearLayout
         android:id="@+id/llContainer"
         android:layout_width="match_parent"
         android:layout_height="80dp"
         android:orientation="horizontal"
-        android:gravity="left|center"
+        android:gravity="center"
         android:background="@drawable/shape_background_atendimento"
         android:layout_margin="5dp">
 
@@ -20,11 +21,10 @@
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:src="@drawable/manuser"
-            app:civ_border_width="0dp"
-            android:layout_marginLeft="15dp"/>
+            app:civ_border_width="0dp"/>
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_marginLeft="10dp"
             android:gravity="left|center"
@@ -44,38 +44,26 @@
                     android:paddingTop="10dp">
 
                     <TextView
-                        android:id="@+id/tvNomeCliente"
+                        android:id="@+id/tvNome"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Filipe Assad Baraúna"
                         android:textSize="14sp"
                         android:textStyle="bold"/>
                     <TextView
-                        android:id="@+id/tvDescricaoAtendimento"
+                        android:id="@+id/tvCategoria"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textSize="10sp"
-                        android:text="Preciso consertar uma pia, estou sem àgua."/>
+                        android:text="Categoria: Pedreiro"/>
+                    <TextView
+                        android:id="@+id/tvDataAtendimento"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="10sp"
+                        android:text="Data Atendimento: 30/03/1991"/>
 
                 </LinearLayout>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/llUrgencia"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="SOLICITAÇÃO ATENDIMENTO DE URGÊNCIA"
-                    android:textSize="10sp"
-                    android:textStyle="bold"
-                    android:textColor="#f26035"
-                    android:gravity="left"/>
 
             </LinearLayout>
 
@@ -85,11 +73,19 @@
 
     <LinearLayout
         android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#757575"
+        android:layout_marginRight="20dp"
+        android:layout_marginLeft="20dp"></LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/tvTipoContato"
+            android:id="@+id/tvMensagem"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textStyle="bold"

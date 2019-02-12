@@ -21,8 +21,9 @@ import java.util.List;
 
 import dev.kosmo.com.br.adapter.AtendimentoAdapter;
 import dev.kosmo.com.br.dao.GuiaProDao;
-import dev.kosmo.com.br.dialogs.AtendimentoDialog;
 import dev.kosmo.com.br.dialogs.EntrarContatoDialog;
+import dev.kosmo.com.br.dialogs.QuestionarioAtendimentoDialog;
+import dev.kosmo.com.br.enuns.SituacaoEnum;
 import dev.kosmo.com.br.guiapro.R;
 import dev.kosmo.com.br.interfaces.AtendimentoAdapterInterface;
 import dev.kosmo.com.br.interfaces.AtendimentoInterface;
@@ -36,8 +37,6 @@ import dev.kosmo.com.br.utils.VariaveisEstaticas;
 public class ListagemAtendimentoProfissionalFragment extends Fragment implements AtendimentoAdapterInterface, AtendimentoInterface {
 
     private LinearLayout abaSolicitacoes;
-    private LinearLayout abaAtendidos;
-    private LinearLayout abaMensagens;
     private TextView tvSolicitacoes;
     private TextView tvAtendidos;
     private TextView tvMensagens;
@@ -53,9 +52,7 @@ public class ListagemAtendimentoProfissionalFragment extends Fragment implements
 
     private GuiaProDao guiaProDao;
 
-    private String ATENDIMENTO_NAO_ATENDIDO = "Não Atendido";
-    private final long SITUACAO_ATENDIMENTO_AGUARDANDO = 1;
-    private final String API_ATENDIMENTO = "atendimento_profissional";
+    private final String API_ATENDIMENTO = "mobile/atendimento_profissional/";
 
     @Nullable
     @Override
@@ -64,8 +61,6 @@ public class ListagemAtendimentoProfissionalFragment extends Fragment implements
         View view = inflater.inflate(R.layout.fragment_listagem_atendimento_profissional, container, false);
 
         abaSolicitacoes = (LinearLayout) view.findViewById(R.id.abaSolicitacoes);
-        abaAtendidos = (LinearLayout) view.findViewById(R.id.abaAtendidos);
-        abaMensagens = (LinearLayout) view.findViewById(R.id.abaMensagens);
         tvSolicitacoes = (TextView) view.findViewById(R.id.tvSolicitacoes);
         tvAtendidos = (TextView) view.findViewById(R.id.tvAtendidos);
         tvMensagens = (TextView) view.findViewById(R.id.tvMensagens);
@@ -75,17 +70,9 @@ public class ListagemAtendimentoProfissionalFragment extends Fragment implements
         VariaveisEstaticas.getFragmentInterface().visibilidadeMenuProfissional(true);
 
         abaSolicitacoes.setTag("Solicitacoes");
-        abaAtendidos.setTag("Atendidos");
-        abaMensagens.setTag("Mensagens");
-
-        abaSolicitacoes.setOnClickListener(abaOnCLickListener);
-        abaAtendidos.setOnClickListener(abaOnCLickListener);
-        abaMensagens.setOnClickListener(abaOnCLickListener);
 
         guiaProDao = (GuiaProDao) getActivity().getApplication();
         usuario = VariaveisEstaticas.getUsuario();
-
-        buscarAtendimentos();
 
         if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(getActivity(),
@@ -98,13 +85,13 @@ public class ListagemAtendimentoProfissionalFragment extends Fragment implements
     @Override
     public void onResume() {
         super.onResume();
-        //verificaSolicitacoes();
+        buscarAtendimentos();
     }
 
     private void buscarAtendimentos(){
         if(FerramentasBasicas.isOnline(getContext())){
             GetAtendimentoAsyncTask getAtendimentoAsyncTask = new GetAtendimentoAsyncTask(getContext(), atendimentoInterface);
-            getAtendimentoAsyncTask.execute(FerramentasBasicas.getURL() + API_ATENDIMENTO);
+            getAtendimentoAsyncTask.execute(FerramentasBasicas.getURL() + API_ATENDIMENTO + usuario.getPerfilId());
         }else{
             AtendimentoDao.Properties propriedades = new AtendimentoDao.Properties();
 
@@ -123,49 +110,26 @@ public class ListagemAtendimentoProfissionalFragment extends Fragment implements
                 R.layout.adapter_atendimento,listaAtendimento,atendimentoAdapterInterface);
 
         lvTelaInicial.setAdapter(atendimentoAdapter);
+        verificarAtendimentos();
     }
 
-    private View.OnClickListener abaOnCLickListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            setBackGroundLinearLayout();
+    private void verificarAtendimentos(){
 
-            ((LinearLayout)view).setBackgroundResource(R.drawable.menutopocinza);
+        for(Atendimento aux :listaAtendimento){
+            int situacao = Integer.parseInt(aux.getSitucaoId() + "");
 
-            if(((String)view.getTag()).equals("Solicitacoes")){
-                tvSolicitacoes.setTextColor(Color.parseColor("#bfbfbf"));
-                /*listaAtendimento = populaAtendimentos.criaAtendimentosNaoAtendidos();
-                AtendimentosAdapter atendimentosAdapter = new AtendimentosAdapter(getContext(),
-                        R.layout.adapter_atendimento,listaAtendimento, atendimentoAdapterInterface);
-
-                lvTelaInicial.setAdapter(atendimentosAdapter);*/
-
-            }else if(((String)view.getTag()).equals("Atendidos")){
-                tvAtendidos.setTextColor(Color.parseColor("#bfbfbf"));
-
-            }else if(((String)view.getTag()).equals("Mensagens")){
-                tvMensagens.setTextColor(Color.parseColor("#bfbfbf"));
+            if(situacao == SituacaoEnum.ATENDIMENTOCONFIRMADOPELOCLIENTE.getValue()
+                    || situacao == SituacaoEnum.ATENDIMENTONAOCONFIRMADOPELOCLIENTE.getValue()
+                    || situacao == SituacaoEnum.CLIENTECONFIRMOUFECHAMENTODETRABALHO.getValue()
+                    || situacao == SituacaoEnum.CLIENTENAOCONFIRMOUFECHAMENTODETRABALHO.getValue()
+                    || situacao == SituacaoEnum.CLIENTECONFIRMOUFINALIZACAODOTRABALHO.getValue()
+                    || situacao == SituacaoEnum.CLIENTENAOCONFIRMOUFINALIZACAODOTRABALHO.getValue()){
+                QuestionarioAtendimentoDialog questionarioAtendimentoDialog = new QuestionarioAtendimentoDialog(getContext());
+                questionarioAtendimentoDialog.gerarDialog(aux);
+                return;
             }
         }
-    };
 
-    private void setBackGroundLinearLayout(){
-
-        abaSolicitacoes.setBackgroundResource(R.drawable.menutopolaranja);
-        tvSolicitacoes.setTextColor(Color.parseColor("#fddeb3"));
-
-        abaAtendidos.setBackgroundResource(R.drawable.menutopolaranja);
-        tvAtendidos.setTextColor(Color.parseColor("#fddeb3"));
-
-        abaMensagens.setBackgroundResource(R.drawable.menutopolaranja);
-        tvMensagens.setTextColor(Color.parseColor("#fddeb3"));
-
-    }
-
-    private void carregaDetalhe(Atendimento atendimento){
-        llDetalheAtendimento.setVisibility(View.VISIBLE);
-        View view = View.inflate(getContext(), R.layout.fragment_detalhe_atendimento, null);
-        llDetalheAtendimento.addView(view);
     }
 
     @Override
@@ -178,26 +142,6 @@ public class ListagemAtendimentoProfissionalFragment extends Fragment implements
     public void entrarEmContato(Atendimento atendimento) {
         EntrarContatoDialog entrarContatoDialog = new EntrarContatoDialog(getContext());
         entrarContatoDialog.gerarDialog(atendimento);
-    }
-
-    private void verificaSolicitacoes(){
-        if(!listaAtendimento.isEmpty()){
-            Atendimento atendimento = buscarAtendimantoNaoAtendido(listaAtendimento);
-            if(atendimento != null){
-                AtendimentoDialog atendimentoDialog = new AtendimentoDialog(getContext());
-                atendimentoDialog.gerarDialog(atendimento);
-            }
-        }
-    }
-
-    private Atendimento buscarAtendimantoNaoAtendido(List<Atendimento> listaAtendimentos){
-
-        for(Atendimento atendimento : listaAtendimentos){
-            if(atendimento.getSitucaoId() == SITUACAO_ATENDIMENTO_AGUARDANDO ){
-                return atendimento;
-            }
-        }
-        return null;
     }
 
     @Override

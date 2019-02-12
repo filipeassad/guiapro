@@ -38,6 +38,8 @@ import java.util.List;
 import dev.kosmo.com.br.adapter.CategoriaProfissionalAdapter;
 import dev.kosmo.com.br.dao.GuiaProDao;
 import dev.kosmo.com.br.dialogs.InformacaoDialog;
+import dev.kosmo.com.br.enuns.SituacaoEnum;
+import dev.kosmo.com.br.enuns.TipoAtendimentoEnum;
 import dev.kosmo.com.br.guiapro.R;
 import dev.kosmo.com.br.interfaces.AtendimentoInterface;
 import dev.kosmo.com.br.interfaces.NotificacaoPostInterface;
@@ -80,7 +82,6 @@ public class DetalheProfissionalFragment extends Fragment implements OnMapReadyC
     private Usuario usuario;
     private GuiaProDao guiaProDao;
 
-    private final long SITUACAO_AGUARDANDO = 2;
     private final long ATENDIMENTO_LIGACAO = 1;
     private final long ATENDIMENTO_WHATS = 2;
     private final long ATENDIMENTO_MELIGUE = 3;
@@ -263,7 +264,7 @@ public class DetalheProfissionalFragment extends Fragment implements OnMapReadyC
         atendimento.setDescricao(descricao);
         atendimento.setTitulo(titulo);
         atendimento.setTipoAtendimentoId(tipoAtendimentoId);
-        atendimento.setSitucaoId(1);
+        atendimento.setSitucaoId(Integer.parseInt(tipoAtendimentoId + "") == TipoAtendimentoEnum.MELIGUE.getValue() ? SituacaoEnum.AGUARDANDOLIGACAO.getValue() : SituacaoEnum.AGUARDANDOATENDIMENTO.getValue());
 
         return atendimento;
     }
