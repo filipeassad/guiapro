@@ -6,28 +6,61 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="70dp"
-        android:gravity="center|left"
+        android:layout_height="78dp"
+        android:gravity="left"
         android:orientation="horizontal"
         android:layout_margin="5dp"
         android:padding="5dp"
-        android:background="@drawable/shape_cinza_redondo">
-
-        <View
-            android:layout_width="10dp"
-            android:layout_height="10dp"
-            android:layout_marginLeft="30dp"
-            android:background="@drawable/shape_bg_redondo_laranja"></View>
-
-        <TextView
-            android:id="@+id/tvHistorico"
+        android:background="@drawable/shape_borda_laranja_arredondado">
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:gravity="left"
-            android:text="Você ligou para fulano."/>
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvNome"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:textSize="11sp"
+                android:gravity="left"
+                android:text="Filipe Assad Barauna"
+                android:textStyle="bold"/>
+            <TextView
+                android:id="@+id/tvData"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:textSize="11sp"
+                android:gravity="left"
+                android:text="Data: 30/03/1991"/>
+            <TextView
+                android:id="@+id/tvCategoria"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:textSize="11sp"
+                android:gravity="left"
+                android:text="Categoria: Encanador"/>
+            <TextView
+                android:id="@+id/tvSituacao"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:textSize="11sp"
+                android:gravity="left"
+                android:text="Situação: Aguardando Atendimento"/>
+
+        </LinearLayout>
 
         <de.hdodenhof.circleimageview.CircleImageView
             xmlns:app="http://schemas.android.com/apk/res-auto"

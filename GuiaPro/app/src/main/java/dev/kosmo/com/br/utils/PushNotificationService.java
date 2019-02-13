@@ -2,8 +2,10 @@ package dev.kosmo.com.br.utils;
 
 
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.support.v4.app.NotificationCompat;
@@ -11,6 +13,7 @@ import android.util.Log;
 
 import java.net.URISyntaxException;
 
+import dev.kosmo.com.br.activitys.MainActivity;
 import dev.kosmo.com.br.guiapro.R;
 import io.socket.client.IO;
 import io.socket.client.Socket;
@@ -65,13 +68,17 @@ public class PushNotificationService extends Service {
             }).on("guiapro-notificacao-" + VariaveisEstaticas.getUsuario().getPerfilId(), new Emitter.Listener() {
                 @Override
                 public void call(Object... args) {
-
+                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                    PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(), 1, intent, PendingIntent.FLAG_UPDATE_CURRENT);
                     try{
                         NotificationCompat.Builder builder =
                                 new NotificationCompat.Builder(getBaseContext())
                                         .setSmallIcon(R.mipmap.ic_launcher)
+                                        .setLargeIcon(BitmapFactory.decodeResource(getBaseContext().getResources(),
+                                                R.mipmap.ic_launcher))
                                         .setContentTitle("Notificação do cliente")
-                                        .setContentText("Mensagem: " + args[0]);
+                                        .setContentText("Você possui uma solicitação de ligação!")
+                                        .setContentIntent(pendingIntent);
 
                         NotificationManager mNotificationManager = (NotificationManager) getSystemService(getBaseContext().NOTIFICATION_SERVICE);
 

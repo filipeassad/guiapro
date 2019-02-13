@@ -23,6 +23,7 @@ import dev.kosmo.com.br.adapter.AtendimentoAdapter;
 import dev.kosmo.com.br.dao.GuiaProDao;
 import dev.kosmo.com.br.dialogs.EntrarContatoDialog;
 import dev.kosmo.com.br.dialogs.QuestionarioAtendimentoDialog;
+import dev.kosmo.com.br.dialogs.RetornarClienteDialog;
 import dev.kosmo.com.br.enuns.SituacaoEnum;
 import dev.kosmo.com.br.guiapro.R;
 import dev.kosmo.com.br.interfaces.AtendimentoAdapterInterface;
@@ -118,13 +119,23 @@ public class ListagemAtendimentoProfissionalFragment extends Fragment implements
         for(Atendimento aux :listaAtendimento){
             int situacao = Integer.parseInt(aux.getSitucaoId() + "");
 
+            if(situacao == SituacaoEnum.AGUARDANDOLIGACAO.getValue()){
+                RetornarClienteDialog retornarClienteDialog = new RetornarClienteDialog(getContext(), atendimentoInterface);
+                retornarClienteDialog.gerarDialog(aux);
+                return;
+            }
+        }
+
+        for(Atendimento aux :listaAtendimento){
+            int situacao = Integer.parseInt(aux.getSitucaoId() + "");
+
             if(situacao == SituacaoEnum.ATENDIMENTOCONFIRMADOPELOCLIENTE.getValue()
                     || situacao == SituacaoEnum.ATENDIMENTONAOCONFIRMADOPELOCLIENTE.getValue()
                     || situacao == SituacaoEnum.CLIENTECONFIRMOUFECHAMENTODETRABALHO.getValue()
                     || situacao == SituacaoEnum.CLIENTENAOCONFIRMOUFECHAMENTODETRABALHO.getValue()
                     || situacao == SituacaoEnum.CLIENTECONFIRMOUFINALIZACAODOTRABALHO.getValue()
                     || situacao == SituacaoEnum.CLIENTENAOCONFIRMOUFINALIZACAODOTRABALHO.getValue()){
-                QuestionarioAtendimentoDialog questionarioAtendimentoDialog = new QuestionarioAtendimentoDialog(getContext());
+                QuestionarioAtendimentoDialog questionarioAtendimentoDialog = new QuestionarioAtendimentoDialog(getContext(), atendimentoInterface);
                 questionarioAtendimentoDialog.gerarDialog(aux);
                 return;
             }
@@ -153,6 +164,11 @@ public class ListagemAtendimentoProfissionalFragment extends Fragment implements
     public void retornoBuscaAtendimentos(List<Atendimento> atendimentos) {
         listaAtendimento = atendimentos;
         carregaAtendimentos();
+    }
+
+    @Override
+    public void retornoAlteracaoAtendimentos(boolean cadastrou) {
+
     }
 
     @Override

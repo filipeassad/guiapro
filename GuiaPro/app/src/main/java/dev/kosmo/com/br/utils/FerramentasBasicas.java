@@ -74,7 +74,8 @@ public class FerramentasBasicas {
     }
 
     public static String getURLSocket(){
-        return "https://guiaproweb.herokuapp.com/";
+        //return "https://guiaproweb.herokuapp.com/";
+        return "https://guiapro.herokuapp.com/";
     }
 
     public static String getURL(){

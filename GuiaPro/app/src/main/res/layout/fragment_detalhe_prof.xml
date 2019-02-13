@@ -56,33 +56,6 @@
                             app:civ_border_width="2dp" />
                     </FrameLayout>
 
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="right|center"
-                        android:layout_marginLeft="85dp"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
-                            android:background="@drawable/shape_box_green"
-                            android:gravity="center"
-                            android:text="9,5"
-                            android:textColor="#FFFFFF" />
-
-                        <TextView
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
-                            android:layout_marginTop="5dp"
-                            android:background="@drawable/shape_box_red"
-                            android:gravity="center"
-                            android:text="24h"
-                            android:textColor="#FFFFFF" />
-
-                    </LinearLayout>
-
                 </FrameLayout>
 
                 <TextView
@@ -99,14 +72,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
-                    android:text="Principais Especialidades:"
+                    android:text="Categoria"
                     android:textColor="#ecac1b"
                     android:textSize="20sp"
                     android:textStyle="bold" />
 
 
                 <LinearLayout
-                    android:id="@+id/llEspecialidades"
+                    android:id="@+id/llCategoria"
                     android:layout_width="match_parent"
                     android:layout_height="60dp"
                     android:layout_marginTop="10dp"
@@ -114,15 +87,6 @@
                     android:orientation="horizontal">
 
                 </LinearLayout>
-
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:paddingLeft="30dp"
-                    android:paddingRight="30dp"
-                    android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua." />
 
                 <LinearLayout
                     android:id="@+id/btnLigar"
@@ -197,248 +161,6 @@
                         android:textColor="#FFFFFF"
                         android:textSize="15sp"
                         android:textStyle="bold" />
-                </LinearLayout>
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:src="@drawable/publicidade" />
-
-                <TextView
-                    android:id="@+id/tvAtendeLocalidade"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:gravity="center"
-                    android:paddingLeft="30dp"
-                    android:paddingRight="30dp"
-                    android:text="atende a partir desta localidade"
-                    android:textColor="#9d6c10"
-                    android:textSize="20sp" />
-
-                <com.google.android.gms.maps.MapView
-                    android:id="@+id/map"
-                    android:layout_width="match_parent"
-                    android:layout_height="300dp"
-                    android:layout_marginTop="10dp" />
-
-                <LinearLayout
-                    android:id="@+id/llUrgencia"
-                    android:layout_width="match_parent"
-                    android:layout_height="70dp"
-                    android:layout_marginBottom="10dp"
-                    android:background="#f15109"
-                    android:gravity="center">
-
-                    <TextView
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:background="@drawable/shape_circulo_branco"
-                        android:gravity="center"
-                        android:text="24h"
-                        android:textColor="#f15109"
-                        android:textSize="18sp"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        android:text="Este profissional atende a urgências"
-                        android:textColor="#FFFFFF"
-                        android:textSize="15sp"
-                        android:textStyle="bold" />
-
-                </LinearLayout>
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
-                    android:paddingLeft="20dp"
-                    android:text="Positivas:"
-                    android:textColor="#46a703"
-                    android:textSize="20sp" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
-                    android:gravity="center"
-                    android:orientation="horizontal">
-
-                    <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
-                        android:id="@+id/ivImg1"
-                        android:layout_width="80dp"
-                        android:layout_height="80dp"
-                        android:layout_gravity="center"
-                        android:layout_marginLeft="20dp"
-                        android:layout_marginRight="20dp"
-                        android:src="@drawable/manuserbranco"
-                        app:civ_border_color="#FFFFFF"
-                        app:civ_border_width="2dp" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginRight="10dp"
-                        android:text="Lorem ipsum iaculis phasellus metus morbi mattis potenti ultricies litora odio eu pulvinar sodales ullamcorper class." />
-
-                </LinearLayout>
-
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="2dp"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="20dp"
-                    android:layout_marginTop="10dp"
-                    android:layerType="software"
-                    android:src="@drawable/shape_linha_pontilhada" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:gravity="center"
-                    android:orientation="horizontal">
-
-                    <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
-                        android:id="@+id/ivImg2"
-                        android:layout_width="80dp"
-                        android:layout_height="80dp"
-                        android:layout_gravity="center"
-                        android:layout_marginLeft="20dp"
-                        android:layout_marginRight="20dp"
-                        android:src="@drawable/manuserbranco"
-                        app:civ_border_color="#FFFFFF"
-                        app:civ_border_width="2dp" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginRight="10dp"
-                        android:text="Lorem ipsum iaculis phasellus metus morbi mattis potenti ultricies litora odio eu pulvinar sodales ullamcorper class." />
-
-                </LinearLayout>
-
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="2dp"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="20dp"
-                    android:layout_marginTop="10dp"
-                    android:layerType="software"
-                    android:src="@drawable/shape_linha_pontilhada" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:gravity="center"
-                    android:orientation="horizontal">
-
-                    <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
-                        android:id="@+id/ivImg3"
-                        android:layout_width="80dp"
-                        android:layout_height="80dp"
-                        android:layout_gravity="center"
-                        android:layout_marginLeft="20dp"
-                        android:layout_marginRight="20dp"
-                        android:src="@drawable/manuserbranco"
-                        app:civ_border_color="#FFFFFF"
-                        app:civ_border_width="2dp" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginRight="10dp"
-                        android:text="Lorem ipsum iaculis phasellus metus morbi mattis potenti ultricies litora odio eu pulvinar sodales ullamcorper class." />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:gravity="right">
-
-                    <LinearLayout
-                        android:layout_width="100dp"
-                        android:layout_height="30dp"
-                        android:layout_marginRight="20dp"
-                        android:background="@drawable/shape_box_green"
-                        android:gravity="center">
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:gravity="center"
-                            android:text="\\/ veja todos"
-                            android:textColor="#FFFFFF" />
-                    </LinearLayout>
-
-                </LinearLayout>
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
-                    android:paddingLeft="20dp"
-                    android:text="Negativas:"
-                    android:textColor="#f05109"
-                    android:textSize="20sp" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:gravity="center"
-                    android:orientation="horizontal">
-
-                    <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
-                        android:id="@+id/ivImg4"
-                        android:layout_width="80dp"
-                        android:layout_height="80dp"
-                        android:layout_gravity="center"
-                        android:layout_marginLeft="20dp"
-                        android:layout_marginRight="20dp"
-                        android:src="@drawable/manuserbranco"
-                        app:civ_border_color="#FFFFFF"
-                        app:civ_border_width="2dp" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginRight="10dp"
-                        android:text="Lorem ipsum iaculis phasellus metus morbi mattis potenti ultricies litora odio eu pulvinar sodales ullamcorper class." />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginTop="10dp"
-                    android:gravity="right">
-
-                    <LinearLayout
-                        android:layout_width="100dp"
-                        android:layout_height="30dp"
-                        android:layout_marginRight="20dp"
-                        android:background="@drawable/shape_box_red"
-                        android:gravity="center">
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:gravity="center"
-                            android:text="\\/ veja todos"
-                            android:textColor="#FFFFFF" />
-                    </LinearLayout>
-
                 </LinearLayout>
 
             </LinearLayout>

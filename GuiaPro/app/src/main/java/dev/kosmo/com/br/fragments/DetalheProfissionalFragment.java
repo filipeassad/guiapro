@@ -62,15 +62,11 @@ import dev.kosmo.com.br.utils.VariaveisEstaticas;
  * Created by Filipe on 11/03/2018.
  */
 
-public class DetalheProfissionalFragment extends Fragment implements OnMapReadyCallback, AtendimentoInterface, NotificacaoProfissionalInterface{
+public class DetalheProfissionalFragment extends Fragment implements AtendimentoInterface, NotificacaoProfissionalInterface{
 
-    private TextView tvAtendeLocalidade;
     private TextView tvNomeProfissional;
     private ImageView ivImagem;
-    private MapView map;
-    private GoogleMap googleMap;
-    private LinearLayout llEspecialidades;
-    private LinearLayout llUrgencia;
+    private LinearLayout llCategoria;
     private LinearLayout btnLigar;
     private LinearLayout btnWhats;
     private LinearLayout btnMeLigue;
@@ -97,29 +93,18 @@ public class DetalheProfissionalFragment extends Fragment implements OnMapReadyC
         View view = inflater.inflate(R.layout.fragment_detalhe_prof, container, false);
         VariaveisEstaticas.getFragmentInterface().visibilidadeMenu(true);
 
-        tvAtendeLocalidade = (TextView) view.findViewById(R.id.tvAtendeLocalidade);
         tvNomeProfissional = (TextView) view.findViewById(R.id.tvNomeProfissional);
         ivImagem = (ImageView) view.findViewById(R.id.ivImagem);
-        llEspecialidades = (LinearLayout) view.findViewById(R.id.llEspecialidades);
-        llUrgencia = (LinearLayout) view.findViewById(R.id.llUrgencia);
+        llCategoria = (LinearLayout) view.findViewById(R.id.llCategoria);
         btnLigar = (LinearLayout) view.findViewById(R.id.btnLigar);
         btnWhats = (LinearLayout) view.findViewById(R.id.btnWhats);
         btnMeLigue = (LinearLayout) view.findViewById(R.id.btnMeLigeu);
-        map = (MapView) view.findViewById(R.id.map);
-        map.onCreate(savedInstanceState);
-        map.onResume();
 
         profissional = VariaveisEstaticas.getProfissional();
         categoria = VariaveisEstaticas.getCategoria();
         usuario = VariaveisEstaticas.getUsuario();
 
         guiaProDao = (GuiaProDao) getActivity().getApplication();
-
-        try {
-            MapsInitializer.initialize(getActivity().getApplicationContext());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
 
         if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(getActivity(),
@@ -134,8 +119,7 @@ public class DetalheProfissionalFragment extends Fragment implements OnMapReadyC
 
     private void carregarDadosProfissional(){
         tvNomeProfissional.setText(profissional.getNome() + " " + profissional.getSobrenome());
-        tvAtendeLocalidade.setText(profissional.getNome() + " atende a partir desta localidade");
-        carregaEspecialidades();
+        carregaCategoria();
     }
 
     private void acoes(){
@@ -206,26 +190,7 @@ public class DetalheProfissionalFragment extends Fragment implements OnMapReadyC
     @Override
     public void onResume() {
         super.onResume();
-        map.getMapAsync(this);
     }
-
-    @Override
-    public void onMapReady(GoogleMap googleMap) {
-        this.googleMap = googleMap;
-
-        LatLng latLng = new LatLng(-20.460918,-54.611032);
-
-        CameraPosition cameraPosition = new CameraPosition.Builder().target(latLng).zoom(17).build();
-
-        this.googleMap.clear();
-        this.googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
-        this.googleMap.addCircle(new CircleOptions()
-                .center(new LatLng(-20.460918, -54.611032))
-                .radius(100)
-                .strokeColor(Color.parseColor("#f15109"))
-                .fillColor(Color.parseColor("#32f15109")));
-    }
-
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -242,15 +207,12 @@ public class DetalheProfissionalFragment extends Fragment implements OnMapReadyC
         }
     }
 
-    private void carregaEspecialidades(){
-        llEspecialidades.removeAllViews();
-
-        for(Categoria categoria : profissional.getCategorias()){
-            LinearLayout linearLayout = (LinearLayout) getActivity().getLayoutInflater().inflate(R.layout.adapter_categoria_profissional,null);
-            TextView tvCategoria = (TextView) linearLayout.findViewById(R.id.tvCategoria);
-            tvCategoria.setText(categoria.getDescricao());
-            llEspecialidades.addView(linearLayout);
-        }
+    private void carregaCategoria(){
+        llCategoria.removeAllViews();
+        LinearLayout linearLayout = (LinearLayout) getActivity().getLayoutInflater().inflate(R.layout.adapter_categoria_profissional,null);
+        TextView tvCategoria = (TextView) linearLayout.findViewById(R.id.tvCategoria);
+        tvCategoria.setText(categoria.getDescricao());
+        llCategoria.addView(linearLayout);
     }
 
     private Atendimento criarAtendimento(String descricao, String titulo, long tipoAtendimentoId){
@@ -317,6 +279,11 @@ public class DetalheProfissionalFragment extends Fragment implements OnMapReadyC
 
     @Override
     public void retornoBuscaAtendimentos(List<Atendimento> atendimentos) {
+
+    }
+
+    @Override
+    public void retornoAlteracaoAtendimentos(boolean cadastrou) {
 
     }
 }
