@@ -218,7 +218,7 @@ public class CarregaDados {
             endereco.setCep(jsonObject.has("cep") ? jsonObject.getString("cep") : "");
             endereco.setNumero(jsonObject.has("numero") ? jsonObject.getString("numero") : "");
             endereco.setLogradouro(jsonObject.has("logradouro") ? jsonObject.getString("logradouro") : "");
-            endereco.setComplemento(jsonObject.has("complemento") ? jsonObject.getString("complemento") : "");
+            endereco.setComplemento(jsonObject.has("complemento") && jsonObject.getString("complemento").equals("null") == false ? jsonObject.getString("complemento") : "");
             endereco.setBairro(jsonObject.has("bairro") ? jsonObject.getString("bairro") : "");
             endereco.setCidade(jsonObject.has("cidade") ? jsonObject.getString("cidade") : "");
             endereco.setUf(jsonObject.has("uf") ? jsonObject.getString("uf") : "");

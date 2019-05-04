@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="20">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:src="@drawable/bg_header"
+                android:scaleType="center"/>
+
+        </FrameLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:layout_gravity="top">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="15dp"
+                    android:background="@drawable/shape_box_white"
+                    android:orientation="vertical"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginBottom="20dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Alterar Endereço"
+                            android:textAlignment="center"
+                            android:textSize="18sp"
+                            android:textStyle="bold"/>
+                    </LinearLayout>
+
+                    <EditText
+                        android:id="@+id/edtCEP"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="CEP"
+                        android:layout_marginTop="10dp"/>
+
+                    <EditText
+                        android:id="@+id/edtNumero"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Número"
+                        android:layout_marginTop="10dp"/>
+
+                    <EditText
+                        android:id="@+id/edtLogradouro"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Logradouro"
+                        android:layout_marginTop="10dp"/>
+
+                    <EditText
+                        android:id="@+id/edtComplemento"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Complemento"/>
+
+                    <EditText
+                        android:id="@+id/edtBairro"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Bairro"
+                        android:layout_marginTop="10dp"/>
+
+                    <EditText
+                        android:id="@+id/edtCidade"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Cidade"
+                        android:layout_marginTop="10dp"/>
+
+                    <EditText
+                        android:id="@+id/edtUf"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Uf"
+                        android:layout_marginTop="10dp"/>
+
+                    <EditText
+                        android:id="@+id/edtPais"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="País"
+                        android:layout_marginTop="10dp"/>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center"
+                        android:padding="5dp"
+                        android:layout_marginTop="20dp">
+
+                        <Button
+                            android:id="@+id/btnVoltar"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:background="@drawable/shape_btn_orange"
+                            android:text="VOLTAR"
+                            android:textColor="#FFFFFF"
+                            android:layout_marginRight="10dp"/>
+
+                        <Button
+                            android:id="@+id/btnSalvar"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:background="@drawable/shape_btn_orange"
+                            android:text="SALVAR"
+                            android:textColor="#FFFFFF"/>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </ScrollView>
+
+    </LinearLayout>
+
+</FrameLayout>

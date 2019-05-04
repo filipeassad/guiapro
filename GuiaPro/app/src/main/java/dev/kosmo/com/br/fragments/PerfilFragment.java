@@ -30,12 +30,14 @@ public class PerfilFragment extends Fragment {
     private TextView txtSexo;
 
     private Button btnAlterar;
+    private Button btnEndereco;
 
     private final String FORMATO_DATA_BR = "dd/MM/yyyy";
     private final String NOME_TELA_ALTERAR_DADOS_PERFIL = "AlterarDadosCliente";
     private final String SIGLA_SEXO_MASCULINO = "M";
     private final String SEXO_MASCULINO = "Masculino";
     private final String SEXO_FEMININO = "Feminino";
+    private final String NOME_TELA_ENDERECO = "Endereco";
 
     @Nullable
     @Override
@@ -50,6 +52,7 @@ public class PerfilFragment extends Fragment {
         txtCelular = (TextView) view.findViewById(R.id.txtCelular);
         txtSexo = (TextView) view.findViewById(R.id.txtSexo);
         btnAlterar = (Button) view.findViewById(R.id.btnAlterar);
+        btnEndereco = (Button) view.findViewById(R.id.btnEndereco);
 
         acoes();
 
@@ -81,6 +84,13 @@ public class PerfilFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 VariaveisEstaticas.getFragmentInterface().mudaTela(NOME_TELA_ALTERAR_DADOS_PERFIL);
+            }
+        });
+
+        btnEndereco.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                VariaveisEstaticas.getFragmentInterface().mudaTela(NOME_TELA_ENDERECO);
             }
         });
 

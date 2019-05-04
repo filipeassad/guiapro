@@ -16,7 +16,6 @@
 
     </LinearLayout>
 
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -34,23 +33,6 @@
                 android:gravity="center"
                 android:orientation="vertical">
 
-                <de.hdodenhof.circleimageview.CircleImageView
-                    xmlns:app="http://schemas.android.com/apk/res-auto"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
-                    android:src="@drawable/manuserbranco"
-                    app:civ_border_width="2dp"
-                    android:layout_marginTop="20dp"
-                    app:civ_border_color="#FFFFFF"/>
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Dados Pessoais"
-                    android:textColor="#FFFFFF"
-                    android:textSize="20sp"
-                    android:gravity="center"/>
-
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -64,103 +46,126 @@
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="right">
-
-                        <Button
-                            android:id="@+id/btnEndereco"
-                            android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+                        <TextView
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:background="@drawable/shape_btn_orange"
                             android:text="Endereço"
-                            android:paddingLeft="20dp"
-                            android:paddingRight="20dp"
-                            android:textColor="#FFFFFF"/>
-
+                            android:textAlignment="center"
+                            android:textSize="18sp"
+                            android:textStyle="bold"/>
                     </LinearLayout>
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Nome:"
+                        android:text="CEP:"
                         android:textStyle="bold"
                         android:layout_marginTop="10dp"/>
 
                     <TextView
-                        android:id="@+id/txtNome"
+                        android:id="@+id/txtCEP"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Filipe"
+                        android:text=""
                         android:layout_marginTop="10dp"/>
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Sobrenome:"
+                        android:text="Número:"
                         android:textStyle="bold"
                         android:layout_marginTop="10dp"/>
 
                     <TextView
-                        android:id="@+id/txtSobrenome"
+                        android:id="@+id/txtNumero"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Assad"
+                        android:text=""
                         android:layout_marginTop="10dp"/>
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Sexo:"
+                        android:text="Logradouro:"
                         android:textStyle="bold"
                         android:layout_marginTop="10dp"/>
 
                     <TextView
-                        android:id="@+id/txtSexo"
+                        android:id="@+id/txtLogradouro"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Masculino"
+                        android:text=""
                         android:layout_marginTop="10dp"/>
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Data de nascimento:"
+                        android:text="Complemento:"
                         android:textStyle="bold"
                         android:layout_marginTop="10dp"/>
 
                     <TextView
-                        android:id="@+id/txtDataNascimento"
+                        android:id="@+id/txtComplemento"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="30/03/1991"
+                        android:text=""
                         android:layout_marginTop="10dp"/>
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="CPF:"
+                        android:text="Bairro:"
                         android:textStyle="bold"
                         android:layout_marginTop="10dp"/>
 
                     <TextView
-                        android:id="@+id/txtCpf"
+                        android:id="@+id/txtBairro"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="020.819.551-30"
+                        android:text=""
                         android:layout_marginTop="10dp"/>
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Celular:"
+                        android:text="Cidade:"
                         android:textStyle="bold"
                         android:layout_marginTop="10dp"/>
 
                     <TextView
-                        android:id="@+id/txtCelular"
+                        android:id="@+id/txtCidade"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="(67) 999643-2316"
+                        android:text=""
+                        android:layout_marginTop="10dp"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="UF:"
+                        android:textStyle="bold"
+                        android:layout_marginTop="10dp"/>
+
+                    <TextView
+                        android:id="@+id/txtUf"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text=""
+                        android:layout_marginTop="10dp"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="País:"
+                        android:textStyle="bold"
+                        android:layout_marginTop="10dp"/>
+
+                    <TextView
+                        android:id="@+id/txtPais"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text=""
                         android:layout_marginTop="10dp"/>
 
                     <Button
