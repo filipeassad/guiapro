@@ -5,10 +5,12 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.widget.LinearLayout;
 
+import dev.kosmo.com.br.fragments.AlterarEnderecoFragment;
 import dev.kosmo.com.br.fragments.AlterarPerfilFragment;
 import dev.kosmo.com.br.fragments.CategoriasFragment;
 import dev.kosmo.com.br.fragments.DetalheHistoricoFragment;
 import dev.kosmo.com.br.fragments.DetalheProfissionalFragment;
+import dev.kosmo.com.br.fragments.EnderecoFragment;
 import dev.kosmo.com.br.fragments.HistoricoFragment;
 import dev.kosmo.com.br.fragments.ListagemAtendimentoProfissionalFragment;
 import dev.kosmo.com.br.fragments.ListagemProfissionaisFragment;
@@ -67,6 +69,12 @@ public class GerenciadorFragment {
         }else if(nomeTela.equals("DetalheHistorico")){
             DetalheHistoricoFragment detalheHistoricoFragment = new DetalheHistoricoFragment();
             ft.replace(R.id.contFragments, detalheHistoricoFragment, nomeTela);
+        }else if(nomeTela.equals("Endereco")){
+            EnderecoFragment enderecoFragment = new EnderecoFragment();
+            ft.replace(R.id.contFragments, enderecoFragment, nomeTela);
+        }else if(nomeTela.equals("EnderecoEditar")){
+            AlterarEnderecoFragment alterarEnderecoFragment = new AlterarEnderecoFragment();
+            ft.replace(R.id.contFragments, alterarEnderecoFragment, nomeTela);
         }
 
         if(fm.findFragmentByTag(nomeTela) != null){
