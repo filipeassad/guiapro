@@ -19,6 +19,7 @@ public class VariaveisEstaticas {
     private static Perfil profissional;
     private static Atendimento atendimento;
     private static HistoricoAtendimento historicoAtendimento;
+    private static final int PICK_IMAGE = 24;
 
 
     public static FragmentInterface getFragmentInterface() {
@@ -67,5 +68,9 @@ public class VariaveisEstaticas {
 
     public static void setHistoricoAtendimento(HistoricoAtendimento historicoAtendimento) {
         VariaveisEstaticas.historicoAtendimento = historicoAtendimento;
+    }
+
+    public static int getPickImage() {
+        return PICK_IMAGE;
     }
 }
