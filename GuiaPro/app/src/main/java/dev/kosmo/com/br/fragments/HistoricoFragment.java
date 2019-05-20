@@ -1,5 +1,7 @@
 package dev.kosmo.com.br.fragments;
 
+import android.graphics.BitmapFactory;
+import android.opengl.Visibility;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -102,6 +104,7 @@ public class HistoricoFragment extends Fragment implements HistoricoAtendimentoI
             TextView tvData = (TextView) llHistorico.findViewById(R.id.tvData);
             TextView tvCategoria = (TextView) llHistorico.findViewById(R.id.tvCategoria);
             TextView tvSituacao = (TextView) llHistorico.findViewById(R.id.tvSituacao);
+            TextView tvTipoAtendimento = (TextView) llHistorico.findViewById(R.id.tvTipoAtendimento);
 
             Usuario usuario = VariaveisEstaticas.getUsuario();
 
@@ -111,14 +114,36 @@ public class HistoricoFragment extends Fragment implements HistoricoAtendimentoI
             tvData.setText("Data: " + FerramentasBasicas.converterDataParaString(aux.getData(), "dd/MM/yyyy hh:mm:ss"));
             tvCategoria.setText("Categoria: " + aux.getCategoria().getDescricao());
             tvSituacao.setText("Situação: " + FerramentasBasicas.obterSituacao(Integer.parseInt(aux.getSitucaoId() + "" )));
+            tvTipoAtendimento.setText("Tipo Atendimento: " + FerramentasBasicas.obterTipoAtendimento(Integer.parseInt(aux.getTipoAtendimentoId() + "")));
+
+            if(usuario.getPerfil().getTipoPerfilId() == TipoPerfilEnum.CLIENTE.getValue()){
+                if(aux.getProfisisonal().getUrlImg() == null
+                        || aux.getProfisisonal().getUrlImg().trim().equals("")){
+                    ivHistorico.setImageBitmap(BitmapFactory.decodeResource(this.getResources(), R.drawable.manuser));
+                }else{
+                    ivHistorico.setImageBitmap(FerramentasBasicas.getBitmapFromURL(aux.getProfisisonal().getUrlImg()));
+                }
+            }else{
+                if(aux.getCliente().getUrlImg() == null
+                        || aux.getCliente().getUrlImg().trim().equals("")){
+                    ivHistorico.setImageBitmap(BitmapFactory.decodeResource(this.getResources(), R.drawable.manuser));
+                }else{
+                    ivHistorico.setImageBitmap(FerramentasBasicas.getBitmapFromURL(aux.getCliente().getUrlImg()));
+                }
+            }
 
             llHistorico.setTag(aux);
 
             llHistorico.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    VariaveisEstaticas.setHistoricoAtendimento((HistoricoAtendimento) view.getTag());
-                    VariaveisEstaticas.getFragmentInterface().mudaTela(NOME_TELA_DETALHE_HISTORICO);
+                    LinearLayout llMaisInformacoes = (LinearLayout) view.findViewById(R.id.llMaisInformacoes);
+                    if(llMaisInformacoes.getVisibility() == View.VISIBLE)
+                        llMaisInformacoes.setVisibility(View.GONE);
+                    else
+                        llMaisInformacoes.setVisibility(View.VISIBLE);
+                    /*VariaveisEstaticas.setHistoricoAtendimento((HistoricoAtendimento) view.getTag());
+                    VariaveisEstaticas.getFragmentInterface().mudaTela(NOME_TELA_DETALHE_HISTORICO);*/
                 }
             });
 

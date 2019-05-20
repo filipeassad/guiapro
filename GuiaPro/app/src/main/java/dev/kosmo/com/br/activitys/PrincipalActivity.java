@@ -1,6 +1,7 @@
 package dev.kosmo.com.br.activitys;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -25,9 +26,12 @@ import dev.kosmo.com.br.fragments.ListagemAtendimentoProfissionalFragment;
 import dev.kosmo.com.br.fragments.ListagemProfissionaisFragment;
 import dev.kosmo.com.br.guiapro.R;
 import dev.kosmo.com.br.interfaces.FragmentInterface;
+import dev.kosmo.com.br.interfaces.ImagemInterface;
 import dev.kosmo.com.br.models.Usuario;
 import dev.kosmo.com.br.models.sistema.ItemMenuNav;
+import dev.kosmo.com.br.task.gets.GetImagemAsyncTask;
 import dev.kosmo.com.br.utils.Animacao;
+import dev.kosmo.com.br.utils.FerramentasBasicas;
 import dev.kosmo.com.br.utils.GerenciadorFragment;
 import dev.kosmo.com.br.utils.PushNotificationService;
 import dev.kosmo.com.br.utils.VariaveisEstaticas;
@@ -36,7 +40,7 @@ import dev.kosmo.com.br.utils.VariaveisEstaticas;
  * Created by 0118431 on 08/03/2018.
  */
 
-public class PrincipalActivity extends FragmentActivity implements FragmentInterface {
+public class PrincipalActivity extends FragmentActivity implements FragmentInterface, ImagemInterface {
 
     private Bundle savedInstanceState;
     private FragmentManager fm = getSupportFragmentManager();
@@ -79,6 +83,8 @@ public class PrincipalActivity extends FragmentActivity implements FragmentInter
     private LinearLayout llHistoricoProfissional;
     private ImageView ivHistoricoProfissional;
     private TextView tvHistoricoProfissional;
+
+    private ImageView ivImagemPerfil;
 
     private GerenciadorFragment gerenciadorFragment  = new GerenciadorFragment();
     private Animacao animacao = new Animacao();
@@ -177,7 +183,7 @@ public class PrincipalActivity extends FragmentActivity implements FragmentInter
         ListView lvNav = (ListView) nav_layout.findViewById(R.id.lvNav);
         TextView tvNomePerfil = (TextView) nav_layout.findViewById(R.id.tvNomePerfil);
         TextView tvEmailPerfil = (TextView) nav_layout.findViewById(R.id.tvEmailPerfil);
-        ImageView ivImagemPerfil = (ImageView) nav_layout.findViewById(R.id.ivImagemPerfil);
+        this.ivImagemPerfil = (ImageView) nav_layout.findViewById(R.id.ivImagemPerfil);
 
         List<ItemMenuNav> lista = new ArrayList<>();
         lista.add(new ItemMenuNav("Informações Pessoais", BitmapFactory.decodeResource(this.getResources(), R.drawable.manuser)));
@@ -196,7 +202,11 @@ public class PrincipalActivity extends FragmentActivity implements FragmentInter
 
         if(usuario.getPerfil().getUrlImg() == null
                 || usuario.getPerfil().getUrlImg().trim().equals("")){
-            ivImagemPerfil.setImageBitmap(BitmapFactory.decodeResource(this.getResources(), R.drawable.manuserbranco));
+            this.ivImagemPerfil.setImageBitmap(BitmapFactory.decodeResource(this.getResources(), R.drawable.manuserbranco));
+        }else{
+            //ivImagemPerfil.setImageBitmap(FerramentasBasicas.getBitmapFromURL(usuario.getPerfil().getUrlImg()));
+            GetImagemAsyncTask getImagemAsyncTask = new GetImagemAsyncTask(this, this);
+            getImagemAsyncTask.execute(usuario.getPerfil().getUrlImg());
         }
 
         lvNav.setAdapter(menuNavAdapter);
@@ -384,4 +394,9 @@ public class PrincipalActivity extends FragmentActivity implements FragmentInter
     }
 
 
+
+    @Override
+    public void getImagem(Bitmap imagem) {
+        this.ivImagemPerfil.setImageBitmap(imagem);
+    }
 }

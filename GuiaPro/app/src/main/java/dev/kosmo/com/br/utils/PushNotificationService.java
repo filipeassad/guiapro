@@ -73,7 +73,7 @@ public class PushNotificationService extends Service {
                     try{
                         NotificationCompat.Builder builder =
                                 new NotificationCompat.Builder(getBaseContext())
-                                        .setSmallIcon(R.mipmap.ic_launcher)
+                                        .setSmallIcon(R.drawable.logo_guiapro_notification)
                                         .setLargeIcon(BitmapFactory.decodeResource(getBaseContext().getResources(),
                                                 R.mipmap.ic_launcher))
                                         .setContentTitle("Notificação do cliente")
