@@ -9,7 +9,6 @@ import android.graphics.BitmapFactory;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.support.v4.app.NotificationCompat;
-import android.util.Log;
 
 import java.net.URISyntaxException;
 
@@ -43,7 +42,7 @@ public class PushNotificationService extends Service {
             IO.Options options = new IO.Options();
             options.reconnectionDelay = 1000;
             options.reconnection = true;
-            socket = IO.socket(FerramentasBasicas.getURLSocket(), options);
+            socket = IO.socket(FerramentasBasicas.getURL(), options);
 
             socket.on(Socket.EVENT_CONNECT, new Emitter.Listener() {
                 @Override

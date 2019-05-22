@@ -21,14 +21,12 @@ import java.util.List;
 import dev.kosmo.com.br.adapter.ProfissionalAdapter;
 import dev.kosmo.com.br.dao.GuiaProDao;
 import dev.kosmo.com.br.guiapro.R;
-import dev.kosmo.com.br.interfaces.ImagemInterface;
 import dev.kosmo.com.br.interfaces.PerfilInterface;
 import dev.kosmo.com.br.models.Categoria;
 import dev.kosmo.com.br.models.CategoriaPerfil;
 import dev.kosmo.com.br.models.CategoriaPerfilDao;
 import dev.kosmo.com.br.models.Perfil;
 import dev.kosmo.com.br.models.Usuario;
-import dev.kosmo.com.br.task.gets.GetPerfilAsyncTask;
 import dev.kosmo.com.br.task.gets.GetPerfisAsyncTask;
 import dev.kosmo.com.br.utils.FerramentasBasicas;
 import dev.kosmo.com.br.utils.StatusAplicativo;
@@ -103,7 +101,7 @@ public class ListagemProfissionaisFragment extends Fragment implements PerfilInt
 
         if(statusAplicativo.isOnline()){
             GetPerfisAsyncTask getPerfisAsyncTask = new GetPerfisAsyncTask(getContext(), perfilInterface, usuario.getToken());
-            getPerfisAsyncTask.execute(FerramentasBasicas.getURL() + API_PERFIL_CATEGORIA + categoriaSelecionada.getId());
+            getPerfisAsyncTask.execute(FerramentasBasicas.getURLAPI() + API_PERFIL_CATEGORIA + categoriaSelecionada.getId());
         }else{
             buscaDB();
         }

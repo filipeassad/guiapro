@@ -1,6 +1,9 @@
 package dev.kosmo.com.br.utils;
 
+import android.graphics.Bitmap;
+
 import dev.kosmo.com.br.interfaces.FragmentInterface;
+import dev.kosmo.com.br.interfaces.ImagemInterface;
 import dev.kosmo.com.br.models.Atendimento;
 import dev.kosmo.com.br.models.Categoria;
 import dev.kosmo.com.br.models.HistoricoAtendimento;
@@ -20,6 +23,8 @@ public class VariaveisEstaticas {
     private static Atendimento atendimento;
     private static HistoricoAtendimento historicoAtendimento;
     private static final int PICK_IMAGE = 24;
+    private static ImagemInterface imagemInterface;
+    private static Bitmap imagemPerfil;
 
 
     public static FragmentInterface getFragmentInterface() {
@@ -72,5 +77,21 @@ public class VariaveisEstaticas {
 
     public static int getPickImage() {
         return PICK_IMAGE;
+    }
+
+    public static ImagemInterface getImagemInterface() {
+        return imagemInterface;
+    }
+
+    public static void setImagemInterface(ImagemInterface imagemInterface) {
+        VariaveisEstaticas.imagemInterface = imagemInterface;
+    }
+
+    public static Bitmap getImagemPerfil() {
+        return imagemPerfil;
+    }
+
+    public static void setImagemPerfil(Bitmap imagemPerfil) {
+        VariaveisEstaticas.imagemPerfil = imagemPerfil;
     }
 }

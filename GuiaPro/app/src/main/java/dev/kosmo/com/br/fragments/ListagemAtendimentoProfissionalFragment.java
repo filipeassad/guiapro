@@ -2,7 +2,6 @@ package dev.kosmo.com.br.fragments;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -92,7 +91,7 @@ public class ListagemAtendimentoProfissionalFragment extends Fragment implements
     private void buscarAtendimentos(){
         if(FerramentasBasicas.isOnline(getContext())){
             GetAtendimentoAsyncTask getAtendimentoAsyncTask = new GetAtendimentoAsyncTask(getContext(), atendimentoInterface);
-            getAtendimentoAsyncTask.execute(FerramentasBasicas.getURL() + API_ATENDIMENTO + usuario.getPerfilId());
+            getAtendimentoAsyncTask.execute(FerramentasBasicas.getURLAPI() + API_ATENDIMENTO + usuario.getPerfilId());
         }else{
             AtendimentoDao.Properties propriedades = new AtendimentoDao.Properties();
 

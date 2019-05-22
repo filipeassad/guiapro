@@ -104,7 +104,7 @@ public class AlterarPerfilFragment extends Fragment implements PutAlterarCliente
                 validarCampos();
                 Perfil perfil = VariaveisEstaticas.getUsuario().getPerfil();
                 PostAlterarClienteAsyncTask postAlterarClienteAsyncTask = new PostAlterarClienteAsyncTask(getContext(), montarJsonParaEnviar(), putAlterarClienteInterface);
-                postAlterarClienteAsyncTask.execute(FerramentasBasicas.getURL() + (perfil.getTipoPerfil().getDescricao().equals("Profissional") ? URL_ALTERAR_PROFISSIONAL : URL_ALTERAR_CLIENTE));
+                postAlterarClienteAsyncTask.execute(FerramentasBasicas.getURLAPI() + (perfil.getTipoPerfil().getDescricao().equals("Profissional") ? URL_ALTERAR_PROFISSIONAL : URL_ALTERAR_CLIENTE));
             }
         });
 
@@ -191,7 +191,7 @@ public class AlterarPerfilFragment extends Fragment implements PutAlterarCliente
             GetPerfilAsyncTask getPerfilAsyncTask = new GetPerfilAsyncTask(getContext(),
                     perfilInterface,
                     usuario.getToken());
-            getPerfilAsyncTask.execute(FerramentasBasicas.getURL() + API_PERFIL);
+            getPerfilAsyncTask.execute(FerramentasBasicas.getURLAPI() + API_PERFIL);
         }else{
             informacaoDialog.gerarDialog("Não foi possível atualizar o dados!");
         }

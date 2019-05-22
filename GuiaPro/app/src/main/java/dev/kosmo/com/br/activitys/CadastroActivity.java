@@ -77,7 +77,7 @@ public class CadastroActivity extends Activity implements CadastroClienteInterfa
             public void onClick(View view) {
                 validarCampos();
                 PostCadastrarClienteAsyncTask postCadastrarClienteAsyncTask = new PostCadastrarClienteAsyncTask(view.getContext(), montarJsonParaEnviar(), cadastroClienteInterface);
-                postCadastrarClienteAsyncTask.execute(FerramentasBasicas.getURL() + URL_CADASTRO_CLIENTE);
+                postCadastrarClienteAsyncTask.execute(FerramentasBasicas.getURLAPI() + URL_CADASTRO_CLIENTE);
             }
         });
 

@@ -8,7 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -100,7 +99,7 @@ public class AlterarEnderecoFragment extends Fragment implements PutEnderecoInte
                 validarCampos();
                 Perfil perfil = VariaveisEstaticas.getUsuario().getPerfil();
                 PutEnderecoAsyncTask putEnderecoAsyncTask = new PutEnderecoAsyncTask(getContext(), montarJsonParaEnviar(), putEnderecoInterface);
-                putEnderecoAsyncTask.execute(FerramentasBasicas.getURL()
+                putEnderecoAsyncTask.execute(FerramentasBasicas.getURLAPI()
                         + ( perfil.getTipoPerfil().getDescricao().equals("Profissional") ? API_ENDERECO_PRO : API_ENDERECO )
                         + VariaveisEstaticas.getUsuario().getPerfil().getEndereco().getId());
             }
@@ -185,7 +184,7 @@ public class AlterarEnderecoFragment extends Fragment implements PutEnderecoInte
             GetPerfilAsyncTask getPerfilAsyncTask = new GetPerfilAsyncTask(getContext(),
                     perfilInterface,
                     usuario.getToken());
-            getPerfilAsyncTask.execute(FerramentasBasicas.getURL() + API_PERFIL);
+            getPerfilAsyncTask.execute(FerramentasBasicas.getURLAPI() + API_PERFIL);
         }else{
             informacaoDialog.gerarDialog("Não foi possível atualizar o dados!");
         }

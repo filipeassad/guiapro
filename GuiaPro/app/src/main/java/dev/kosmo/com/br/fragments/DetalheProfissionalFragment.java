@@ -1,11 +1,7 @@
 package dev.kosmo.com.br.fragments;
 
 import android.Manifest;
-import android.content.Intent;
-import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -17,42 +13,21 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapView;
-import com.google.android.gms.maps.MapsInitializer;
-import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.model.CameraPosition;
-import com.google.android.gms.maps.model.CircleOptions;
-import com.google.android.gms.maps.model.LatLng;
-
-import org.greenrobot.greendao.query.QueryBuilder;
-
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 
-import dev.kosmo.com.br.adapter.CategoriaProfissionalAdapter;
 import dev.kosmo.com.br.dao.GuiaProDao;
 import dev.kosmo.com.br.dialogs.InformacaoDialog;
 import dev.kosmo.com.br.enuns.SituacaoEnum;
 import dev.kosmo.com.br.enuns.TipoAtendimentoEnum;
 import dev.kosmo.com.br.guiapro.R;
 import dev.kosmo.com.br.interfaces.AtendimentoInterface;
-import dev.kosmo.com.br.interfaces.NotificacaoPostInterface;
 import dev.kosmo.com.br.interfaces.NotificacaoProfissionalInterface;
 import dev.kosmo.com.br.models.Atendimento;
-import dev.kosmo.com.br.models.AtendimentoDao;
 import dev.kosmo.com.br.models.Categoria;
-import dev.kosmo.com.br.models.CategoriaPerfil;
-import dev.kosmo.com.br.models.CategoriaPerfilDao;
 import dev.kosmo.com.br.models.Perfil;
-import dev.kosmo.com.br.models.PerfilDao;
 import dev.kosmo.com.br.models.Usuario;
-import dev.kosmo.com.br.task.gets.GetPushNotificationNodeAsyncTask;
 import dev.kosmo.com.br.task.posts.PostCadastrarAtendimentoAsyncTask;
 import dev.kosmo.com.br.task.posts.PostNotificacaoProfissionalAsyncTask;
 import dev.kosmo.com.br.utils.FerramentasBasicas;
@@ -138,7 +113,7 @@ public class DetalheProfissionalFragment extends Fragment implements Atendimento
                 if(FerramentasBasicas.isOnline(getContext())){
                     PostCadastrarAtendimentoAsyncTask postCadastrarAtendimentoAsyncTask = new PostCadastrarAtendimentoAsyncTask(getContext(),
                             atendimento, atendimentoInterface);
-                    postCadastrarAtendimentoAsyncTask.execute(FerramentasBasicas.getURL() + API_ATENDIMENTO);
+                    postCadastrarAtendimentoAsyncTask.execute(FerramentasBasicas.getURLAPI() + API_ATENDIMENTO);
                 }else{
                     FerramentasBasicas.fazerLigacao(profissional.getCelular());
                 }
@@ -160,7 +135,7 @@ public class DetalheProfissionalFragment extends Fragment implements Atendimento
                 if(FerramentasBasicas.isOnline(getContext())){
                     PostCadastrarAtendimentoAsyncTask postCadastrarAtendimentoAsyncTask = new PostCadastrarAtendimentoAsyncTask(getContext(),
                             atendimento, atendimentoInterface);
-                    postCadastrarAtendimentoAsyncTask.execute(FerramentasBasicas.getURL() + API_ATENDIMENTO);
+                    postCadastrarAtendimentoAsyncTask.execute(FerramentasBasicas.getURLAPI() + API_ATENDIMENTO);
                 }else{
                     FerramentasBasicas.enviarWhats(getContext(), profissional.getCelular());
                 }
@@ -181,7 +156,7 @@ public class DetalheProfissionalFragment extends Fragment implements Atendimento
                 if(FerramentasBasicas.isOnline(getContext())){
                     PostCadastrarAtendimentoAsyncTask postCadastrarAtendimentoAsyncTask = new PostCadastrarAtendimentoAsyncTask(getContext(),
                             atendimento, atendimentoInterface);
-                    postCadastrarAtendimentoAsyncTask.execute(FerramentasBasicas.getURL() + API_ATENDIMENTO);
+                    postCadastrarAtendimentoAsyncTask.execute(FerramentasBasicas.getURLAPI() + API_ATENDIMENTO);
                 }
             }
         });
@@ -271,7 +246,7 @@ public class DetalheProfissionalFragment extends Fragment implements Atendimento
                     break;
                 case 3:
                     PostNotificacaoProfissionalAsyncTask postNotificacaoProfissionalAsyncTask = new PostNotificacaoProfissionalAsyncTask(getContext(), notificacaoProfissionalInterface);
-                    postNotificacaoProfissionalAsyncTask.execute(FerramentasBasicas.getURL() + API_NOTIFICACAO + idAtendimento);
+                    postNotificacaoProfissionalAsyncTask.execute(FerramentasBasicas.getURLAPI() + API_NOTIFICACAO + idAtendimento);
                     break;
             }
         }

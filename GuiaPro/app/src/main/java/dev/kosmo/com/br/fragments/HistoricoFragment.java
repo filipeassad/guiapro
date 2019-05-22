@@ -1,7 +1,6 @@
 package dev.kosmo.com.br.fragments;
 
 import android.graphics.BitmapFactory;
-import android.opengl.Visibility;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -17,17 +16,12 @@ import org.greenrobot.greendao.query.QueryBuilder;
 import java.util.List;
 
 import dev.kosmo.com.br.dao.GuiaProDao;
-import dev.kosmo.com.br.enuns.TipoAtendimentoEnum;
 import dev.kosmo.com.br.enuns.TipoPerfilEnum;
 import dev.kosmo.com.br.guiapro.R;
-import dev.kosmo.com.br.interfaces.AtendimentoInterface;
 import dev.kosmo.com.br.interfaces.HistoricoAtendimentoInterface;
-import dev.kosmo.com.br.models.Atendimento;
-import dev.kosmo.com.br.models.AtendimentoDao;
 import dev.kosmo.com.br.models.HistoricoAtendimento;
 import dev.kosmo.com.br.models.HistoricoAtendimentoDao;
 import dev.kosmo.com.br.models.Usuario;
-import dev.kosmo.com.br.task.gets.GetAtendimentoAsyncTask;
 import dev.kosmo.com.br.task.gets.GetHistoricoAtendimentoAsyncTask;
 import dev.kosmo.com.br.utils.ConversaoTexto;
 import dev.kosmo.com.br.utils.FerramentasBasicas;
@@ -77,9 +71,9 @@ public class HistoricoFragment extends Fragment implements HistoricoAtendimentoI
         if(FerramentasBasicas.isOnline(getContext())){
             GetHistoricoAtendimentoAsyncTask getHistoricoAtendimentoAsyncTask = new GetHistoricoAtendimentoAsyncTask(getContext(), historicoAtendimentoInterface);
             if(usuario.getPerfil().getTipoPerfilId() == TIPO_PERFIL_PROFISSIONAL)
-                getHistoricoAtendimentoAsyncTask.execute(FerramentasBasicas.getURL() + URL_HISTORICO_ATENDIMENTO_PROFISSIONAL + usuario.getPerfil().getId());
+                getHistoricoAtendimentoAsyncTask.execute(FerramentasBasicas.getURLAPI() + URL_HISTORICO_ATENDIMENTO_PROFISSIONAL + usuario.getPerfil().getId());
             else
-                getHistoricoAtendimentoAsyncTask.execute(FerramentasBasicas.getURL() + URL_HISTORICO_ATENDIMENTO_CLIENTE + usuario.getPerfil().getId());
+                getHistoricoAtendimentoAsyncTask.execute(FerramentasBasicas.getURLAPI() + URL_HISTORICO_ATENDIMENTO_CLIENTE + usuario.getPerfil().getId());
         }else{
             HistoricoAtendimentoDao.Properties propriedades = new HistoricoAtendimentoDao.Properties();
 

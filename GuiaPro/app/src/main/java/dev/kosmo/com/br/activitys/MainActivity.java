@@ -96,7 +96,7 @@ public class MainActivity extends Activity implements PostLoginInterface, Perfil
                 usuario.setSenha(edtSenha.getText().toString());
 
                 PostLoginAsyncTask postLoginAsyncTask = new PostLoginAsyncTask(view.getContext(), usuario, postLoginInterface);
-                postLoginAsyncTask.execute(FerramentasBasicas.getURL() + API_LOGIN);
+                postLoginAsyncTask.execute(FerramentasBasicas.getURLAPI() + API_LOGIN);
 
             }
         });
@@ -126,7 +126,7 @@ public class MainActivity extends Activity implements PostLoginInterface, Perfil
            usuario = lista.get(0);
            if(statusAplicativo.isOnline()){
                PostValidaTokenAsyncTask postValidaTokenAsyncTask = new PostValidaTokenAsyncTask(this,usuario.getToken(),postValidaTokenInterface);
-               postValidaTokenAsyncTask.execute(FerramentasBasicas.getURL() + API_VALIDA_TOKEN);
+               postValidaTokenAsyncTask.execute(FerramentasBasicas.getURLAPI() + API_VALIDA_TOKEN);
            }else{
                entrarAplicativo();
            }
@@ -152,7 +152,7 @@ public class MainActivity extends Activity implements PostLoginInterface, Perfil
                 perfilInterface,
                 usuario.getToken());
 
-        getPerfilAsyncTask.execute(FerramentasBasicas.getURL() + API_PERFIL);
+        getPerfilAsyncTask.execute(FerramentasBasicas.getURLAPI() + API_PERFIL);
     }
 
     @Override
@@ -193,7 +193,7 @@ public class MainActivity extends Activity implements PostLoginInterface, Perfil
             GetPerfilAsyncTask getPerfilAsyncTask = new GetPerfilAsyncTask(this,
                     perfilInterface,
                     usuario.getToken());
-            getPerfilAsyncTask.execute(FerramentasBasicas.getURL() + API_PERFIL);
+            getPerfilAsyncTask.execute(FerramentasBasicas.getURLAPI() + API_PERFIL);
         }else{
             guiaProDao.getDaoSession().getUsuarioDao().delete(usuario);
             usuario = new Usuario();

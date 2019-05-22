@@ -17,7 +17,6 @@ import dev.kosmo.com.br.interfaces.AtendimentoInterface;
 import dev.kosmo.com.br.models.Atendimento;
 import dev.kosmo.com.br.task.put.PutAtendimentoAsyncTask;
 import dev.kosmo.com.br.utils.FerramentasBasicas;
-import dev.kosmo.com.br.utils.VariaveisEstaticas;
 
 public class RetornarClienteDialog {
 
@@ -54,7 +53,7 @@ public class RetornarClienteDialog {
             @Override
             public void onClick(View v) {
                 putAtendimentoAsyncTask = new PutAtendimentoAsyncTask(context, montarJson(atendimento), atendimentoInterface);
-                putAtendimentoAsyncTask.execute(FerramentasBasicas.getURL()
+                putAtendimentoAsyncTask.execute(FerramentasBasicas.getURLAPI()
                                                     + URL_ATENDIMENTO_PROFISSIONAL_PUT
                                                     + atendimento.getId());
                 FerramentasBasicas.fazerLigacao(atendimento.getCliente().getCelular());
@@ -66,7 +65,7 @@ public class RetornarClienteDialog {
             @Override
             public void onClick(View v) {
                 putAtendimentoAsyncTask = new PutAtendimentoAsyncTask(context, montarJson(atendimento), atendimentoInterface);
-                putAtendimentoAsyncTask.execute(FerramentasBasicas.getURL()
+                putAtendimentoAsyncTask.execute(FerramentasBasicas.getURLAPI()
                                                     + URL_ATENDIMENTO_PROFISSIONAL_PUT
                                                     + atendimento.getId());
                 FerramentasBasicas.enviarWhats(context, atendimento.getCliente().getCelular());

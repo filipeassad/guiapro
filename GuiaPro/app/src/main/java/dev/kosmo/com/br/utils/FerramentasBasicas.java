@@ -11,10 +11,15 @@ import android.net.NetworkInfo;
 import android.net.Uri;
 import android.widget.Toast;
 
+import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -77,12 +82,12 @@ public class FerramentasBasicas {
         return response.toString();
     }
 
-    public static String getURLSocket(){
+    public static String getURL(){
         //return "https://guiaproweb.herokuapp.com/";
         return "https://guiapro.herokuapp.com/";
     }
 
-    public static String getURL(){
+    public static String getURLAPI(){
         //return "http://guia-pro.herokuapp.com/api/";
         //return "http://192.168.0.106:8000/api/";
         //return "http://104.236.17.236/api/";
@@ -195,5 +200,25 @@ public class FerramentasBasicas {
         }
     }
 
+    public static File bitmapParaFile(Bitmap imagem, Context context, String nome){
+
+        File file;
+
+        try {
+            File filesDir = context.getFilesDir();
+            file = new File(filesDir, nome + ".jpg");
+            OutputStream os = new BufferedOutputStream(new FileOutputStream(file));
+            imagem.compress(Bitmap.CompressFormat.JPEG, 100, os);
+            os.close();
+
+            return file;
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
 
 }

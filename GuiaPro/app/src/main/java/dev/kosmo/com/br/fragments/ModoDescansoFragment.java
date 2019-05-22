@@ -71,7 +71,7 @@ public class ModoDescansoFragment extends Fragment implements PutAlterarClienteI
 
                 if(FerramentasBasicas.isOnline(getContext())){
                     PostAlterarClienteAsyncTask postAlterarClienteAsyncTask = new PostAlterarClienteAsyncTask(getContext(), montarJsonParaEnviar(), putAlterarClienteInterface);
-                    postAlterarClienteAsyncTask.execute(FerramentasBasicas.getURL() + URL_ALTERAR_PROFISSIONAL);
+                    postAlterarClienteAsyncTask.execute(FerramentasBasicas.getURLAPI() + URL_ALTERAR_PROFISSIONAL);
                 }else{
                     informacaoDialog.gerarDialog("Não foi possível atualizar a situação!");
                     carregarTela();

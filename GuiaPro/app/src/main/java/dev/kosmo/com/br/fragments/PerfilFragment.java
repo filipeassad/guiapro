@@ -13,20 +13,25 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
-
+import dev.kosmo.com.br.dao.GuiaProDao;
+import dev.kosmo.com.br.dialogs.InformacaoDialog;
 import dev.kosmo.com.br.guiapro.R;
 import dev.kosmo.com.br.interfaces.ImagemInterface;
+import dev.kosmo.com.br.interfaces.PutAlterarClienteInterface;
 import dev.kosmo.com.br.models.Perfil;
 import dev.kosmo.com.br.task.gets.GetImagemAsyncTask;
+import dev.kosmo.com.br.task.gets.GetPerfilAsyncTask;
+import dev.kosmo.com.br.task.posts.PostAlterarClienteAsyncTask;
+import dev.kosmo.com.br.task.posts.PostImagemAsyncTask;
 import dev.kosmo.com.br.utils.FerramentasBasicas;
+import dev.kosmo.com.br.utils.MontarJson;
 import dev.kosmo.com.br.utils.VariaveisEstaticas;
 
 /**
  * Created by 0118431 on 09/03/2018.
  */
 
-public class PerfilFragment extends Fragment implements ImagemInterface {
+public class PerfilFragment extends Fragment implements ImagemInterface, PutAlterarClienteInterface {
 
     private TextView txtNome;
     private TextView txtSobrenome;
@@ -45,6 +50,17 @@ public class PerfilFragment extends Fragment implements ImagemInterface {
     private final String SEXO_MASCULINO = "Masculino";
     private final String SEXO_FEMININO = "Feminino";
     private final String NOME_TELA_ENDERECO = "Endereco";
+    private final String URL_POST_IMAGEM = "upload-arquivo/send-aws";
+    private final String URL_ALTERAR_CLIENTE = "mobile/alterarcliente";
+    private final String URL_ALTERAR_PROFISSIONAL = "mobile/alterarprofissional";
+    private final String TIPO_PERFIL_PROFISSIONAL = "Profissional";
+
+    private Bitmap imagemSelecionada = null;
+    private InformacaoDialog informacaoDialog = new InformacaoDialog(getContext());
+
+    private PutAlterarClienteInterface putAlterarClienteInterface = this;
+
+    private GuiaProDao guiaProDao;
 
     @Nullable
     @Override
@@ -62,6 +78,10 @@ public class PerfilFragment extends Fragment implements ImagemInterface {
         btnEndereco = (Button) view.findViewById(R.id.btnEndereco);
         ivPerfil = (ImageView) view.findViewById(R.id.ivPerfil);
 
+        guiaProDao = (GuiaProDao) getActivity().getApplication();
+        VariaveisEstaticas.setImagemInterface(this);
+
+        carregarDados();
         acoes();
 
         return view;
@@ -70,7 +90,6 @@ public class PerfilFragment extends Fragment implements ImagemInterface {
     @Override
     public void onResume() {
         super.onResume();
-        carregarDados();
     }
 
     private void carregarDados(){
@@ -84,13 +103,10 @@ public class PerfilFragment extends Fragment implements ImagemInterface {
         txtCelular.setText(perfil.getCelular());
         txtSexo.setText(perfil.getSexo().equals(SIGLA_SEXO_MASCULINO) ? SEXO_MASCULINO : SEXO_FEMININO);
 
-        if(perfil.getUrlImg() == null
-                || perfil.getUrlImg().trim().equals("")){
+        if(VariaveisEstaticas.getImagemPerfil() == null){
             ivPerfil.setImageBitmap(BitmapFactory.decodeResource(this.getResources(), R.drawable.manuserbranco));
         }else{
-            //ivPerfil.setImageBitmap(FerramentasBasicas.getBitmapFromURL(perfil.getUrlImg()));
-            GetImagemAsyncTask getImagemAsyncTask = new GetImagemAsyncTask(getContext(), this);
-            getImagemAsyncTask.execute(perfil.getUrlImg());
+            ivPerfil.setImageBitmap(VariaveisEstaticas.getImagemPerfil());
         }
     }
 
@@ -113,16 +129,9 @@ public class PerfilFragment extends Fragment implements ImagemInterface {
         ivPerfil.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent getIntent = new Intent(Intent.ACTION_GET_CONTENT);
-                getIntent.setType("image/*");
-
-                Intent pickIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                pickIntent.setType("image/*");
-
-                Intent chooserIntent = Intent.createChooser(getIntent, "Select Image");
-                chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, new Intent[] {pickIntent});
-
-                startActivityForResult(chooserIntent, VariaveisEstaticas.getPickImage());
+                Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+                photoPickerIntent.setType("image/*");
+                startActivityForResult(photoPickerIntent, VariaveisEstaticas.getPickImage());
             }
         });
 
@@ -131,5 +140,50 @@ public class PerfilFragment extends Fragment implements ImagemInterface {
     @Override
     public void getImagem(Bitmap imagem) {
         ivPerfil.setImageBitmap(imagem);
+    }
+
+    @Override
+    public void setImagem(Bitmap imagem) {
+        if (imagem != null) {
+            imagemSelecionada = imagem;
+            PostImagemAsyncTask postImagemAsyncTask = new PostImagemAsyncTask(getContext(),
+                    FerramentasBasicas.bitmapParaFile(imagem, getContext(),
+                            VariaveisEstaticas.getUsuario().getPerfil().getNome() +
+                                    VariaveisEstaticas.getUsuario().getPerfil().getSobrenome() +
+                                    VariaveisEstaticas.getUsuario().getPerfil().getCelular()),
+                    this);
+            postImagemAsyncTask.execute(FerramentasBasicas.getURL() + URL_POST_IMAGEM);
+        }else{
+            informacaoDialog.gerarDialog("Não foi possível selecionar uma imagem!");
+        }
+    }
+
+    @Override
+    public void retornoPostImagem(boolean cadastrou, String urlImagem) {
+        if(cadastrou){
+            VariaveisEstaticas.getUsuario().getPerfil().setUrlImg(urlImagem);
+
+            PostAlterarClienteAsyncTask postAlterarClienteAsyncTask = new PostAlterarClienteAsyncTask(getContext(),
+                    MontarJson.montarJsonPerfil(VariaveisEstaticas.getUsuario().getPerfil()),
+                    putAlterarClienteInterface);
+
+            postAlterarClienteAsyncTask.execute(FerramentasBasicas.getURLAPI() +
+                    (VariaveisEstaticas.getUsuario().getPerfil().getTipoPerfil().getDescricao().equals(TIPO_PERFIL_PROFISSIONAL) ?
+                            URL_ALTERAR_PROFISSIONAL : URL_ALTERAR_CLIENTE));
+
+            ivPerfil.setImageBitmap(imagemSelecionada);
+        }else{
+            informacaoDialog.gerarDialog(urlImagem);
+        }
+    }
+
+    @Override
+    public void retornoAlteracao(boolean alterou) {
+        if(alterou){
+            informacaoDialog.gerarDialog("Imagem atualizada com sucesso!");
+            guiaProDao.getDaoSession().getPerfilDao().insertOrReplace(VariaveisEstaticas.getUsuario().getPerfil());
+        }else{
+            informacaoDialog.gerarDialog("Não foi possível salvar a imagem!");
+        }
     }
 }

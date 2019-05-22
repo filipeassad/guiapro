@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
@@ -15,7 +16,10 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -393,10 +397,43 @@ public class PrincipalActivity extends FragmentActivity implements FragmentInter
 
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
 
+        if (resultCode == RESULT_OK) {
+            try {
+                final Uri imageUri = data.getData();
+                final InputStream imageStream = getContentResolver().openInputStream(imageUri);
+                final Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
+                VariaveisEstaticas.getImagemInterface().setImagem(selectedImage);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+                Toast.makeText(this, "Something went wrong", Toast.LENGTH_LONG).show();
+            }
+
+        }else {
+            Toast.makeText(this, "You haven't picked Image",Toast.LENGTH_LONG).show();
+        }
+    }
 
     @Override
     public void getImagem(Bitmap imagem) {
-        this.ivImagemPerfil.setImageBitmap(imagem);
+        if(imagem == null){
+            this.ivImagemPerfil.setImageBitmap(BitmapFactory.decodeResource(this.getResources(), R.drawable.manuserbranco));
+        }else{
+            this.ivImagemPerfil.setImageBitmap(imagem);
+            VariaveisEstaticas.setImagemPerfil(imagem);
+        }
+    }
+
+    @Override
+    public void setImagem(Bitmap imagem) {
+
+    }
+
+    @Override
+    public void retornoPostImagem(boolean cadastrou, String urlImagem) {
+
     }
 }

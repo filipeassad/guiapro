@@ -96,7 +96,7 @@ public class QuestionarioAtendimentoDialog {
             public void onClick(View v) {
                 atendimento.setSitucaoId(obterSituacaoSIM(situacao));
                 putAtendimentoAsyncTask = new PutAtendimentoAsyncTask(context, montarJson(atendimento), atendimentoInterface);
-                putAtendimentoAsyncTask.execute(FerramentasBasicas.getURL() +
+                putAtendimentoAsyncTask.execute(FerramentasBasicas.getURLAPI() +
                         (VariaveisEstaticas.getUsuario().getPerfil().getTipoPerfilId() == 1 ?
                         URL_ATENDIMENTO_CLIENTE_PUT : URL_ATENDIMENTO_PROFISSIONAL_PUT)
                         + atendimento.getId());
@@ -109,7 +109,7 @@ public class QuestionarioAtendimentoDialog {
             public void onClick(View v) {
                 atendimento.setSitucaoId(obterSituacaoNAO(situacao));
                 putAtendimentoAsyncTask = new PutAtendimentoAsyncTask(context, montarJson(atendimento), atendimentoInterface);
-                putAtendimentoAsyncTask.execute(FerramentasBasicas.getURL() +
+                putAtendimentoAsyncTask.execute(FerramentasBasicas.getURLAPI() +
                         (VariaveisEstaticas.getUsuario().getPerfil().getTipoPerfilId() == 1 ?
                                 URL_ATENDIMENTO_CLIENTE_PUT : URL_ATENDIMENTO_PROFISSIONAL_PUT)
                         + atendimento.getId());

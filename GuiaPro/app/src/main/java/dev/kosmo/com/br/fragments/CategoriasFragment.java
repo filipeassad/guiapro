@@ -69,7 +69,7 @@ public class CategoriasFragment extends Fragment implements GetCategoriaInterfac
         super.onResume();
         if(statusAplicativo.isOnline()){
             GetCategoriaAsyncTask getCategoriaAsyncTask = new GetCategoriaAsyncTask(getContext(), getCategoriaInterface, usuario.getToken());
-            getCategoriaAsyncTask.execute(FerramentasBasicas.getURL() + API_CATEGORIAS );
+            getCategoriaAsyncTask.execute(FerramentasBasicas.getURLAPI() + API_CATEGORIAS );
         }else{
             buscaDB();
         }
@@ -139,7 +139,7 @@ public class CategoriasFragment extends Fragment implements GetCategoriaInterfac
 
         if(FerramentasBasicas.isOnline(getContext())){
             GetAtendimentoAsyncTask getAtendimentoAsyncTask = new GetAtendimentoAsyncTask(getContext(), atendimentoInterface);
-            getAtendimentoAsyncTask.execute(FerramentasBasicas.getURL() + API_ATENDIMENTO  + usuario.getPerfilId());
+            getAtendimentoAsyncTask.execute(FerramentasBasicas.getURLAPI() + API_ATENDIMENTO  + usuario.getPerfilId());
         }
     }
 
