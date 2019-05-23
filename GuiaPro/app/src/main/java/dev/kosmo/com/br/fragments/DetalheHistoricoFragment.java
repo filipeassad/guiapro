@@ -28,9 +28,13 @@ public class DetalheHistoricoFragment extends Fragment {
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater,
+                             @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_detalhe_historico, container, false);
+        View view = inflater.inflate(R.layout.fragment_detalhe_historico,
+                container,
+                false);
 
         txtTipoAtendimento = (TextView) view.findViewById(R.id.txtTipoAtendimento);
         txtData = (TextView) view.findViewById(R.id.txtData);
