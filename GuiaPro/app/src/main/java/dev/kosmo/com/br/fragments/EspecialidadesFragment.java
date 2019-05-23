@@ -50,8 +50,6 @@ public class EspecialidadesFragment extends Fragment implements EspecialidadesIn
 
     private InformacaoDialog informacaoDialog;
 
-    private List<Especialidades> especialidadesCadastradas;
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater,
@@ -71,7 +69,7 @@ public class EspecialidadesFragment extends Fragment implements EspecialidadesIn
         usuarioLogado = VariaveisEstaticas.getUsuario();
         carregarSpinnerCategorias();
         acoesBotoes();
-
+        buscarEspecialidades();
         informacaoDialog = new InformacaoDialog(getContext());
 
         return view;
@@ -150,7 +148,6 @@ public class EspecialidadesFragment extends Fragment implements EspecialidadesIn
     }
 
     private void buscarEspecialidades(){
-        especialidadesCadastradas = new ArrayList<>();
         GetEspecialidadesAsynctask getEspecialidadesAsynctask = new GetEspecialidadesAsynctask(
                 getContext(),
                 especialidadesInterface);
@@ -160,6 +157,27 @@ public class EspecialidadesFragment extends Fragment implements EspecialidadesIn
     }
 
     private void carregarEspecialidadesCadastradas(List<Especialidades> especialidadesRetornadas){
+        llListaEspecialidades.removeAllViews();
+
+        for(Especialidades especialidades : especialidadesRetornadas){
+            View adapterEspecialidades = View.inflate(getContext(),
+                    R.layout.adapter_especialidade,
+                    null);
+
+            TextView tvDescricaoEspecialidade = (TextView) adapterEspecialidades.findViewById(R.id.tvDescricaoEspecialidade);
+            Button btnExcluir = (Button) adapterEspecialidades.findViewById(R.id.btnExcluir);
+
+            tvDescricaoEspecialidade.setText(especialidades.getDescricao());
+            btnExcluir.setTag(especialidades);
+
+            btnExcluir.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    //todo Excluir a especialidade
+                }
+            });
+            llListaEspecialidades.addView(adapterEspecialidades);
+        }
 
     }
 
@@ -174,6 +192,7 @@ public class EspecialidadesFragment extends Fragment implements EspecialidadesIn
 
         if(cadastrou){
             limparCampos();
+            buscarEspecialidades();
             informacaoDialog.gerarDialog("Especialidade salva com sucesso!");
         }else{
             informacaoDialog.gerarDialog("Não foi possível salvar a especialidade!");
