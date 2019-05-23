@@ -88,6 +88,28 @@
 
                 </LinearLayout>
 
+                <TextView
+                    android:id="@+id/tvEspecialidades"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Especialidades"
+                    android:gravity="center"
+                    android:textStyle="bold"
+                    android:textSize="20sp"
+                    android:textColor="#ecac1b"
+                    android:layout_marginTop="10dp"
+                    android:visibility="gone"/>
+
+                <LinearLayout
+                    android:id="@+id/llEspecialidades"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginTop="10dp"
+                    android:visibility="gone">
+
+                </LinearLayout>
+
                 <LinearLayout
                     android:id="@+id/btnLigar"
                     android:layout_width="match_parent"

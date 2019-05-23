@@ -4,9 +4,6 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 
-import org.apache.http.entity.mime.HttpMultipartMode;
-import org.apache.http.entity.mime.MultipartEntity;
-import org.apache.http.entity.mime.content.FileBody;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -44,7 +41,7 @@ public class PostImagemAsyncTask  extends AsyncTask<String, String, HashMap<Stri
     @Override
     protected HashMap<String, String> doInBackground(String... strings) {
 
-        HttpClient httpClient = new DefaultHttpClient();
+        /*HttpClient httpClient = new DefaultHttpClient();
         HttpContext localContext = new BasicHttpContext();
         HttpPost httpPost = new HttpPost(strings[0]);
 
@@ -75,7 +72,7 @@ public class PostImagemAsyncTask  extends AsyncTask<String, String, HashMap<Stri
             }
         } catch (IOException | JSONException e) {
             e.printStackTrace();
-        }
+        }*/
 
         return null;
     }

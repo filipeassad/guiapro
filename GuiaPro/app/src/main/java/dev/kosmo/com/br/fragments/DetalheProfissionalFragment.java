@@ -23,12 +23,16 @@ import dev.kosmo.com.br.enuns.SituacaoEnum;
 import dev.kosmo.com.br.enuns.TipoAtendimentoEnum;
 import dev.kosmo.com.br.guiapro.R;
 import dev.kosmo.com.br.interfaces.AtendimentoInterface;
+import dev.kosmo.com.br.interfaces.EspecialidadesInterface;
 import dev.kosmo.com.br.interfaces.NotificacaoProfissionalInterface;
 import dev.kosmo.com.br.models.Atendimento;
 import dev.kosmo.com.br.models.Categoria;
+import dev.kosmo.com.br.models.Especialidades;
 import dev.kosmo.com.br.models.Perfil;
 import dev.kosmo.com.br.models.Usuario;
+import dev.kosmo.com.br.task.gets.GetEspecialidadesAsynctask;
 import dev.kosmo.com.br.task.posts.PostCadastrarAtendimentoAsyncTask;
+import dev.kosmo.com.br.task.posts.PostEspecialidadesAsyncTask;
 import dev.kosmo.com.br.task.posts.PostNotificacaoProfissionalAsyncTask;
 import dev.kosmo.com.br.utils.FerramentasBasicas;
 import dev.kosmo.com.br.utils.VariaveisEstaticas;
@@ -37,7 +41,9 @@ import dev.kosmo.com.br.utils.VariaveisEstaticas;
  * Created by Filipe on 11/03/2018.
  */
 
-public class DetalheProfissionalFragment extends Fragment implements AtendimentoInterface, NotificacaoProfissionalInterface{
+public class DetalheProfissionalFragment extends Fragment implements AtendimentoInterface,
+        NotificacaoProfissionalInterface,
+        EspecialidadesInterface {
 
     private TextView tvNomeProfissional;
     private ImageView ivImagem;
@@ -45,8 +51,11 @@ public class DetalheProfissionalFragment extends Fragment implements Atendimento
     private LinearLayout btnLigar;
     private LinearLayout btnWhats;
     private LinearLayout btnMeLigue;
+    private LinearLayout llEspecialidades;
+    private TextView tvEspecialidades;
     private AtendimentoInterface atendimentoInterface = this;
     private NotificacaoProfissionalInterface notificacaoProfissionalInterface = this;
+    private EspecialidadesInterface especialidadesInterface = this;
 
     private Perfil profissional;
     private Categoria categoria;
@@ -58,12 +67,15 @@ public class DetalheProfissionalFragment extends Fragment implements Atendimento
     private final long ATENDIMENTO_MELIGUE = 3;
     private final String API_ATENDIMENTO = "atendimento_cliente";
     private final String API_NOTIFICACAO = "notificao_atendimento/";
+    private final String API_ESPECIALIDADES = "mobile/especeialidades/";
 
     private int acao = 0;
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater,
+                             @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_detalhe_prof, container, false);
         VariaveisEstaticas.getFragmentInterface().visibilidadeMenu(true);
@@ -74,6 +86,8 @@ public class DetalheProfissionalFragment extends Fragment implements Atendimento
         btnLigar = (LinearLayout) view.findViewById(R.id.btnLigar);
         btnWhats = (LinearLayout) view.findViewById(R.id.btnWhats);
         btnMeLigue = (LinearLayout) view.findViewById(R.id.btnMeLigeu);
+        llEspecialidades = (LinearLayout) view.findViewById(R.id.llEspecialidades);
+        tvEspecialidades = (TextView) view.findViewById(R.id.tvEspecialidades);
 
         profissional = VariaveisEstaticas.getProfissional();
         categoria = VariaveisEstaticas.getCategoria();
@@ -81,7 +95,8 @@ public class DetalheProfissionalFragment extends Fragment implements Atendimento
 
         guiaProDao = (GuiaProDao) getActivity().getApplication();
 
-        if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+        if (ActivityCompat.checkSelfPermission(getContext(),
+                Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(getActivity(),
                     new String[]{Manifest.permission.CALL_PHONE}, 0);
         }
@@ -95,6 +110,19 @@ public class DetalheProfissionalFragment extends Fragment implements Atendimento
     private void carregarDadosProfissional(){
         tvNomeProfissional.setText(profissional.getNome() + " " + profissional.getSobrenome());
         carregaCategoria();
+        carregarEspecialidades();
+    }
+
+    private void carregarEspecialidades(){
+        GetEspecialidadesAsynctask getEspecialidadesAsynctask = new GetEspecialidadesAsynctask(
+                getContext(),
+                especialidadesInterface);
+
+        getEspecialidadesAsynctask.execute(FerramentasBasicas.getURLAPI()
+                + API_ESPECIALIDADES
+                + profissional.getId()
+                + "/"
+                + categoria.getId());
     }
 
     private void acoes(){
@@ -104,16 +132,20 @@ public class DetalheProfissionalFragment extends Fragment implements Atendimento
             public void onClick(View view) {
                 acao = 1;
                 Atendimento atendimento = criarAtendimento(
-                        usuario.getPerfil().getNome() + " ligou para o profissinal " + profissional.getNome(),
+                        usuario.getPerfil().getNome()
+                                + " ligou para o profissinal "
+                                + profissional.getNome(),
                         "Ligação - " + categoria.getDescricao(),
                         ATENDIMENTO_LIGACAO);
 
                 guiaProDao.getDaoSession().getAtendimentoDao().insert(atendimento);
 
                 if(FerramentasBasicas.isOnline(getContext())){
-                    PostCadastrarAtendimentoAsyncTask postCadastrarAtendimentoAsyncTask = new PostCadastrarAtendimentoAsyncTask(getContext(),
+                    PostCadastrarAtendimentoAsyncTask postCadastrarAtendimentoAsyncTask =
+                            new PostCadastrarAtendimentoAsyncTask(getContext(),
                             atendimento, atendimentoInterface);
-                    postCadastrarAtendimentoAsyncTask.execute(FerramentasBasicas.getURLAPI() + API_ATENDIMENTO);
+                    postCadastrarAtendimentoAsyncTask.execute(FerramentasBasicas.getURLAPI()
+                            + API_ATENDIMENTO);
                 }else{
                     FerramentasBasicas.fazerLigacao(profissional.getCelular());
                 }
@@ -126,16 +158,20 @@ public class DetalheProfissionalFragment extends Fragment implements Atendimento
                 acao = 2;
 
                 Atendimento atendimento = criarAtendimento(
-                        usuario.getPerfil().getNome() + " mandou o whats para o profissinal " + profissional.getNome(),
+                        usuario.getPerfil().getNome()
+                                + " mandou o whats para o profissinal "
+                                + profissional.getNome(),
                         "Whats - " + categoria.getDescricao(),
                         ATENDIMENTO_WHATS);
 
                 guiaProDao.getDaoSession().getAtendimentoDao().insert(atendimento);
 
                 if(FerramentasBasicas.isOnline(getContext())){
-                    PostCadastrarAtendimentoAsyncTask postCadastrarAtendimentoAsyncTask = new PostCadastrarAtendimentoAsyncTask(getContext(),
+                    PostCadastrarAtendimentoAsyncTask postCadastrarAtendimentoAsyncTask =
+                            new PostCadastrarAtendimentoAsyncTask(getContext(),
                             atendimento, atendimentoInterface);
-                    postCadastrarAtendimentoAsyncTask.execute(FerramentasBasicas.getURLAPI() + API_ATENDIMENTO);
+                    postCadastrarAtendimentoAsyncTask.execute(FerramentasBasicas.getURLAPI()
+                            + API_ATENDIMENTO);
                 }else{
                     FerramentasBasicas.enviarWhats(getContext(), profissional.getCelular());
                 }
@@ -147,16 +183,20 @@ public class DetalheProfissionalFragment extends Fragment implements Atendimento
             public void onClick(View view) {
                 acao = 3;
                 Atendimento atendimento = criarAtendimento(
-                        usuario.getPerfil().getNome() + " solicitou liguação para o profissinal " + profissional.getNome(),
+                        usuario.getPerfil().getNome()
+                                + " solicitou liguação para o profissinal "
+                                + profissional.getNome(),
                         "Me Ligue - " + categoria.getDescricao(),
                         ATENDIMENTO_MELIGUE);
 
                 guiaProDao.getDaoSession().getAtendimentoDao().insert(atendimento);
 
                 if(FerramentasBasicas.isOnline(getContext())){
-                    PostCadastrarAtendimentoAsyncTask postCadastrarAtendimentoAsyncTask = new PostCadastrarAtendimentoAsyncTask(getContext(),
+                    PostCadastrarAtendimentoAsyncTask postCadastrarAtendimentoAsyncTask =
+                            new PostCadastrarAtendimentoAsyncTask(getContext(),
                             atendimento, atendimentoInterface);
-                    postCadastrarAtendimentoAsyncTask.execute(FerramentasBasicas.getURLAPI() + API_ATENDIMENTO);
+                    postCadastrarAtendimentoAsyncTask.execute(FerramentasBasicas.getURLAPI()
+                            + API_ATENDIMENTO);
                 }
             }
         });
@@ -167,7 +207,9 @@ public class DetalheProfissionalFragment extends Fragment implements Atendimento
         super.onResume();
     }
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode,
+                                           @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 
         switch (requestCode) {
@@ -184,7 +226,9 @@ public class DetalheProfissionalFragment extends Fragment implements Atendimento
 
     private void carregaCategoria(){
         llCategoria.removeAllViews();
-        LinearLayout linearLayout = (LinearLayout) getActivity().getLayoutInflater().inflate(R.layout.adapter_categoria_profissional,null);
+        LinearLayout linearLayout = (LinearLayout) getActivity()
+                .getLayoutInflater()
+                .inflate(R.layout.adapter_categoria_profissional,null);
         TextView tvCategoria = (TextView) linearLayout.findViewById(R.id.tvCategoria);
         tvCategoria.setText(categoria.getDescricao());
         llCategoria.addView(linearLayout);
@@ -201,29 +245,30 @@ public class DetalheProfissionalFragment extends Fragment implements Atendimento
         atendimento.setDescricao(descricao);
         atendimento.setTitulo(titulo);
         atendimento.setTipoAtendimentoId(tipoAtendimentoId);
-        atendimento.setSitucaoId(Integer.parseInt(tipoAtendimentoId + "") == TipoAtendimentoEnum.MELIGUE.getValue() ? SituacaoEnum.AGUARDANDOLIGACAO.getValue() : SituacaoEnum.AGUARDANDOATENDIMENTO.getValue());
+        atendimento.setSitucaoId(Integer.parseInt(
+                tipoAtendimentoId + "") == TipoAtendimentoEnum.MELIGUE.getValue() ?
+                SituacaoEnum.AGUARDANDOLIGACAO.getValue() :
+                SituacaoEnum.AGUARDANDOATENDIMENTO.getValue());
 
         return atendimento;
     }
 
-    /*private boolean clienteJaPossuiAtendimentoComProfissional(){
+    private void montarListaEspecialidades(List<Especialidades> especialidadesApi){
 
-        AtendimentoDao.Properties propriedades = new AtendimentoDao.Properties();
+        llEspecialidades.removeAllViews();
 
-        QueryBuilder<Atendimento> atendimentoQB = guiaProDao.getDaoSession()
-                .getAtendimentoDao().queryBuilder();
+        for(Especialidades especialidades : especialidadesApi){
+            View especialidadeView = View.inflate(getContext(),
+                    R.layout.adapter_especialidade_detalhe_profissional,
+                    null);
+            TextView tvDescricaoEspecialidade = (TextView) especialidadeView
+                    .findViewById(R.id.tvDescricaoEspecialidade);
 
-        atendimentoQB
-                .where(propriedades.ClienteId.eq(usuario.getPerfilId()),
-                        propriedades.ProfissionalId.eq(profissional.getId()),
-                        propriedades.SitucaoId.eq(SITUACAO_AGUARDANDO));
+            tvDescricaoEspecialidade.setText(especialidades.getDescricao());
+            llEspecialidades.addView(especialidadeView);
+        }
 
-        List<Atendimento> atendimentos = atendimentoQB.list();
-        if(atendimentos.isEmpty() == false)
-            return true;
-
-        return false;
-    }*/
+    }
 
     @Override
     public void retornoNotificacao(boolean enviou) {
@@ -245,8 +290,13 @@ public class DetalheProfissionalFragment extends Fragment implements Atendimento
                     FerramentasBasicas.enviarWhats(getContext(), profissional.getCelular());
                     break;
                 case 3:
-                    PostNotificacaoProfissionalAsyncTask postNotificacaoProfissionalAsyncTask = new PostNotificacaoProfissionalAsyncTask(getContext(), notificacaoProfissionalInterface);
-                    postNotificacaoProfissionalAsyncTask.execute(FerramentasBasicas.getURLAPI() + API_NOTIFICACAO + idAtendimento);
+                    PostNotificacaoProfissionalAsyncTask postNotificacaoProfissionalAsyncTask =
+                            new PostNotificacaoProfissionalAsyncTask(getContext(),
+                                    notificacaoProfissionalInterface);
+                    postNotificacaoProfissionalAsyncTask
+                            .execute(FerramentasBasicas.getURLAPI()
+                                    + API_NOTIFICACAO
+                                    + idAtendimento);
                     break;
             }
         }
@@ -259,6 +309,25 @@ public class DetalheProfissionalFragment extends Fragment implements Atendimento
 
     @Override
     public void retornoAlteracaoAtendimentos(boolean cadastrou) {
+
+    }
+
+    @Override
+    public void retornoGetEspecialidades(List<Especialidades> especialidades) {
+
+        if(especialidades != null && especialidades.size() > 0){
+            tvEspecialidades.setVisibility(View.VISIBLE);
+            llEspecialidades.setVisibility(View.VISIBLE);
+            montarListaEspecialidades(especialidades);
+        }else{
+            tvEspecialidades.setVisibility(View.GONE);
+            llEspecialidades.setVisibility(View.GONE);
+        }
+
+    }
+
+    @Override
+    public void retornoPostEspecialidades(boolean cadastrou) {
 
     }
 }
