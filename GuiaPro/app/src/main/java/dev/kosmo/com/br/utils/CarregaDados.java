@@ -11,6 +11,7 @@ import java.util.List;
 import dev.kosmo.com.br.models.Atendimento;
 import dev.kosmo.com.br.models.Categoria;
 import dev.kosmo.com.br.models.Endereco;
+import dev.kosmo.com.br.models.Especialidades;
 import dev.kosmo.com.br.models.HistoricoAtendimento;
 import dev.kosmo.com.br.models.Perfil;
 import dev.kosmo.com.br.models.TipoPerfil;
@@ -260,5 +261,41 @@ public class CarregaDados {
                 e.printStackTrace();
             }
         }
+    }
+
+    public List<Especialidades> montarEspecialidades(JSONArray jsonArray){
+        List<Especialidades> especialidades = new ArrayList<>();
+
+        for(int i = 0; i < jsonArray.length(); i++) {
+            try {
+                especialidades.add(montarEspecialidade(jsonArray.getJSONObject(i)));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return especialidades;
+    }
+
+    private Especialidades montarEspecialidade(JSONObject jsonObject){
+
+        Especialidades especialidades = new Especialidades();
+
+        try{
+            especialidades.setId(jsonObject.getLong("id"));
+            especialidades.setCategoriaId(jsonObject.has("categoriaId") ? jsonObject.getLong("categoriaId") : 0);
+            especialidades.setProfissionalId(jsonObject.has("profissionalId") ? jsonObject.getLong("profissionalId") : 0);
+            especialidades.setDescricao(jsonObject.has("descricao") ? jsonObject.getString("descricao") : "");
+
+            if(jsonObject.has("profissional"))
+                especialidades.setProfisisonal(montaPerfil(jsonObject.getJSONObject("profissional")));
+            if(jsonObject.has("categoria"))
+                especialidades.setCategoria(montaCategoria(jsonObject.getJSONObject("categoria")));
+
+        }catch (JSONException e){
+            e.printStackTrace();
+        }
+
+        return especialidades;
     }
 }

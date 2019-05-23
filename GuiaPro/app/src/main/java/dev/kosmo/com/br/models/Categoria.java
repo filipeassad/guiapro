@@ -67,4 +67,9 @@ public class Categoria {
     public void setImagem(Bitmap imagem) {
         this.imagem = imagem;
     }
+
+    @Override
+    public String toString() {
+        return descricao;
+    }
 }
