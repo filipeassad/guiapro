@@ -2,6 +2,7 @@ package dev.kosmo.com.br.fragments;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -27,6 +28,7 @@ import dev.kosmo.com.br.enuns.SituacaoEnum;
 import dev.kosmo.com.br.guiapro.R;
 import dev.kosmo.com.br.interfaces.AtendimentoAdapterInterface;
 import dev.kosmo.com.br.interfaces.AtendimentoInterface;
+import dev.kosmo.com.br.interfaces.ImagemInterface;
 import dev.kosmo.com.br.models.Atendimento;
 import dev.kosmo.com.br.models.AtendimentoDao;
 import dev.kosmo.com.br.models.Usuario;
@@ -34,7 +36,7 @@ import dev.kosmo.com.br.task.gets.GetAtendimentoAsyncTask;
 import dev.kosmo.com.br.utils.FerramentasBasicas;
 import dev.kosmo.com.br.utils.VariaveisEstaticas;
 
-public class ListagemAtendimentoProfissionalFragment extends Fragment implements AtendimentoAdapterInterface, AtendimentoInterface {
+public class ListagemAtendimentoProfissionalFragment extends Fragment implements AtendimentoAdapterInterface, AtendimentoInterface, ImagemInterface {
 
     private LinearLayout abaSolicitacoes;
     private TextView tvSolicitacoes;
@@ -184,5 +186,20 @@ public class ListagemAtendimentoProfissionalFragment extends Fragment implements
                 return;
             }
         }
+    }
+
+    @Override
+    public void getImagem(Bitmap imagem) {
+
+    }
+
+    @Override
+    public void setImagem(Bitmap imagem) {
+
+    }
+
+    @Override
+    public void retornoPostImagem(boolean cadastrou, String urlImagem) {
+
     }
 }
