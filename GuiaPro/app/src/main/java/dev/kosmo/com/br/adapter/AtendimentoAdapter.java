@@ -73,7 +73,7 @@ public class AtendimentoAdapter extends ArrayAdapter<Atendimento> {
                 BitmapFactory.decodeResource(myContext.getResources(), R.drawable.usuario_laranja));*/
 
         tvNomeCliente.setText(atendimento.getCliente().getNome());
-
+        ivItem.setImageBitmap(atendimento.getCliente().getImagemBaixada());
         tvCategoria.setText("Categoria: " + atendimento.getCategoria().getDescricao());
         tvTipoAtendimento.setText(FerramentasBasicas.obterTipoAtendimento(Integer.parseInt(atendimento.getTipoAtendimentoId() + "")));
         tvData.setText("Data: " + FerramentasBasicas.converterDataParaString(atendimento.getData(), FORMATO_DATA ));

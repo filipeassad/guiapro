@@ -17,14 +17,16 @@
             android:layout_height="wrap_content"
             android:text="Exemplo texto"
             android:textColor="#e9a11c"
-            android:paddingLeft="10dp"/>
+            android:paddingLeft="15dp"/>
 
         <Button
             android:id="@+id/btnExcluir"
-            android:layout_width="60dp"
-            android:layout_height="wrap_content"
-            android:text="aa"
-            android:layout_marginRight="10dp"/>
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:text="X"
+            android:layout_marginRight="10dp"
+            android:textColor="#FFF"
+            android:background="@drawable/shape_bg_redondo_laranja"/>
 
     </LinearLayout>
 
