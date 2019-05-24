@@ -1,5 +1,6 @@
 package dev.kosmo.com.br.fragments;
 
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -16,17 +17,20 @@ import android.widget.TextView;
 
 import org.greenrobot.greendao.query.QueryBuilder;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import dev.kosmo.com.br.adapter.ProfissionalAdapter;
 import dev.kosmo.com.br.dao.GuiaProDao;
 import dev.kosmo.com.br.guiapro.R;
+import dev.kosmo.com.br.interfaces.ImagemInterface;
 import dev.kosmo.com.br.interfaces.PerfilInterface;
 import dev.kosmo.com.br.models.Categoria;
 import dev.kosmo.com.br.models.CategoriaPerfil;
 import dev.kosmo.com.br.models.CategoriaPerfilDao;
 import dev.kosmo.com.br.models.Perfil;
 import dev.kosmo.com.br.models.Usuario;
+import dev.kosmo.com.br.task.gets.GetImagemAsyncTask;
 import dev.kosmo.com.br.task.gets.GetPerfisAsyncTask;
 import dev.kosmo.com.br.utils.FerramentasBasicas;
 import dev.kosmo.com.br.utils.StatusAplicativo;
@@ -36,7 +40,7 @@ import dev.kosmo.com.br.utils.VariaveisEstaticas;
  * Created by Filipe on 11/03/2018.
  */
 
-public class ListagemProfissionaisFragment extends Fragment implements PerfilInterface{
+public class ListagemProfissionaisFragment extends Fragment implements PerfilInterface, ImagemInterface {
 
     private ListView lvProfissionais;
     private LinearLayout abaQualificacoes;
@@ -51,6 +55,7 @@ public class ListagemProfissionaisFragment extends Fragment implements PerfilInt
 
     private StatusAplicativo statusAplicativo;
     private PerfilInterface perfilInterface = this;
+    private ImagemInterface imagemInterface = this;
 
     private Perfil perfilBusca;
     private Usuario usuario;
@@ -58,6 +63,8 @@ public class ListagemProfissionaisFragment extends Fragment implements PerfilInt
     private GuiaProDao guiaProDao;
 
     private final String API_PERFIL_CATEGORIA = "perfil_categoria/";
+    private List<Perfil> perfisFinais;
+    private List<Perfil> perfisBuscaImagem;
 
     @Nullable
     @Override
@@ -198,6 +205,47 @@ public class ListagemProfissionaisFragment extends Fragment implements PerfilInt
                 guiaProDao.getDaoSession().getCategoriaPerfilDao().insert(categoriaPerfil);
             }
         }
-        carregaPerfis(perfis);
+
+        perfisBuscaImagem = perfis;
+        perfisFinais = new ArrayList<>();
+
+        if(perfis != null && perfis.size() > 0){
+            Perfil perfilSelecionado = perfisBuscaImagem.remove(0);
+            perfisFinais.add(perfilSelecionado);
+            GetImagemAsyncTask getImagemAsyncTask = new GetImagemAsyncTask(getContext(), imagemInterface);
+            getImagemAsyncTask.execute(perfilSelecionado.getUrlImg());
+        }
+
+        //carregaPerfis(perfis);
+    }
+
+    @Override
+    public void getImagem(Bitmap imagem) {
+        Perfil ultimoPerfil = perfisFinais.get(perfisFinais.size() -1);
+
+        if(imagem != null)
+            ultimoPerfil.setImagemBaixada(imagem);
+        else
+            ultimoPerfil.setImagemBaixada(BitmapFactory.decodeResource(this.getResources(),
+                    R.drawable.manuser));
+
+        if(perfisBuscaImagem.size() > 0){
+            Perfil perfilSelecionado = perfisBuscaImagem.remove(0);
+            perfisFinais.add(perfilSelecionado);
+            GetImagemAsyncTask getImagemAsyncTask = new GetImagemAsyncTask(getContext(), imagemInterface);
+            getImagemAsyncTask.execute(perfilSelecionado.getUrlImg());
+        }else{
+            carregaPerfis(perfisFinais);
+        }
+    }
+
+    @Override
+    public void setImagem(Bitmap imagem) {
+
+    }
+
+    @Override
+    public void retornoPostImagem(boolean cadastrou, String urlImagem) {
+
     }
 }

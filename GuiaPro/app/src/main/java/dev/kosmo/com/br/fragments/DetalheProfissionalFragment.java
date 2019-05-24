@@ -67,7 +67,7 @@ public class DetalheProfissionalFragment extends Fragment implements Atendimento
     private final long ATENDIMENTO_MELIGUE = 3;
     private final String API_ATENDIMENTO = "atendimento_cliente";
     private final String API_NOTIFICACAO = "notificao_atendimento/";
-    private final String API_ESPECIALIDADES = "mobile/especeialidades/";
+    private final String API_ESPECIALIDADES = "mobile/especialidades/";
 
     private int acao = 0;
 
@@ -109,6 +109,10 @@ public class DetalheProfissionalFragment extends Fragment implements Atendimento
 
     private void carregarDadosProfissional(){
         tvNomeProfissional.setText(profissional.getNome() + " " + profissional.getSobrenome());
+        if(profissional.getUrlImg() != null && profissional.getUrlImg().trim().equals("") == false
+                && profissional.getUrlImg().equals("null") == false){
+            ivImagem.setImageBitmap(profissional.getImagemBaixada());
+        }
         carregaCategoria();
         carregarEspecialidades();
     }

@@ -78,15 +78,19 @@ public class EspecialidadesFragment extends Fragment implements EspecialidadesIn
     private void carregarSpinnerCategorias(){
         final ArrayAdapter adapter = new ArrayAdapter(getContext(),
                 android.R.layout.simple_spinner_item,
-                usuarioLogado.getPerfil().getCategorias());
+                usuarioLogado.getPerfil().getCategoriasInsercao());
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
         spCategorias.setAdapter(adapter);
 
-        spCategorias.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        spCategorias.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int posicao, long id) {
+            public void onItemSelected(AdapterView<?> adapterView, View view, int posicao, long l) {
                 categoriaSelecionada = (Categoria) adapterView.getItemAtPosition(posicao);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
             }
         });
     }

@@ -11,6 +11,7 @@ import dev.kosmo.com.br.fragments.CategoriasFragment;
 import dev.kosmo.com.br.fragments.DetalheHistoricoFragment;
 import dev.kosmo.com.br.fragments.DetalheProfissionalFragment;
 import dev.kosmo.com.br.fragments.EnderecoFragment;
+import dev.kosmo.com.br.fragments.EspecialidadesFragment;
 import dev.kosmo.com.br.fragments.HistoricoFragment;
 import dev.kosmo.com.br.fragments.ListagemAtendimentoProfissionalFragment;
 import dev.kosmo.com.br.fragments.ListagemProfissionaisFragment;
@@ -75,6 +76,9 @@ public class GerenciadorFragment {
         }else if(nomeTela.equals("EnderecoEditar")){
             AlterarEnderecoFragment alterarEnderecoFragment = new AlterarEnderecoFragment();
             ft.replace(R.id.contFragments, alterarEnderecoFragment, nomeTela);
+        }else if(nomeTela.equals("CadastroEspecialidade")){
+            EspecialidadesFragment especialidadesFragment = new EspecialidadesFragment();
+            ft.replace(R.id.contFragments, especialidadesFragment, nomeTela);
         }
 
         if(fm.findFragmentByTag(nomeTela) != null){

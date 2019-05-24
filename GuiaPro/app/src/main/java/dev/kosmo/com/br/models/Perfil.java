@@ -1,5 +1,7 @@
 package dev.kosmo.com.br.models;
 
+import android.graphics.Bitmap;
+
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.JoinEntity;
@@ -43,8 +45,12 @@ public class Perfil {
             targetProperty = "categoriaId"
     )
     private List<Categoria> categorias;
+
     @Transient
     private List<Categoria> categoriasInsercao;
+
+    @Transient
+    private Bitmap imagemBaixada;
 
     /** Used to resolve relations */
     @Generated(hash = 2040040024)
@@ -314,6 +320,14 @@ public class Perfil {
 
     public void setCategoriasInsercao(List<Categoria> categoriasInsercao) {
         this.categoriasInsercao = categoriasInsercao;
+    }
+
+    public Bitmap getImagemBaixada() {
+        return imagemBaixada;
+    }
+
+    public void setImagemBaixada(Bitmap imagemBaixada) {
+        this.imagemBaixada = imagemBaixada;
     }
 
     public String getCelularwhats() {

@@ -25,7 +25,13 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+
+import dev.kosmo.com.br.models.HistoricoAtendimento;
+import dev.kosmo.com.br.models.Perfil;
+import dev.kosmo.com.br.models.sistema.GrupoHistoricoAtendimento;
 
 public class FerramentasBasicas {
 
@@ -219,6 +225,70 @@ public class FerramentasBasicas {
         }
 
         return null;
+    }
+
+    public static List<GrupoHistoricoAtendimento> montarListaGruposHistoricosAtendimento(
+            List<HistoricoAtendimento> historicosAtendimento){
+
+        List<GrupoHistoricoAtendimento> gruposHistoricoAtendimento = new ArrayList<>();
+        List<Perfil> listaPerfisGrupo = new ArrayList<>();
+
+        boolean perfilGrupoEhCliente =  VariaveisEstaticas.getUsuario().getPerfil()
+                .getTipoPerfil().getDescricao().equals("Profissional");
+
+
+        for(HistoricoAtendimento historicoAtendimento : historicosAtendimento){
+
+            Perfil perfilGrupo = perfilGrupoEhCliente ?
+                    historicoAtendimento.getCliente() : historicoAtendimento.getProfisisonal();
+
+            if(perfilEstaDentroDaLista(perfilGrupo, listaPerfisGrupo) == false)
+                listaPerfisGrupo.add(perfilGrupo);
+        }
+
+        for(Perfil perfil :listaPerfisGrupo){
+            gruposHistoricoAtendimento.add(
+                    montarGrupoHistoricoAtendimento(perfil,
+                            perfilGrupoEhCliente,
+                            historicosAtendimento));
+        }
+
+        return gruposHistoricoAtendimento;
+    }
+
+    public static boolean perfilEstaDentroDaLista(Perfil perfilbusca,
+                                      List<Perfil> perfis){
+
+        for(Perfil perfil: perfis){
+            if(perfilbusca.getId() == perfil.getId()){
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public static GrupoHistoricoAtendimento montarGrupoHistoricoAtendimento(Perfil perfilGrupo,
+                                                boolean ehCliente,
+                                                List<HistoricoAtendimento> historicosAtendimento){
+
+        GrupoHistoricoAtendimento grupoHistoricoAtendimento = new GrupoHistoricoAtendimento();
+
+        grupoHistoricoAtendimento.setPerfilGrupo(perfilGrupo);
+        grupoHistoricoAtendimento.setHistoricosAtendimento(new ArrayList<HistoricoAtendimento>());
+
+        for(HistoricoAtendimento historicoAtendimento: historicosAtendimento){
+            if(ehCliente && historicoAtendimento.getCliente().getId() == perfilGrupo.getId()){
+                grupoHistoricoAtendimento.getHistoricosAtendimento().add(historicoAtendimento);
+            }
+
+            if(ehCliente == false
+                    && historicoAtendimento.getProfisisonal().getId() == perfilGrupo.getId()){
+                grupoHistoricoAtendimento.getHistoricosAtendimento().add(historicoAtendimento);
+            }
+        }
+
+        return grupoHistoricoAtendimento;
     }
 
 }

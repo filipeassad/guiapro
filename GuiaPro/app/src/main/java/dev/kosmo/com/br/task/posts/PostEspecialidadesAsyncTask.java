@@ -17,6 +17,7 @@ import java.util.HashMap;
 
 import dev.kosmo.com.br.interfaces.EspecialidadesInterface;
 import dev.kosmo.com.br.utils.FerramentasBasicas;
+import dev.kosmo.com.br.utils.VariaveisEstaticas;
 
 public class PostEspecialidadesAsyncTask extends AsyncTask<String, String, HashMap<String, Object>> {
 
@@ -49,7 +50,7 @@ public class PostEspecialidadesAsyncTask extends AsyncTask<String, String, HashM
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setReadTimeout(10000);
             conn.setRequestProperty("Content-Type","application/json");
-            //conn.addRequestProperty("x-access-token", VariaveisEstaticas.getUsuario().getToken());
+            conn.addRequestProperty("x-access-token", VariaveisEstaticas.getUsuario().getToken());
             conn.setConnectTimeout(20000);
             conn.setRequestMethod("POST");
             conn.setDoInput(true);

@@ -193,6 +193,7 @@ public class PrincipalActivity extends FragmentActivity implements FragmentInter
         lista.add(new ItemMenuNav("Informações Pessoais", BitmapFactory.decodeResource(this.getResources(), R.drawable.manuser)));
         if(usuario.getPerfil().getTipoPerfilId() == TIPO_PERFIL_PROFISSIONAL){
             lista.add(new ItemMenuNav("Modo Descanso", BitmapFactory.decodeResource(this.getResources(), R.drawable.notification)));
+            lista.add(new ItemMenuNav("Especialidades", BitmapFactory.decodeResource(this.getResources(), R.drawable.wrench)));
         }
         //lista.add(new ItemMenuNav("Notificações", BitmapFactory.decodeResource(this.getResources(), R.drawable.notification)));
         //lista.add(new ItemMenuNav("Relate um Problema", BitmapFactory.decodeResource(this.getResources(), R.drawable.attention)));
@@ -227,6 +228,8 @@ public class PrincipalActivity extends FragmentActivity implements FragmentInter
                     finish();
                 }else if(((ItemMenuNav)adapterView.getItemAtPosition(i)).getRotulo().equals("Modo Descanso")){
                     mudaTela("ModoDescanso");
+                }else if(((ItemMenuNav)adapterView.getItemAtPosition(i)).getRotulo().equals("Especialidades")){
+                    mudaTela("CadastroEspecialidade");
                 }
             }
         });

@@ -23,7 +23,7 @@
             android:id="@+id/btnExcluir"
             android:layout_width="60dp"
             android:layout_height="wrap_content"
-            android:text="X"
+            android:text="aa"
             android:layout_marginRight="10dp"/>
 
     </LinearLayout>

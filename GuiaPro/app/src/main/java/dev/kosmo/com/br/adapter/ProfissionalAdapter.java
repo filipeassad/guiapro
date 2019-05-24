@@ -47,10 +47,7 @@ public class ProfissionalAdapter extends ArrayAdapter<Perfil> {
 
         Perfil perfil = getItem(position);
 
-        if(perfil.getUrlImg() == null
-                || perfil.getUrlImg().trim().equals("")){
-            ivItem.setImageBitmap(BitmapFactory.decodeResource(myContext.getResources(), R.drawable.manuserbranco));
-        }
+        ivItem.setImageBitmap(perfil.getImagemBaixada());
 
         tvNome.setText(perfil.getNome());
 

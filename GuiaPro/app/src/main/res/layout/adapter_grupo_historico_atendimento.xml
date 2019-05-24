@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/llGrupoHistorico"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#FFF"
+        android:orientation="vertical"
+        android:layout_margin="10dp"
+        android:animateLayoutChanges="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/ivPerfilGrupo"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/manuser"
+                app:civ_border_width="2dp"
+                app:civ_border_color="#e9a11c"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginLeft="15dp">
+
+                <TextView
+                    android:id="@+id/tvNomePerfilGrupo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Nome perfil"
+                    android:textColor="#e9a11c"
+                    android:textStyle="bold"
+                    android:textSize="16sp"
+                    android:gravity="left|center"
+                    android:layout_marginTop="15dp"/>
+
+                <LinearLayout
+                    android:id="@+id/llMaisInformacoes"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    android:orientation="vertical">
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="25dp"
+            android:orientation="vertical"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:gravity="center|right">
+
+            <Button
+                android:id="@+id/btnAmpliar"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:text="+"
+                android:background="@drawable/shape_bg_redondo_laranja"
+                android:textColor="#FFFF"
+                android:layout_marginRight="10dp"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>
