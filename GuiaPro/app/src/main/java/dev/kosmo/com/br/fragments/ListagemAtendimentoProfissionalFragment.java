@@ -3,6 +3,7 @@ package dev.kosmo.com.br.fragments;
 import android.Manifest;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -17,6 +18,7 @@ import android.widget.TextView;
 
 import org.greenrobot.greendao.query.QueryBuilder;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import dev.kosmo.com.br.adapter.AtendimentoAdapter;
@@ -33,6 +35,7 @@ import dev.kosmo.com.br.models.Atendimento;
 import dev.kosmo.com.br.models.AtendimentoDao;
 import dev.kosmo.com.br.models.Usuario;
 import dev.kosmo.com.br.task.gets.GetAtendimentoAsyncTask;
+import dev.kosmo.com.br.task.gets.GetImagemAsyncTask;
 import dev.kosmo.com.br.utils.FerramentasBasicas;
 import dev.kosmo.com.br.utils.VariaveisEstaticas;
 
@@ -47,10 +50,13 @@ public class ListagemAtendimentoProfissionalFragment extends Fragment implements
     private LinearLayout llDetalheAtendimento;
 
     private List<Atendimento> listaAtendimento;
+    private List<Atendimento> listaAtendimentoBusca;
     private Usuario usuario;
 
     private AtendimentoAdapterInterface atendimentoAdapterInterface = this;
     private AtendimentoInterface atendimentoInterface = this;
+    private ImagemInterface imagemInterface = this;
+
 
     private GuiaProDao guiaProDao;
 
@@ -163,8 +169,16 @@ public class ListagemAtendimentoProfissionalFragment extends Fragment implements
 
     @Override
     public void retornoBuscaAtendimentos(List<Atendimento> atendimentos) {
-        listaAtendimento = atendimentos;
-        carregaAtendimentos();
+
+        listaAtendimentoBusca = atendimentos;
+        listaAtendimento = new ArrayList<>();
+        if(listaAtendimentoBusca != null && listaAtendimentoBusca.size() > 0 ){
+            Atendimento atendimentoBusca = listaAtendimentoBusca.remove(0);
+            listaAtendimento.add(atendimentoBusca);
+            GetImagemAsyncTask getImagemAsyncTask = new GetImagemAsyncTask(getContext(), imagemInterface);
+            getImagemAsyncTask.execute(atendimentoBusca.getCliente().getUrlImg());
+        }
+        //carregaAtendimentos();
     }
 
     @Override
@@ -190,6 +204,21 @@ public class ListagemAtendimentoProfissionalFragment extends Fragment implements
 
     @Override
     public void getImagem(Bitmap imagem) {
+
+        Atendimento atendimentoUltimo = listaAtendimento.get(listaAtendimento.size() -1);
+        if(imagem != null)
+            atendimentoUltimo.getCliente().setImagemBaixada(imagem);
+        else
+            atendimentoUltimo.getCliente().setImagemBaixada(BitmapFactory.decodeResource(this.getResources(),
+                    R.drawable.manuser));
+        if(listaAtendimentoBusca.size() > 0){
+            Atendimento atendimentoBusca = listaAtendimentoBusca.remove(0);
+            listaAtendimento.add(atendimentoBusca);
+            GetImagemAsyncTask getImagemAsyncTask = new GetImagemAsyncTask(getContext(), imagemInterface);
+            getImagemAsyncTask.execute(atendimentoBusca.getCliente().getUrlImg());
+        }else{
+            carregaAtendimentos();
+        }
 
     }
 
