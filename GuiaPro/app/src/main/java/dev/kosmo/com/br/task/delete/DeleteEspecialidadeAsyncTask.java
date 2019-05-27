@@ -1,10 +1,9 @@
-package dev.kosmo.com.br.task.posts;
+package dev.kosmo.com.br.task.delete;
 
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -16,21 +15,19 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.HashMap;
 
-import dev.kosmo.com.br.interfaces.CadastroClienteInterface;
+import dev.kosmo.com.br.interfaces.EspecialidadesInterface;
 import dev.kosmo.com.br.utils.FerramentasBasicas;
 import dev.kosmo.com.br.utils.VariaveisEstaticas;
 
-public class PostCadastrarClienteAsyncTask extends AsyncTask<String, String, HashMap<String, Object>> {
+public class DeleteEspecialidadeAsyncTask extends AsyncTask<String, String, HashMap<String, Object>> {
 
     private Context contexto;
     private ProgressDialog progress;
-    private JSONObject jsonObject;
-    private CadastroClienteInterface cadastroClienteInterface;
+    private EspecialidadesInterface especialidadesInterface;
 
-    public PostCadastrarClienteAsyncTask(Context contexto, JSONObject jsonObject, CadastroClienteInterface cadastroClienteInterface) {
+    public DeleteEspecialidadeAsyncTask(Context contexto, EspecialidadesInterface especialidadesInterface) {
         this.contexto = contexto;
-        this.jsonObject = jsonObject;
-        this.cadastroClienteInterface = cadastroClienteInterface;
+        this.especialidadesInterface = especialidadesInterface;
     }
 
     @Override
@@ -51,24 +48,16 @@ public class PostCadastrarClienteAsyncTask extends AsyncTask<String, String, Has
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setReadTimeout(10000);
             conn.setRequestProperty("Content-Type","application/json");
-            //conn.addRequestProperty("x-access-token", VariaveisEstaticas.getUsuario().getToken());
+            conn.addRequestProperty("x-access-token", VariaveisEstaticas.getUsuario().getToken());
             conn.setConnectTimeout(20000);
-            conn.setRequestMethod("POST");
+            conn.setRequestMethod("DELETE");
             conn.setDoInput(true);
             conn.setDoOutput(true);
-
-            OutputStream os = conn.getOutputStream();
-            BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(os, "UTF-8"));
-            writer.write(jsonObject.toString());
-            writer.flush();
-            writer.close();
-            os.close();
 
             httpResponse = conn.getResponseCode();
             JSONObject response;
 
-            if(httpResponse == HttpURLConnection.HTTP_OK
-                    || httpResponse == HttpURLConnection.HTTP_CREATED){
+            if(httpResponse == HttpURLConnection.HTTP_OK || httpResponse == 201){
 
                 String responseString = FerramentasBasicas.readStream(conn.getInputStream());
                 response = new JSONObject(responseString);
@@ -113,6 +102,6 @@ public class PostCadastrarClienteAsyncTask extends AsyncTask<String, String, Has
         if(resultado != null && resultado.get("cadastrou") != null)
             cadastrou = (Boolean) resultado.get("cadastrou");
 
-        cadastroClienteInterface.retornoCadastro(cadastrou);
+        especialidadesInterface.retornDeleteEspecialidade(cadastrou);
     }
 }

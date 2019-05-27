@@ -2,14 +2,23 @@ package dev.kosmo.com.br.task.posts;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.List;
 
@@ -21,12 +30,12 @@ public class PostImagemAsyncTask  extends AsyncTask<String, String, HashMap<Stri
 
     private Context contexto;
     private ProgressDialog progress;
-    private File arquivo;
+    private Bitmap imagem;
     private ImagemInterface imagemInterface;
 
-    public PostImagemAsyncTask(Context contexto, File arquivo, ImagemInterface imagemInterface) {
+    public PostImagemAsyncTask(Context contexto, Bitmap imagem, ImagemInterface imagemInterface) {
         this.contexto = contexto;
-        this.arquivo = arquivo;
+        this.imagem = imagem;
         this.imagemInterface = imagemInterface;
     }
 
@@ -41,38 +50,51 @@ public class PostImagemAsyncTask  extends AsyncTask<String, String, HashMap<Stri
     @Override
     protected HashMap<String, String> doInBackground(String... strings) {
 
-        /*HttpClient httpClient = new DefaultHttpClient();
-        HttpContext localContext = new BasicHttpContext();
-        HttpPost httpPost = new HttpPost(strings[0]);
+        int httpResponse = 0;
 
-        try {
-            MultipartEntity entity = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE);
+        try
+        {
+            URL url = new URL(strings[0]);
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("POST");
 
-            entity.addPart("image", new FileBody(arquivo));
+            conn.setDoInput(true);
+            conn.setDoOutput(true);
 
-            httpPost.setEntity(entity);
+            conn.setRequestProperty("Connection", "Keep-Alive");
+            conn.setRequestProperty("Cache-Control", "no-cache");
 
-            HttpResponse httpResponse = httpClient.execute(httpPost, localContext);
+            conn.setReadTimeout(35000);
+            conn.setConnectTimeout(35000);
 
-            StatusLine statusLine = httpResponse.getStatusLine();
-            int statusCode = statusLine.getStatusCode();
+            // directly let .compress write binary image data
+            // to the output-stream
+            OutputStream os = conn.getOutputStream();
+            imagem.compress(Bitmap.CompressFormat.JPEG, 100, os);
+            os.flush();
+            os.close();
 
+            httpResponse = conn.getResponseCode();
             JSONObject response;
-            if(statusCode == HttpURLConnection.HTTP_OK || statusCode == HttpURLConnection.HTTP_CREATED){
 
-                String responseString = FerramentasBasicas.readStream(httpResponse.getEntity().getContent());
+            if(httpResponse == HttpURLConnection.HTTP_OK
+                    || httpResponse == HttpURLConnection.HTTP_CREATED){
+                String responseString = FerramentasBasicas.readStream(conn.getInputStream());
                 response = new JSONObject(responseString);
-
                 return validaResposta(response);
-
-            }else if(statusCode == HttpURLConnection.HTTP_UNAUTHORIZED){
+            }else if(httpResponse == HttpURLConnection.HTTP_UNAUTHORIZED){
                 return null;
-            }else{
+            }else {
                 return null;
             }
-        } catch (IOException | JSONException e) {
+
+        }catch(MalformedURLException e) {
             e.printStackTrace();
-        }*/
+        }catch(IOException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
         return null;
     }
@@ -97,11 +119,15 @@ public class PostImagemAsyncTask  extends AsyncTask<String, String, HashMap<Stri
 
         progress.dismiss();
 
-        boolean buscouCorretamente = stringObjectHashMap.containsKey("url");
+        if(stringObjectHashMap == null)
+            imagemInterface.retornoPostImagem(false, "Não foi possível salvar a imagem");
+        else{
+            boolean buscouCorretamente = stringObjectHashMap.containsKey("url");
 
-        if(buscouCorretamente)
-            imagemInterface.retornoPostImagem(true, stringObjectHashMap.get("url"));
-        else
-            imagemInterface.retornoPostImagem(false, stringObjectHashMap.get("erro"));
+            if(buscouCorretamente)
+                imagemInterface.retornoPostImagem(true, stringObjectHashMap.get("url"));
+            else
+                imagemInterface.retornoPostImagem(false, "Não foi possível salvar a imagem");
+        }
     }
 }

@@ -118,7 +118,8 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical">
+                        android:orientation="vertical"
+                        android:layout_marginTop="20dp">
 
                         <TextView
                             android:layout_width="match_parent"
@@ -128,11 +129,16 @@
                             android:textSize="20sp"
                             android:gravity="center"/>
 
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="#ecac1b"></LinearLayout>
                         <LinearLayout 
                             android:id="@+id/llListaEspecialidades"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="vertical">
+                            android:orientation="vertical"
+                            android:layout_marginTop="10dp">
 
                         </LinearLayout>    
                     </LinearLayout>

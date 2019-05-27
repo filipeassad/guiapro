@@ -13,12 +13,16 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.amazonaws.mobile.client.AWSMobileClient;
+
 import dev.kosmo.com.br.dao.GuiaProDao;
 import dev.kosmo.com.br.dialogs.InformacaoDialog;
 import dev.kosmo.com.br.guiapro.R;
 import dev.kosmo.com.br.interfaces.ImagemInterface;
 import dev.kosmo.com.br.interfaces.PutAlterarClienteInterface;
 import dev.kosmo.com.br.models.Perfil;
+import dev.kosmo.com.br.models.Usuario;
+import dev.kosmo.com.br.task.UploadAwsS3;
 import dev.kosmo.com.br.task.gets.GetImagemAsyncTask;
 import dev.kosmo.com.br.task.gets.GetPerfilAsyncTask;
 import dev.kosmo.com.br.task.posts.PostAlterarClienteAsyncTask;
@@ -50,13 +54,14 @@ public class PerfilFragment extends Fragment implements ImagemInterface, PutAlte
     private final String SEXO_MASCULINO = "Masculino";
     private final String SEXO_FEMININO = "Feminino";
     private final String NOME_TELA_ENDERECO = "Endereco";
-    private final String URL_POST_IMAGEM = "upload-arquivo/send-aws";
+    private final String URL_POST_IMAGEM = "upload-arquivo/send-aws-mobile";
     private final String URL_ALTERAR_CLIENTE = "mobile/alterarcliente";
     private final String URL_ALTERAR_PROFISSIONAL = "mobile/alterarprofissional";
     private final String TIPO_PERFIL_PROFISSIONAL = "Profissional";
 
     private Bitmap imagemSelecionada = null;
     private InformacaoDialog informacaoDialog = new InformacaoDialog(getContext());
+    private ImagemInterface imagemInterface = this;
 
     private PutAlterarClienteInterface putAlterarClienteInterface = this;
 
@@ -80,6 +85,10 @@ public class PerfilFragment extends Fragment implements ImagemInterface, PutAlte
 
         guiaProDao = (GuiaProDao) getActivity().getApplication();
         VariaveisEstaticas.setImagemInterface(this);
+
+        informacaoDialog = new InformacaoDialog(getContext());
+
+        //AWSMobileClient.getInstance().initialize(getContext()).execute();
 
         carregarDados();
         acoes();
@@ -146,13 +155,20 @@ public class PerfilFragment extends Fragment implements ImagemInterface, PutAlte
     public void setImagem(Bitmap imagem) {
         if (imagem != null) {
             imagemSelecionada = imagem;
-            PostImagemAsyncTask postImagemAsyncTask = new PostImagemAsyncTask(getContext(),
-                    FerramentasBasicas.bitmapParaFile(imagem, getContext(),
-                            VariaveisEstaticas.getUsuario().getPerfil().getNome() +
-                                    VariaveisEstaticas.getUsuario().getPerfil().getSobrenome() +
-                                    VariaveisEstaticas.getUsuario().getPerfil().getCelular()),
-                    this);
-            postImagemAsyncTask.execute(FerramentasBasicas.getURL() + URL_POST_IMAGEM);
+
+            Usuario usuario = VariaveisEstaticas.getUsuario();
+            String nome = usuario.getPerfil().getNome()
+                    + usuario.getPerfil().getSobrenome() +
+                    usuario.getId();
+            UploadAwsS3 uploadAwsS3 = new UploadAwsS3(getContext(),
+                    FerramentasBasicas.bitmapParaFile(imagem,getContext(), nome),
+                    nome,
+                    imagemInterface);
+            uploadAwsS3.execute();
+            /*PostImagemAsyncTask postImagemAsyncTask = new PostImagemAsyncTask(getContext(),
+                                                                                imagem,
+                                                                    this);
+            postImagemAsyncTask.execute(FerramentasBasicas.getURL() + URL_POST_IMAGEM);*/
         }else{
             informacaoDialog.gerarDialog("Não foi possível selecionar uma imagem!");
         }

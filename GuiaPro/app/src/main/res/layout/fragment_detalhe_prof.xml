@@ -100,15 +100,18 @@
                     android:layout_marginTop="10dp"
                     android:visibility="gone"/>
 
-                <LinearLayout
-                    android:id="@+id/llEspecialidades"
+                <TextView
+                    android:id="@+id/tvListaEspecialidades"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
+                    android:text="Especialidades"
+                    android:gravity="center"
+                    android:textStyle="bold"
+                    android:textSize="16sp"
+                    android:textColor="#ecac1b"
                     android:layout_marginTop="10dp"
-                    android:visibility="gone">
+                    android:visibility="gone"/>
 
-                </LinearLayout>
 
                 <LinearLayout
                     android:id="@+id/btnLigar"

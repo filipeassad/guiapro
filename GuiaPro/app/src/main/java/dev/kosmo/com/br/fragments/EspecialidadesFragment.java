@@ -29,6 +29,7 @@ import dev.kosmo.com.br.interfaces.EspecialidadesInterface;
 import dev.kosmo.com.br.models.Categoria;
 import dev.kosmo.com.br.models.Especialidades;
 import dev.kosmo.com.br.models.Usuario;
+import dev.kosmo.com.br.task.delete.DeleteEspecialidadeAsyncTask;
 import dev.kosmo.com.br.task.gets.GetEspecialidadesAsynctask;
 import dev.kosmo.com.br.task.posts.PostEspecialidadesAsyncTask;
 import dev.kosmo.com.br.utils.FerramentasBasicas;
@@ -107,7 +108,8 @@ public class EspecialidadesFragment extends Fragment implements EspecialidadesIn
         btnSalvar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                validarCampos();
+                if(validarCampos() == false)
+                    return;
                 PostEspecialidadesAsyncTask postEspecialidadesAsyncTask =
                         new PostEspecialidadesAsyncTask(getContext(),
                                 montarJson(),
@@ -147,7 +149,7 @@ public class EspecialidadesFragment extends Fragment implements EspecialidadesIn
 
     private void limparCampos(){
         edtDescricao.setText("");
-        categoriaSelecionada = null;
+        //categoriaSelecionada = null;
         spCategorias.setSelection(0);
     }
 
@@ -177,7 +179,10 @@ public class EspecialidadesFragment extends Fragment implements EspecialidadesIn
             btnExcluir.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    //todo Excluir a especialidade
+                    Especialidades especialidade = (Especialidades) view.getTag();
+                    DeleteEspecialidadeAsyncTask deleteEspecialidadeAsyncTask = new DeleteEspecialidadeAsyncTask(getContext(), especialidadesInterface);
+                    deleteEspecialidadeAsyncTask.execute(FerramentasBasicas.getURLAPI() + API_ESPECIALIDADES
+                            + "/" + especialidade.getId());
                 }
             });
             llListaEspecialidades.addView(adapterEspecialidades);
@@ -189,6 +194,8 @@ public class EspecialidadesFragment extends Fragment implements EspecialidadesIn
     public void retornoGetEspecialidades(List<Especialidades> especialidades) {
         if(especialidades != null && especialidades.size() > 0)
             carregarEspecialidadesCadastradas(especialidades);
+        else
+            llListaEspecialidades.removeAllViews();
     }
 
     @Override
@@ -202,5 +209,15 @@ public class EspecialidadesFragment extends Fragment implements EspecialidadesIn
             informacaoDialog.gerarDialog("Não foi possível salvar a especialidade!");
         }
 
+    }
+
+    @Override
+    public void retornDeleteEspecialidade(boolean deletou) {
+        if(deletou){
+            limparCampos();
+            buscarEspecialidades();
+        }else{
+            informacaoDialog.gerarDialog("Não foi possível deleetar a especialidade!");
+        }
     }
 }

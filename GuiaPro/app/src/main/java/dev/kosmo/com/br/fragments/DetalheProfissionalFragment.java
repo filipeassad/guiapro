@@ -51,7 +51,7 @@ public class DetalheProfissionalFragment extends Fragment implements Atendimento
     private LinearLayout btnLigar;
     private LinearLayout btnWhats;
     private LinearLayout btnMeLigue;
-    private LinearLayout llEspecialidades;
+    private TextView tvListaEspecialidades;
     private TextView tvEspecialidades;
     private AtendimentoInterface atendimentoInterface = this;
     private NotificacaoProfissionalInterface notificacaoProfissionalInterface = this;
@@ -86,7 +86,7 @@ public class DetalheProfissionalFragment extends Fragment implements Atendimento
         btnLigar = (LinearLayout) view.findViewById(R.id.btnLigar);
         btnWhats = (LinearLayout) view.findViewById(R.id.btnWhats);
         btnMeLigue = (LinearLayout) view.findViewById(R.id.btnMeLigeu);
-        llEspecialidades = (LinearLayout) view.findViewById(R.id.llEspecialidades);
+        tvListaEspecialidades = (TextView) view.findViewById(R.id.tvListaEspecialidades);
         tvEspecialidades = (TextView) view.findViewById(R.id.tvEspecialidades);
 
         profissional = VariaveisEstaticas.getProfissional();
@@ -259,19 +259,18 @@ public class DetalheProfissionalFragment extends Fragment implements Atendimento
 
     private void montarListaEspecialidades(List<Especialidades> especialidadesApi){
 
-        llEspecialidades.removeAllViews();
-
+        String listaEspecialidades = "";
+        int index = 0;
         for(Especialidades especialidades : especialidadesApi){
-            View especialidadeView = View.inflate(getContext(),
-                    R.layout.adapter_especialidade_detalhe_profissional,
-                    null);
-            TextView tvDescricaoEspecialidade = (TextView) especialidadeView
-                    .findViewById(R.id.tvDescricaoEspecialidade);
-
-            tvDescricaoEspecialidade.setText(especialidades.getDescricao());
-            llEspecialidades.addView(especialidadeView);
+            if(index == 0)
+                listaEspecialidades += especialidades.getDescricao();
+            else if(index == (especialidadesApi.size() -1))
+                listaEspecialidades += " e " + especialidades.getDescricao();
+            else
+                listaEspecialidades += ", " + especialidades.getDescricao();
+            index++;
         }
-
+        tvListaEspecialidades.setText(listaEspecialidades);
     }
 
     @Override
@@ -321,17 +320,22 @@ public class DetalheProfissionalFragment extends Fragment implements Atendimento
 
         if(especialidades != null && especialidades.size() > 0){
             tvEspecialidades.setVisibility(View.VISIBLE);
-            llEspecialidades.setVisibility(View.VISIBLE);
+            tvListaEspecialidades.setVisibility(View.VISIBLE);
             montarListaEspecialidades(especialidades);
         }else{
             tvEspecialidades.setVisibility(View.GONE);
-            llEspecialidades.setVisibility(View.GONE);
+            tvListaEspecialidades.setVisibility(View.GONE);
         }
 
     }
 
     @Override
     public void retornoPostEspecialidades(boolean cadastrou) {
+
+    }
+
+    @Override
+    public void retornDeleteEspecialidade(boolean deletou) {
 
     }
 }
